@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PUPPY LUV 自家繁殖拡大 実行計画書</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<style>
+:root{
+  --bg:#0d1117;--card:#161b22;--border:#21262d;--text:#e6edf3;--text-sub:#8b949e;
+  --blue:#58a6ff;--green:#2ea043;--red:#f85149;--pink:#e84393;--orange:#ff6b35;--purple:#a371f7;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans JP',sans-serif;line-height:1.7;padding:0 20px 80px}
+.container{max-width:1200px;margin:0 auto}
+
+/* Header */
+.header{
+  background:linear-gradient(135deg,#2d1a2e 0%,#0d1117 50%,#1a1a2e 100%);
+  border-bottom:1px solid #21262d;
+  padding:40px 20px 30px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+  margin:0 -20px;
+}
+.header::before{
+  content:'';position:absolute;top:0;left:0;right:0;bottom:0;
+  background:
+    radial-gradient(ellipse at 30% 50%,rgba(232,67,147,0.12) 0%,transparent 60%),
+    radial-gradient(ellipse at 70% 50%,rgba(163,113,247,0.08) 0%,transparent 60%);
+}
+.header-content{position:relative;z-index:1}
+.header h1{font-size:2.2em;font-weight:900;margin-bottom:4px;background:linear-gradient(135deg,var(--pink),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.header .subtitle{color:var(--text-sub);font-size:1.1em}
+.header .date{color:var(--text-sub);font-size:0.85em;margin-top:8px}
+
+/* Sections */
+.section{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:28px 24px;margin-top:24px}
+.section-title{font-size:1.3em;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:10px;position:relative}
+.section-icon{font-size:1.2em}
+
+/* Cards & Grids */
+.kpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px}
+.kpi-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;padding:20px;text-align:center;position:relative;overflow:hidden}
+.kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.kpi-card.pink::before{background:var(--pink)}.kpi-card.green::before{background:var(--green)}
+.kpi-card.blue::before{background:var(--blue)}.kpi-card.orange::before{background:var(--orange)}
+.kpi-card.purple::before{background:var(--purple)}
+.kpi-label{font-size:.8em;color:var(--text-sub);margin-bottom:8px}
+.kpi-row{display:flex;justify-content:center;align-items:baseline;gap:12px}
+.kpi-current{font-size:1.1em;color:var(--text-sub);text-decoration:line-through;text-decoration-color:var(--red)}
+.kpi-arrow{color:var(--pink);font-size:1.2em}
+.kpi-target{font-size:2em;font-weight:900}
+.kpi-card.pink .kpi-target{color:var(--pink)}.kpi-card.green .kpi-target{color:var(--green)}
+.kpi-card.blue .kpi-target{color:var(--blue)}.kpi-card.orange .kpi-target{color:var(--orange)}
+.kpi-card.purple .kpi-target{color:var(--purple)}
+
+.mission-box{background:linear-gradient(135deg,rgba(232,67,147,0.08),rgba(163,113,247,0.05));border:1px solid rgba(232,67,147,0.3);border-radius:10px;padding:24px;text-align:center;font-size:1.05em;line-height:1.8}
+.mission-box strong{color:var(--pink)}
+
+/* Breed Cards */
+.breed-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.breed-card{background:rgba(255,255,255,0.03);border-radius:10px;padding:18px;border:2px solid var(--border);transition:transform .2s}
+.breed-card:hover{transform:translateY(-2px)}
+.breed-card.new{border-color:var(--pink)}.breed-card.keep{border-color:var(--green)}.breed-card.remove{border-color:var(--red);opacity:.7}
+.breed-name{font-size:1.1em;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.breed-badge{font-size:.65em;padding:2px 8px;border-radius:20px;font-weight:500}
+.breed-badge.new{background:rgba(232,67,147,0.15);color:var(--pink);border:1px solid rgba(232,67,147,0.3)}
+.breed-badge.keep{background:rgba(46,160,67,0.15);color:var(--green);border:1px solid rgba(46,160,67,0.3)}
+.breed-badge.remove{background:rgba(248,81,73,0.15);color:var(--red);border:1px solid rgba(248,81,73,0.3)}
+.breed-meta{font-size:.82em;color:var(--text-sub);margin-top:8px;line-height:1.6}
+.breed-meta span{display:block}
+.breed-price{color:var(--blue);font-weight:500}
+.breed-eval{font-size:1.2em}
+
+/* Detail Cards */
+.detail-card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.detail-header{padding:20px 24px;display:flex;align-items:center;gap:16px}
+.detail-header h3{font-size:1.3em;font-weight:700}
+.detail-body{padding:0 24px 24px}
+.detail-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.detail-item{background:rgba(255,255,255,0.03);border-radius:8px;padding:14px}
+.detail-item .label{font-size:.78em;color:var(--text-sub);margin-bottom:4px}
+.detail-item .value{font-size:1em;font-weight:500}
+.warning-box{background:rgba(248,81,73,0.08);border:1px solid rgba(248,81,73,0.3);border-radius:8px;padding:16px;margin-top:16px}
+.warning-box .warning-title{color:var(--red);font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.warning-box ul{padding-left:20px;font-size:.9em;color:var(--text-sub)}
+.warning-box ul li{margin-bottom:4px}
+.strategy-box{background:rgba(88,166,255,0.08);border:1px solid rgba(88,166,255,0.3);border-radius:8px;padding:16px;margin-top:16px}
+.strategy-box .strategy-title{color:var(--blue);font-weight:700;margin-bottom:8px}
+.strategy-box p{font-size:.9em;color:var(--text-sub)}
+
+/* Existing 4 breeds */
+.existing-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.existing-card{background:rgba(46,160,67,0.05);border:1px solid rgba(46,160,67,0.2);border-radius:10px;padding:18px;text-align:center}
+.existing-card .breed-name{justify-content:center}
+.existing-card .stat{font-size:.82em;color:var(--text-sub);margin-top:4px}
+.existing-card .stat strong{color:var(--text)}
+
+/* Chart */
+.chart-wrap{background:rgba(255,255,255,0.02);border-radius:10px;padding:20px;margin-top:16px;position:relative}
+.chart-container{position:relative;width:100%;height:400px}
+.chart-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:16px}
+.chart-half{height:320px;position:relative}
+.revenue-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px}
+.rev-card{background:rgba(255,255,255,0.03);border-radius:10px;padding:18px;text-align:center;border:1px solid var(--border)}
+.rev-card .rev-label{font-size:.8em;color:var(--text-sub)}
+.rev-card .rev-value{font-size:1.8em;font-weight:900;margin:4px 0}
+.rev-card .rev-sub{font-size:.78em;color:var(--text-sub)}
+.rev-card.highlight{border-color:var(--pink)}
+.rev-card.highlight .rev-value{color:var(--pink)}
+
+/* Timeline */
+.timeline{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:16px}
+.phase-card{border-radius:12px;padding:24px;position:relative;overflow:hidden}
+.phase-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px}
+.phase-card.p1{background:rgba(88,166,255,0.08);border:1px solid rgba(88,166,255,0.2)}.phase-card.p1::before{background:var(--blue)}
+.phase-card.p2{background:rgba(163,113,247,0.08);border:1px solid rgba(163,113,247,0.2)}.phase-card.p2::before{background:var(--purple)}
+.phase-card.p3{background:rgba(232,67,147,0.08);border:1px solid rgba(232,67,147,0.2)}.phase-card.p3::before{background:var(--pink)}
+.phase-label{font-size:.75em;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px}
+.phase-card.p1 .phase-label{color:var(--blue)}.phase-card.p2 .phase-label{color:var(--purple)}.phase-card.p3 .phase-label{color:var(--pink)}
+.phase-title{font-size:1.1em;font-weight:700;margin-bottom:4px}
+.phase-period{font-size:.82em;color:var(--text-sub);margin-bottom:12px}
+.phase-card ul{padding-left:18px;font-size:.85em;color:var(--text-sub);line-height:1.8}
+.milestone{background:rgba(255,255,255,0.05);border-radius:6px;padding:10px 14px;margin-top:12px;font-size:.82em;font-weight:600}
+.phase-card.p1 .milestone{color:var(--blue)}.phase-card.p2 .milestone{color:var(--purple)}.phase-card.p3 .milestone{color:var(--pink)}
+
+/* Risk Table */
+.risk-table{width:100%;border-collapse:collapse;font-size:.88em;margin-top:16px}
+.risk-table th{background:rgba(255,255,255,0.05);padding:12px;text-align:left;font-weight:600;border-bottom:2px solid var(--border)}
+.risk-table td{padding:12px;border-bottom:1px solid var(--border);vertical-align:top}
+.risk-badge{display:inline-block;padding:2px 10px;border-radius:20px;font-size:.78em;font-weight:600}
+.risk-badge.extreme{background:rgba(248,81,73,0.15);color:var(--red);border:1px solid rgba(248,81,73,0.3)}
+.risk-badge.high{background:rgba(255,107,53,0.15);color:var(--orange);border:1px solid rgba(255,107,53,0.3)}
+.risk-badge.medium{background:rgba(255,200,0,0.15);color:#ffc800;border:1px solid rgba(255,200,0,0.3)}
+.risk-badge.low{background:rgba(46,160,67,0.15);color:var(--green);border:1px solid rgba(46,160,67,0.3)}
+
+.checklist{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:20px}
+.check-item{background:rgba(46,160,67,0.06);border:1px solid rgba(46,160,67,0.2);border-radius:8px;padding:14px;display:flex;align-items:center;gap:10px;font-size:.88em}
+.check-icon{color:var(--green);font-size:1.2em;flex-shrink:0}
+
+/* Conclusion */
+.conclusion-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.conclusion-card{border-radius:12px;padding:24px;position:relative;overflow:hidden}
+.conclusion-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px}
+.conclusion-card.priority{background:rgba(232,67,147,0.06);border:1px solid rgba(232,67,147,0.2)}.conclusion-card.priority::before{background:var(--pink)}
+.conclusion-card.caution{background:rgba(255,107,53,0.06);border:1px solid rgba(255,107,53,0.2)}.conclusion-card.caution::before{background:var(--orange)}
+.conclusion-card.vision{background:rgba(88,166,255,0.06);border:1px solid rgba(88,166,255,0.2)}.conclusion-card.vision::before{background:var(--blue)}
+.conclusion-card h3{font-size:1.05em;font-weight:700;margin-bottom:12px}
+.conclusion-card.priority h3{color:var(--pink)}.conclusion-card.caution h3{color:var(--orange)}.conclusion-card.vision h3{color:var(--blue)}
+.conclusion-card ul{padding-left:18px;font-size:.88em;color:var(--text-sub);line-height:1.9}
+
+/* Before/After flow */
+.flow-container{display:flex;align-items:center;justify-content:center;gap:20px;margin-bottom:24px;flex-wrap:wrap}
+.flow-box{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;padding:18px 28px;text-align:center}
+.flow-box .flow-num{font-size:2.2em;font-weight:900}
+.flow-box .flow-label{font-size:.82em;color:var(--text-sub)}
+.flow-box.before .flow-num{color:var(--text-sub)}
+.flow-box.mid .flow-num{color:var(--orange)}
+.flow-box.after .flow-num{color:var(--pink)}
+.flow-arrow{font-size:1.8em;color:var(--pink)}
+
+/* Scatter legend */
+.scatter-legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:12px;justify-content:center}
+.scatter-legend-item{display:flex;align-items:center;gap:6px;font-size:.8em;color:var(--text-sub)}
+.scatter-dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+
+/* === Accordion (mobile only) === */
+.section[data-accordion]{position:relative}
+.section[data-accordion] .section-title{cursor:pointer;user-select:none;padding-right:36px}
+.section[data-accordion] .section-title::after{content:'▼';position:absolute;right:20px;top:28px;font-size:.7em;color:var(--text-sub);transition:transform .25s}
+.section[data-accordion].collapsed .section-title::after{transform:rotate(-90deg)}
+.section[data-accordion] .section-body{overflow:visible;transition:max-height .35s ease,opacity .25s ease;max-height:5000px;opacity:1}
+.section[data-accordion].collapsing .section-body{overflow:hidden}
+.section[data-accordion].collapsed .section-body{max-height:0;overflow:hidden;opacity:0;margin:0;padding:0}
+
+/* === TOC Nav (mobile only) === */
+.toc-nav{display:none}
+@media(max-width:768px){
+  .toc-nav{display:block;position:fixed;bottom:0;left:0;right:0;z-index:998;background:#161b22;border-top:1px solid #30363d;box-shadow:0 -2px 12px rgba(0,0,0,.4)}
+  .toc-toggle{position:fixed;bottom:16px;right:16px;z-index:999;width:48px;height:48px;border-radius:50%;background:var(--pink);color:#0d1117;border:none;font-size:1.2rem;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;transition:all .2s}
+  .toc-toggle.open{border-radius:12px 12px 0 0;bottom:0;right:0;left:0;width:100%;height:44px;font-size:.9rem}
+  .toc-menu{max-height:0;overflow:hidden;transition:max-height .3s ease}
+  .toc-menu.open{max-height:60vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
+  .toc-list{list-style:none;padding:8px 0;margin:0}
+  .toc-list li{border-bottom:1px solid #21262d}
+  .toc-list li:last-child{border-bottom:none}
+  .toc-list a{display:flex;align-items:center;gap:10px;padding:12px 20px;color:#e6edf3;text-decoration:none;font-size:.85rem;transition:background .15s}
+  .toc-list a:hover,.toc-list a:active{background:rgba(232,67,147,.1)}
+  .toc-list .toc-icon{font-size:1.1em;flex-shrink:0;width:24px;text-align:center}
+  .toc-list .toc-label{flex:1}
+  .toc-expand-all{display:flex;justify-content:center;gap:12px;padding:10px 16px;border-bottom:1px solid #21262d}
+  .toc-expand-all button{font-family:'Noto Sans JP',sans-serif;font-size:.75rem;padding:4px 14px;border-radius:6px;border:1px solid #30363d;background:transparent;color:#8b949e;cursor:pointer}
+  .toc-expand-all button:active{background:var(--pink);color:#0d1117}
+  body{padding-bottom:60px!important}
+}
+
+/* === Mobile Responsive === */
+@media(max-width:768px){
+  body{padding:12px!important}
+  .container{padding:12px}
+  .header{padding:28px 16px}
+  .header h1{font-size:1.4rem}
+  .header .subtitle{font-size:.95em}
+  .kpi-grid{grid-template-columns:1fr 1fr}
+  .breed-grid{grid-template-columns:1fr 1fr}
+  .existing-grid{grid-template-columns:1fr 1fr}
+  .detail-grid{grid-template-columns:1fr}
+  .chart-row{grid-template-columns:1fr!important}
+  .chart-container{height:300px}
+  .chart-half{height:280px}
+  .timeline{grid-template-columns:1fr}
+  .conclusion-grid{grid-template-columns:1fr}
+  .revenue-summary{grid-template-columns:1fr}
+  .checklist{grid-template-columns:1fr}
+  .section{padding:20px 16px}
+  .flow-container{gap:10px}
+  .flow-box{padding:12px 18px}
+  .flow-box .flow-num{font-size:1.6em}
+  table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .risk-table{font-size:.78rem}
+  .scatter-legend{gap:8px}
+}
+@media(max-width:480px){
+  .kpi-grid{grid-template-columns:1fr!important}
+  .breed-grid{grid-template-columns:1fr!important}
+  .existing-grid{grid-template-columns:1fr!important}
+  .chart-row{grid-template-columns:1fr!important}
+  .header h1{font-size:1.2rem}
+  .section-title{font-size:1rem}
+}
+
+/* === Print === */
+@media print{
+  body{background:#fff;color:#222;padding:0}
+  .header{background:#f5f5f5!important;color:#222;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .header h1{-webkit-text-fill-color:#222;color:#222;background:none}
+  .header .subtitle,.header .date{color:#555}
+  .section{break-inside:avoid;border-color:#ddd;background:#fff}
+  .section-title{color:#222}
+  .kpi-card,.breed-card,.phase-card,.conclusion-card,.detail-item,.existing-card,.rev-card,.check-item,.flow-box{background:#f9f9f9;border-color:#ddd;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .toc-nav,.toc-toggle{display:none!important}
+  .section[data-accordion].collapsed .section-body{max-height:none;overflow:visible;opacity:1}
+  .section[data-accordion] .section-title::after{display:none}
+  .chart-wrap{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-content">
+    <h1>🐾 PUPPY LUV 自家繁殖拡大 実行計画書</h1>
+    <div class="subtitle">繁殖犬80頭→50頭体制 / 自家繁殖比率25%→50%</div>
+    <div class="date">作成日: 2026年3月20日</div>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- 1. Executive Summary -->
+<div class="section" id="sec-summary">
+  <div class="section-title"><span class="section-icon">🎯</span> エグゼクティブサマリー</div>
+  <div class="mission-box">
+    繁殖犬<strong>80頭→50頭</strong>に最適化し、自家繁殖比率を<strong>25%→50%</strong>に引き上げ、<br>粗利率<strong>60%→69%</strong>を実現する
+  </div>
+  <div class="kpi-grid">
+    <div class="kpi-card pink">
+      <div class="kpi-label">繁殖犬数</div>
+      <div class="kpi-row">
+        <span class="kpi-current">80頭</span>
+        <span class="kpi-arrow">→</span>
+        <span class="kpi-target">50頭</span>
+      </div>
+    </div>
+    <div class="kpi-card green">
+      <div class="kpi-label">自家繁殖比率</div>
+      <div class="kpi-row">
+        <span class="kpi-current">25%</span>
+        <span class="kpi-arrow">→</span>
+        <span class="kpi-target">50%</span>
+      </div>
+    </div>
+    <div class="kpi-card blue">
+      <div class="kpi-label">月産頭数（自家）</div>
+      <div class="kpi-row">
+        <span class="kpi-current">6.5頭</span>
+        <span class="kpi-arrow">→</span>
+        <span class="kpi-target">13頭</span>
+      </div>
+    </div>
+    <div class="kpi-card orange">
+      <div class="kpi-label">粗利率</div>
+      <div class="kpi-row">
+        <span class="kpi-current">60.1%</span>
+        <span class="kpi-arrow">→</span>
+        <span class="kpi-target">69.0%</span>
+      </div>
+    </div>
+    <div class="kpi-card purple">
+      <div class="kpi-label">年間粗利増分</div>
+      <div class="kpi-row">
+        <span class="kpi-current">—</span>
+        <span class="kpi-arrow">→</span>
+        <span class="kpi-target">+760万</span>
+      </div>
+    </div>
+    <div class="kpi-card green">
+      <div class="kpi-label">自家繁殖粗利益率</div>
+      <div class="kpi-row">
+        <span class="kpi-current">90%+</span>
+        <span class="kpi-arrow">→</span>
+        <span class="kpi-target">90%+</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 2. Breed Portfolio -->
+<div class="section" id="sec-portfolio" data-accordion>
+  <div class="section-title"><span class="section-icon">🐕</span> 繁殖犬ポートフォリオ再編</div>
+  <div class="section-body">
+
+    <div class="flow-container">
+      <div class="flow-box before">
+        <div class="flow-num">80頭</div>
+        <div class="flow-label">Before（現行）</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box mid">
+        <div class="flow-num">63頭</div>
+        <div class="flow-label">削減中</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box after">
+        <div class="flow-num">50頭</div>
+        <div class="flow-label">After（目標）</div>
+      </div>
+    </div>
+
+    <h3 style="font-size:.95em;color:var(--green);margin-bottom:12px">✅ 残す犬種（4種）+ 🆕 追加する犬種（4種）</h3>
+    <div class="breed-grid">
+      <!-- Keep -->
+      <div class="breed-card keep">
+        <div class="breed-name"><span class="breed-eval">◎</span> フレンチブルドッグ <span class="breed-badge keep">維持</span></div>
+        <div class="breed-meta">
+          <span class="breed-price">💰 35〜50万円</span>
+          <span>📦 月産: 2頭</span>
+          <span>🐾 繁殖犬: 8頭</span>
+          <span>高単価。帝王切開対応要</span>
+        </div>
+      </div>
+      <div class="breed-card keep">
+        <div class="breed-name"><span class="breed-eval">○</span> M.シュナウザー <span class="breed-badge keep">維持</span></div>
+        <div class="breed-meta">
+          <span class="breed-price">💰 24〜30万円</span>
+          <span>📦 月産: 1.5頭</span>
+          <span>🐾 繁殖犬: 6頭</span>
+          <span>堅実・低リスク</span>
+        </div>
+      </div>
+      <div class="breed-card keep">
+        <div class="breed-name"><span class="breed-eval">◎</span> コーギー <span class="breed-badge keep">維持</span></div>
+        <div class="breed-meta">
+          <span class="breed-price">💰 29〜35万円</span>
+          <span>📦 月産: 2頭</span>
+          <span>🐾 繁殖犬: 8頭</span>
+          <span>安定需要・繁殖容易</span>
+        </div>
+      </div>
+      <div class="breed-card keep">
+        <div class="breed-name"><span class="breed-eval">○</span> パグ <span class="breed-badge keep">維持</span></div>
+        <div class="breed-meta">
+          <span class="breed-price">💰 25〜30万円</span>
+          <span>📦 月産: 1.5頭</span>
+          <span>🐾 繁殖犬: 5頭</span>
+          <span>世界人気。帝王切開注意</span>
+        </div>
+      </div>
+      <!-- New -->
+      <div class="breed-card new">
+        <div class="breed-name"><span class="breed-eval">◎</span> 豆柴 <span class="breed-badge new">新規</span></div>
+        <div class="breed-meta">
+          <span class="breed-price">💰 40〜55万円</span>
+          <span>📦 月産: 2頭</span>
+          <span>🐾 繁殖犬: 8頭</span>
+          <span>フラッグシップ・外国人最強訴求</span>
+        </div>
+      </div>
+      <div class="breed-card new">
+        <div class="breed-name"><span class="breed-eval">○</span> タイニープードル <span class="breed-badge new">新規</span></div>
+        <div class="breed-meta">
+          <span class="breed-price">💰 40〜60万円</span>
+          <span>📦 月産: 1頭</span>
+          <span>🐾 繁殖犬: 5頭</span>
+          <span>高リターン・高リスク</span>
+        </div>
+      </div>
+      <div class="breed-card new">
+        <div class="breed-name"><span class="breed-eval">◎</span> Kダックス(SD) <span class="breed-badge new">新規</span></div>
+        <div class="breed-meta">
+          <span class="breed-price">💰 35〜50万円</span>
+          <span>📦 月産: 2頭</span>
+          <span>🐾 繁殖犬: 8頭</span>
+          <span>即効性最高・ノウハウ転用</span>
+        </div>
+      </div>
+      <div class="breed-card new">
+        <div class="breed-name"><span class="breed-eval">△</span> バーニーズ <span class="breed-badge new">新規</span></div>
+        <div class="breed-meta">
+          <span class="breed-price">💰 38〜45万円</span>
+          <span>📦 月産: 1頭</span>
+          <span>🐾 繁殖犬: 5頭</span>
+          <span>Phase 3で慎重判断</span>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="font-size:.95em;color:var(--red);margin:24px 0 12px">❌ 手放す犬種（2種）</h3>
+    <div class="breed-grid" style="grid-template-columns:repeat(2,1fr)">
+      <div class="breed-card remove">
+        <div class="breed-name">ビションフリーゼ <span class="breed-badge remove">撤退</span></div>
+        <div class="breed-meta"><span>PL顧客層との相性中程度。リソース集中のため</span></div>
+      </div>
+      <div class="breed-card remove">
+        <div class="breed-name">キャバリア <span class="breed-badge remove">撤退</span></div>
+        <div class="breed-meta"><span>遺伝疾患リスク（心臓疾患）が高い。評判リスク回避</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 3. Strategic Position Scatter -->
+<div class="section" id="sec-position" data-accordion>
+  <div class="section-title"><span class="section-icon">📍</span> 犬種別戦略ポジション</div>
+  <div class="section-body">
+    <div class="chart-wrap">
+      <div class="chart-container">
+        <canvas id="scatterChart"></canvas>
+      </div>
+    </div>
+    <div class="scatter-legend">
+      <div class="scatter-legend-item"><span class="scatter-dot" style="background:var(--pink)"></span> 新規追加</div>
+      <div class="scatter-legend-item"><span class="scatter-dot" style="background:var(--green)"></span> 既存維持</div>
+      <div class="scatter-legend-item"><span class="scatter-dot" style="background:var(--text-sub)"></span> 既存（堅実）</div>
+    </div>
+  </div>
+</div>
+
+<!-- 4. Detail: Mameshiba -->
+<div class="section" id="sec-mameshiba" data-accordion>
+  <div class="section-title"><span class="section-icon">🏯</span> 犬種別詳細 — 豆柴</div>
+  <div class="section-body">
+    <div class="detail-grid">
+      <div class="detail-item"><div class="label">評価</div><div class="value">◎ フラッグシップ犬種</div></div>
+      <div class="detail-item"><div class="label">推奨単価</div><div class="value" style="color:var(--blue)">¥400,000〜¥550,000</div></div>
+      <div class="detail-item"><div class="label">月産目標</div><div class="value">2頭</div></div>
+      <div class="detail-item"><div class="label">繁殖犬配置</div><div class="value">8頭</div></div>
+      <div class="detail-item"><div class="label">市場供給</div><div class="value" style="color:var(--orange)">不足（JKC非公認、KCジャパンのみ。年間500-1,000頭）</div></div>
+      <div class="detail-item"><div class="label">人気トレンド</div><div class="value" style="color:var(--green)">↑上昇中（海外SNSで爆発的人気）</div></div>
+      <div class="detail-item"><div class="label">外国人需要</div><div class="value">★★★★★（「Japanese Mame Shiba」— 最強訴求力）</div></div>
+      <div class="detail-item"><div class="label">遺伝リスク</div><div class="value" style="color:#ffc800">中（サイズ不確定、膝蓋骨脱臼）</div></div>
+    </div>
+    <div class="warning-box">
+      <div class="warning-title">⚠️ 注意事項</div>
+      <ul>
+        <li>少産（2-3頭/回）で量産は困難</li>
+        <li>成長後サイズ保証が課題（豆柴サイズを超える個体が出る可能性）</li>
+        <li>KCジャパン血統書（JKCでは柴犬扱い）</li>
+      </ul>
+    </div>
+    <div class="strategy-box">
+      <div class="strategy-title">💡 戦略</div>
+      <p>PLの82%外国人顧客に「Ultimate Japanese Dog」として訴求。Instagramのフラッグシップコンテンツに据え、ブランド全体の価値を引き上げる。</p>
+    </div>
+  </div>
+</div>
+
+<!-- 5. Detail: K Dachshund -->
+<div class="section" id="sec-kdachshund" data-accordion>
+  <div class="section-title"><span class="section-icon">🌟</span> 犬種別詳細 — Kダックス（シルバーダップル）</div>
+  <div class="section-body">
+    <div class="detail-grid">
+      <div class="detail-item"><div class="label">評価</div><div class="value">◎ 即効性最高</div></div>
+      <div class="detail-item"><div class="label">推奨単価</div><div class="value" style="color:var(--blue)">¥350,000〜¥500,000</div></div>
+      <div class="detail-item"><div class="label">月産目標</div><div class="value">2頭</div></div>
+      <div class="detail-item"><div class="label">繁殖犬配置</div><div class="value">8頭</div></div>
+      <div class="detail-item"><div class="label">市場供給</div><div class="value" style="color:var(--orange)">シルバーダップル限定で希少（カニンヘン全体JKC 6,857頭）</div></div>
+      <div class="detail-item"><div class="label">単価プレミアム</div><div class="value" style="color:var(--green)">通常カラー比 +25〜100%</div></div>
+      <div class="detail-item"><div class="label">M.ダックスノウハウ転用</div><div class="value" style="color:var(--green)">◎ 既存繁殖の自然な拡張</div></div>
+      <div class="detail-item"><div class="label">単価アップ効果</div><div class="value">M.ダックス(21-25万)→Kダックス/SD(35-50万)で<strong style="color:var(--pink)">1.5-2倍</strong></div></div>
+    </div>
+    <div class="warning-box" style="border-color:rgba(248,81,73,0.6);background:rgba(248,81,73,0.12)">
+      <div class="warning-title">🚨 最重要リスク: ダブルダップル交配は絶対禁忌</div>
+      <ul>
+        <li><strong>ダップル×ソリッドのみ</strong>（遺伝子検査全頭必須）</li>
+        <li>ホモ接合マール遺伝子 → 聴覚障害・視覚障害・内臓疾患</li>
+        <li>Color Mutant Alopecia（CMA）リスク</li>
+        <li>ダブルダップルの子犬が生まれた場合、甚大な評判リスク</li>
+      </ul>
+    </div>
+    <div class="strategy-box">
+      <div class="strategy-title">💡 戦略</div>
+      <p>M.ダックス(21-25万)→Kダックス/SD(35-50万)で単価1.5-2倍引き上げ。既存のダックス繁殖ノウハウを転用し、Phase 1で最速立ち上げを目指す。遺伝子検査体制の確立が大前提。</p>
+    </div>
+  </div>
+</div>
+
+<!-- 6. Detail: Tiny Poodle -->
+<div class="section" id="sec-tinypoodle" data-accordion>
+  <div class="section-title"><span class="section-icon">🧸</span> 犬種別詳細 — タイニープードル</div>
+  <div class="section-body">
+    <div class="detail-grid">
+      <div class="detail-item"><div class="label">評価</div><div class="value">○ 高リターン・高リスク</div></div>
+      <div class="detail-item"><div class="label">推奨単価</div><div class="value" style="color:var(--blue)">¥400,000〜¥600,000</div></div>
+      <div class="detail-item"><div class="label">月産目標</div><div class="value">1頭</div></div>
+      <div class="detail-item"><div class="label">繁殖犬配置</div><div class="value">5頭</div></div>
+      <div class="detail-item"><div class="label">市場供給</div><div class="value" style="color:var(--orange)">不足（本物のタイニーを安定繁殖できるブリーダー極少数）</div></div>
+      <div class="detail-item"><div class="label">帝王切開</div><div class="value" style="color:var(--red)">高率（母犬の骨盤が狭い）— 費用5-10万円/回</div></div>
+    </div>
+    <div class="warning-box">
+      <div class="warning-title">⚠️ リスク</div>
+      <ul>
+        <li>帝王切開率が高い（母犬の骨盤が狭い）、費用5-10万円/回</li>
+        <li>遺伝疾患（心臓疾患、呼吸障害、消化器疾患、盲目等）</li>
+        <li>近親交配による遺伝的多様性の低下</li>
+        <li>悪質業者との差別化が必須</li>
+      </ul>
+    </div>
+    <div class="strategy-box">
+      <div class="strategy-title">💡 戦略</div>
+      <p>「遺伝子検査済み・健康保証付き」で差別化。獣医連携体制の確立が前提条件。Phase 2での着手を推奨。</p>
+    </div>
+  </div>
+</div>
+
+<!-- 7. Detail: Bernese -->
+<div class="section" id="sec-bernese" data-accordion>
+  <div class="section-title"><span class="section-icon">🏔️</span> 犬種別詳細 — バーニーズマウンテンドッグ</div>
+  <div class="section-body">
+    <div class="detail-grid">
+      <div class="detail-item"><div class="label">評価</div><div class="value" style="color:var(--orange)">△ Phase 3で慎重判断</div></div>
+      <div class="detail-item"><div class="label">推奨単価</div><div class="value" style="color:var(--blue)">¥380,000〜¥450,000</div></div>
+      <div class="detail-item"><div class="label">月産目標</div><div class="value">1頭</div></div>
+      <div class="detail-item"><div class="label">繁殖犬配置</div><div class="value">5頭</div></div>
+      <div class="detail-item"><div class="label">市場供給</div><div class="value" style="color:var(--orange)">やや不足（大型犬でブリーダー限定的）</div></div>
+      <div class="detail-item"><div class="label">平均寿命</div><div class="value" style="color:var(--red)">6-8年（犬種中最短クラス）</div></div>
+    </div>
+    <div class="warning-box" style="border-color:rgba(248,81,73,0.6);background:rgba(248,81,73,0.12)">
+      <div class="warning-title">🚨 リスク（最高レベル）</div>
+      <ul>
+        <li>平均寿命6-8年（犬種中最短クラス）</li>
+        <li>悪性腫瘍（がん）発症率が犬種中最高</li>
+        <li>無菌性髄膜炎、GDV（胃捻転）、関節疾患</li>
+        <li>沖縄の高温多湿は寒冷地原産のバーニーズに不利 → 空調設備投資必須</li>
+      </ul>
+    </div>
+    <div class="strategy-box">
+      <div class="strategy-title">💡 戦略</div>
+      <p>他3犬種の安定後にPhase 3で判断。進める場合はがん家系歴なしの血統を厳選。沖縄気候への対応として空調設備への追加投資が不可避。</p>
+    </div>
+  </div>
+</div>
+
+<!-- 8. Existing 4 Breeds -->
+<div class="section" id="sec-existing" data-accordion>
+  <div class="section-title"><span class="section-icon">✅</span> 既存維持4犬種サマリー</div>
+  <div class="section-body">
+    <div class="existing-grid">
+      <div class="existing-card">
+        <div class="breed-name">🐶 フレンチブルドッグ</div>
+        <div class="stat">繁殖犬: <strong>8頭</strong></div>
+        <div class="stat">月産: <strong>2頭</strong></div>
+        <div class="stat">単価: <strong style="color:var(--blue)">35-50万</strong></div>
+        <div class="stat">リスク: <span class="risk-badge high">高</span></div>
+        <div class="stat" style="margin-top:8px;font-size:.78em">高単価の主力。帝王切開コスト要計上</div>
+      </div>
+      <div class="existing-card">
+        <div class="breed-name">🐶 M.シュナウザー</div>
+        <div class="stat">繁殖犬: <strong>6頭</strong></div>
+        <div class="stat">月産: <strong>1.5頭</strong></div>
+        <div class="stat">単価: <strong style="color:var(--blue)">24-30万</strong></div>
+        <div class="stat">リスク: <span class="risk-badge low">低〜中</span></div>
+        <div class="stat" style="margin-top:8px;font-size:.78em">安定の堅実犬種。低コスト運営</div>
+      </div>
+      <div class="existing-card">
+        <div class="breed-name">🐶 コーギー</div>
+        <div class="stat">繁殖犬: <strong>8頭</strong></div>
+        <div class="stat">月産: <strong>2頭</strong></div>
+        <div class="stat">単価: <strong style="color:var(--blue)">29-35万</strong></div>
+        <div class="stat">リスク: <span class="risk-badge medium">中</span></div>
+        <div class="stat" style="margin-top:8px;font-size:.78em">安定需要・繁殖容易・PLの柱</div>
+      </div>
+      <div class="existing-card">
+        <div class="breed-name">🐶 パグ</div>
+        <div class="stat">繁殖犬: <strong>5頭</strong></div>
+        <div class="stat">月産: <strong>1.5頭</strong></div>
+        <div class="stat">単価: <strong style="color:var(--blue)">25-30万</strong></div>
+        <div class="stat">リスク: <span class="risk-badge high">高</span></div>
+        <div class="stat" style="margin-top:8px;font-size:.78em">世界人気。短頭種リスク管理を</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 9. Revenue Simulation -->
+<div class="section" id="sec-revenue" data-accordion>
+  <div class="section-title"><span class="section-icon">💰</span> 収益シミュレーション</div>
+  <div class="section-body">
+
+    <div class="revenue-summary">
+      <div class="rev-card">
+        <div class="rev-label">現行 年間粗利</div>
+        <div class="rev-value" style="color:var(--text-sub)">7,872万</div>
+        <div class="rev-sub">月656万 × 12 ｜ 粗利率60.1%</div>
+      </div>
+      <div class="rev-card highlight">
+        <div class="rev-label">目標 年間粗利</div>
+        <div class="rev-value">8,630万</div>
+        <div class="rev-sub">月719万 × 12 ｜ 粗利率69.0%</div>
+      </div>
+      <div class="rev-card">
+        <div class="rev-label">年間粗利増分</div>
+        <div class="rev-value" style="color:var(--green)">+758万</div>
+        <div class="rev-sub">粗利率 +8.9pt 改善</div>
+      </div>
+    </div>
+
+    <div class="chart-wrap">
+      <h4 style="font-size:.9em;color:var(--text-sub);margin-bottom:8px">年間粗利比較（現行 vs 目標）</h4>
+      <div class="chart-container" style="height:350px">
+        <canvas id="revenueBarChart"></canvas>
+      </div>
+    </div>
+
+    <div class="chart-row">
+      <div class="chart-wrap">
+        <h4 style="font-size:.9em;color:var(--text-sub);margin-bottom:8px;text-align:center">現行: 繁殖構成比</h4>
+        <div class="chart-half">
+          <canvas id="donutBefore"></canvas>
+        </div>
+      </div>
+      <div class="chart-wrap">
+        <h4 style="font-size:.9em;color:var(--text-sub);margin-bottom:8px;text-align:center">目標: 繁殖構成比</h4>
+        <div class="chart-half">
+          <canvas id="donutAfter"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-wrap">
+      <h4 style="font-size:.9em;color:var(--text-sub);margin-bottom:8px">犬種別 月間粗利（万円）</h4>
+      <div class="chart-container" style="height:380px">
+        <canvas id="breedProfitChart"></canvas>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- 10. Roadmap -->
+<div class="section" id="sec-roadmap" data-accordion>
+  <div class="section-title"><span class="section-icon">🗺️</span> 実行ロードマップ</div>
+  <div class="section-body">
+    <div class="timeline">
+      <div class="phase-card p1">
+        <div class="phase-label">Phase 1</div>
+        <div class="phase-title">基盤構築</div>
+        <div class="phase-period">2026年4月〜9月（即着手〜6ヶ月）</div>
+        <ul>
+          <li>ビション・キャバリアの繁殖犬を譲渡 → 50頭体制完成</li>
+          <li>Kダックス(SD)の繁殖犬確保・交配開始（M.ダックスノウハウ転用）</li>
+          <li>豆柴の繁殖犬確保（KCジャパン血統書体制確認）</li>
+          <li>全繁殖犬の遺伝子検査実施</li>
+          <li>帝王切開対応の提携獣医確定</li>
+          <li>既存4犬種の繁殖犬選別・品質管理強化</li>
+        </ul>
+        <div class="milestone">🏁 50頭体制完成 / 遺伝子検査100%完了</div>
+      </div>
+      <div class="phase-card p2">
+        <div class="phase-label">Phase 2</div>
+        <div class="phase-title">高付加価値ライン立ち上げ</div>
+        <div class="phase-period">2026年10月〜2027年3月（6〜12ヶ月）</div>
+        <ul>
+          <li>Kダックス(SD)初回出産・販売開始</li>
+          <li>豆柴初回出産・販売開始</li>
+          <li>Instagramで豆柴フラッグシップコンテンツ開始</li>
+          <li>タイニープードルの繁殖犬確保・交配開始</li>
+          <li>自家繁殖比率30-35%達成</li>
+        </ul>
+        <div class="milestone">🏁 新規犬種の初回販売成功 / 月産9-10頭体制</div>
+      </div>
+      <div class="phase-card p3">
+        <div class="phase-label">Phase 3</div>
+        <div class="phase-title">フルスケール</div>
+        <div class="phase-period">2027年4月〜2028年3月（12〜24ヶ月）</div>
+        <ul>
+          <li>全犬種の繁殖サイクル安定稼働</li>
+          <li>バーニーズの繁殖犬確保・試験繁殖（Phase 1-2の実績を踏まえて最終判断）</li>
+          <li>自家繁殖比率50%達成</li>
+          <li>四半期レビューで犬種別実績を評価・繁殖計画調整</li>
+        </ul>
+        <div class="milestone">🏁 月産13頭・自家繁殖50%・粗利率69%達成</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 11. Risk Matrix -->
+<div class="section" id="sec-risk" data-accordion>
+  <div class="section-title"><span class="section-icon">⚠️</span> リスク管理マトリクス</div>
+  <div class="section-body">
+
+    <h4 style="font-size:.95em;margin-bottom:12px">遺伝疾患リスクテーブル</h4>
+    <table class="risk-table">
+      <thead>
+        <tr><th>犬種</th><th>リスク</th><th>主要疾患</th><th>必須対策</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Kダックス(SD)</strong></td>
+          <td><span class="risk-badge extreme">極高</span></td>
+          <td>ダブルダップル障害（聴覚・視覚）、CMA</td>
+          <td>ダップル×ソリッドのみ。遺伝子検査全頭</td>
+        </tr>
+        <tr>
+          <td><strong>バーニーズ</strong></td>
+          <td><span class="risk-badge extreme">極高</span></td>
+          <td>悪性腫瘍、無菌性髄膜炎、GDV</td>
+          <td>がん家系歴排除、定期健診、購入者説明義務</td>
+        </tr>
+        <tr>
+          <td><strong>タイニープードル</strong></td>
+          <td><span class="risk-badge high">高</span></td>
+          <td>心臓疾患、呼吸障害、骨折</td>
+          <td>帝王切開体制、遺伝子検査、健康証明書</td>
+        </tr>
+        <tr>
+          <td><strong>フレンチブルドッグ</strong></td>
+          <td><span class="risk-badge high">高</span></td>
+          <td>短頭種気道症候群、椎間板疾患</td>
+          <td>帝王切開費用計上、呼吸機能検査</td>
+        </tr>
+        <tr>
+          <td><strong>パグ</strong></td>
+          <td><span class="risk-badge high">高</span></td>
+          <td>短頭種気道症候群、壊死性髄膜脳炎</td>
+          <td>帝王切開対応、呼吸機能検査</td>
+        </tr>
+        <tr>
+          <td><strong>豆柴</strong></td>
+          <td><span class="risk-badge medium">中</span></td>
+          <td>サイズ不確定、膝蓋骨脱臼</td>
+          <td>親犬サイズ管理、成長保証条件</td>
+        </tr>
+        <tr>
+          <td><strong>コーギー</strong></td>
+          <td><span class="risk-badge medium">中</span></td>
+          <td>椎間板疾患、股関節形成不全</td>
+          <td>遺伝子検査</td>
+        </tr>
+        <tr>
+          <td><strong>M.シュナウザー</strong></td>
+          <td><span class="risk-badge low">低〜中</span></td>
+          <td>高脂血症、膵炎</td>
+          <td>定期血液検査</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4 style="font-size:.95em;margin:24px 0 12px">📋 規制対応チェックリスト</h4>
+    <div class="checklist">
+      <div class="check-item"><span class="check-icon">✅</span> 数値規制: 50頭÷20=最低3名常勤</div>
+      <div class="check-item"><span class="check-icon">✅</span> 8週齢規制: 生後56日未満販売禁止</div>
+      <div class="check-item"><span class="check-icon">✅</span> マイクロチップ: 全頭装着・登録</div>
+      <div class="check-item"><span class="check-icon">✅</span> 帝王切開記録: フレブル・パグ・タイニー管理</div>
+    </div>
+  </div>
+</div>
+
+<!-- 12. Conclusion -->
+<div class="section" id="sec-conclusion" data-accordion>
+  <div class="section-title"><span class="section-icon">🏆</span> 成功の条件（まとめ）</div>
+  <div class="section-body">
+    <div class="conclusion-grid">
+      <div class="conclusion-card priority">
+        <h3>🔴 最優先アクション</h3>
+        <ul>
+          <li>豆柴を「フラッグシップ犬種」としてマーケティングの中心に据える</li>
+          <li>Kダックス(SD)はM.ダックスノウハウで最速立ち上げ（単価1.5-2倍）</li>
+          <li>全繁殖犬の遺伝子検査を100%実施</li>
+        </ul>
+      </div>
+      <div class="conclusion-card caution">
+        <h3>🟡 慎重に進めるべきアクション</h3>
+        <ul>
+          <li>タイニープードル: 帝王切開体制と獣医連携を確立してから着手</li>
+          <li>バーニーズ: Phase 3で最終判断。沖縄気候・がんリスクを考慮</li>
+        </ul>
+      </div>
+      <div class="conclusion-card vision">
+        <h3>🔵 目標達成時の全体像</h3>
+        <ul>
+          <li>繁殖犬50頭・8犬種の分散ポートフォリオ</li>
+          <li>自家繁殖比率50%・月産13頭</li>
+          <li>粗利率60%→69%（+8.9pt）</li>
+          <li>年間粗利+760万円増</li>
+          <li>「責任ある繁殖」と「高収益」の両立</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /container -->
+
+<!-- TOC Navigation (mobile) -->
+<nav class="toc-nav" id="tocNav">
+  <div class="toc-menu" id="tocMenu">
+    <div class="toc-expand-all">
+      <button onclick="toggleAllSections(true)">すべて展開</button>
+      <button onclick="toggleAllSections(false)">すべて折りたたむ</button>
+    </div>
+    <ul class="toc-list">
+      <li><a href="#sec-portfolio" onclick="tocJump('sec-portfolio')"><span class="toc-icon">🐕</span><span class="toc-label">繁殖犬ポートフォリオ再編</span></a></li>
+      <li><a href="#sec-position" onclick="tocJump('sec-position')"><span class="toc-icon">📍</span><span class="toc-label">犬種別戦略ポジション</span></a></li>
+      <li><a href="#sec-mameshiba" onclick="tocJump('sec-mameshiba')"><span class="toc-icon">🏯</span><span class="toc-label">豆柴 詳細</span></a></li>
+      <li><a href="#sec-kdachshund" onclick="tocJump('sec-kdachshund')"><span class="toc-icon">🌟</span><span class="toc-label">Kダックス(SD) 詳細</span></a></li>
+      <li><a href="#sec-tinypoodle" onclick="tocJump('sec-tinypoodle')"><span class="toc-icon">🧸</span><span class="toc-label">タイニープードル 詳細</span></a></li>
+      <li><a href="#sec-bernese" onclick="tocJump('sec-bernese')"><span class="toc-icon">🏔️</span><span class="toc-label">バーニーズ 詳細</span></a></li>
+      <li><a href="#sec-existing" onclick="tocJump('sec-existing')"><span class="toc-icon">✅</span><span class="toc-label">既存維持4犬種</span></a></li>
+      <li><a href="#sec-revenue" onclick="tocJump('sec-revenue')"><span class="toc-icon">💰</span><span class="toc-label">収益シミュレーション</span></a></li>
+      <li><a href="#sec-roadmap" onclick="tocJump('sec-roadmap')"><span class="toc-icon">🗺️</span><span class="toc-label">実行ロードマップ</span></a></li>
+      <li><a href="#sec-risk" onclick="tocJump('sec-risk')"><span class="toc-icon">⚠️</span><span class="toc-label">リスク管理マトリクス</span></a></li>
+      <li><a href="#sec-conclusion" onclick="tocJump('sec-conclusion')"><span class="toc-icon">🏆</span><span class="toc-label">成功の条件</span></a></li>
+    </ul>
+  </div>
+</nav>
+<button class="toc-toggle" id="tocToggle" onclick="toggleToc()">☰</button>
+
+<script>
+// === Chart.js Charts ===
+Chart.register(ChartDataLabels);
+Chart.defaults.color = '#8b949e';
+Chart.defaults.font.family = "'Noto Sans JP', sans-serif";
+
+// 1. Scatter Chart — Strategic Position
+(function(){
+  var ctx = document.getElementById('scatterChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'scatter',
+    data: {
+      datasets: [
+        {
+          label: '新規追加',
+          data: [
+            {x:3,y:48,label:'豆柴'},
+            {x:7,y:50,label:'タイニープードル'},
+            {x:5,y:42,label:'Kダックス(SD)'},
+            {x:8,y:40,label:'バーニーズ'}
+          ],
+          backgroundColor: 'rgba(232,67,147,0.7)',
+          borderColor: '#e84393',
+          borderWidth: 2,
+          pointRadius: 10,
+          pointHoverRadius: 13
+        },
+        {
+          label: '既存維持（主力）',
+          data: [
+            {x:6,y:40,label:'フレブル'},
+            {x:2,y:32,label:'コーギー'}
+          ],
+          backgroundColor: 'rgba(46,160,67,0.7)',
+          borderColor: '#2ea043',
+          borderWidth: 2,
+          pointRadius: 9,
+          pointHoverRadius: 12
+        },
+        {
+          label: '既存維持（堅実）',
+          data: [
+            {x:5,y:28,label:'パグ'},
+            {x:2,y:26,label:'M.シュナウザー'}
+          ],
+          backgroundColor: 'rgba(139,148,158,0.6)',
+          borderColor: '#8b949e',
+          borderWidth: 2,
+          pointRadius: 8,
+          pointHoverRadius: 11
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: {
+          title: {display:true, text:'リスクレベル（低 ← → 高）', color:'#8b949e'},
+          min: 0, max: 10,
+          grid: {color:'rgba(48,54,61,0.4)'},
+          ticks: {color:'#8b949e'}
+        },
+        y: {
+          title: {display:true, text:'推奨販売単価（万円）', color:'#8b949e'},
+          min: 20, max: 60,
+          grid: {color:'rgba(48,54,61,0.4)'},
+          ticks: {color:'#8b949e'}
+        }
+      },
+      plugins: {
+        legend: {display:true, labels:{color:'#e6edf3',usePointStyle:true,padding:16}},
+        datalabels: {
+          align: 'top',
+          offset: 8,
+          color: '#e6edf3',
+          font: {size:11, weight:'bold'},
+          formatter: function(value, context){
+            return context.dataset.data[context.dataIndex].label;
+          }
+        },
+        tooltip: {
+          callbacks: {
+            label: function(ctx){
+              var d = ctx.raw;
+              return d.label + ' — 単価:' + d.y + '万円 / リスク:' + d.x + '/10';
+            }
+          }
+        }
+      }
+    }
+  });
+})();
+
+// 2. Revenue Bar Chart
+(function(){
+  var ctx = document.getElementById('revenueBarChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['現行（25%繁殖）', '目標（50%繁殖）'],
+      datasets: [
+        {
+          label: '自家繁殖粗利',
+          data: [2952, 4455],
+          backgroundColor: 'rgba(232,67,147,0.7)',
+          borderColor: '#e84393',
+          borderWidth: 1
+        },
+        {
+          label: '県外仕入粗利',
+          data: [4920, 4175],
+          backgroundColor: 'rgba(88,166,255,0.5)',
+          borderColor: '#58a6ff',
+          borderWidth: 1
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: {stacked:true, grid:{color:'rgba(48,54,61,0.3)'}, ticks:{color:'#8b949e'}},
+        y: {stacked:true, grid:{color:'rgba(48,54,61,0.3)'}, ticks:{color:'#8b949e', callback:function(v){return v+'万'}}, title:{display:true,text:'年間粗利（万円）',color:'#8b949e'}}
+      },
+      plugins: {
+        legend: {labels:{color:'#e6edf3',usePointStyle:true,padding:16}},
+        datalabels: {
+          color: '#e6edf3',
+          font: {weight:'bold', size:12},
+          formatter: function(v){return v.toLocaleString()+'万';}
+        }
+      }
+    }
+  });
+})();
+
+// 3. Donut Before
+(function(){
+  var ctx = document.getElementById('donutBefore').getContext('2d');
+  new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['自家繁殖 25%', '県外仕入 75%'],
+      datasets: [{
+        data: [25, 75],
+        backgroundColor: ['rgba(232,67,147,0.7)', 'rgba(88,166,255,0.4)'],
+        borderColor: ['#e84393', '#58a6ff'],
+        borderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      cutout: '60%',
+      plugins: {
+        legend: {position:'bottom', labels:{color:'#e6edf3', padding:12}},
+        datalabels: {
+          color: '#e6edf3',
+          font: {weight:'bold', size:16},
+          formatter: function(v){return v+'%';}
+        }
+      }
+    }
+  });
+})();
+
+// 4. Donut After
+(function(){
+  var ctx = document.getElementById('donutAfter').getContext('2d');
+  new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['自家繁殖 50%', '県外仕入 50%'],
+      datasets: [{
+        data: [50, 50],
+        backgroundColor: ['rgba(232,67,147,0.7)', 'rgba(88,166,255,0.4)'],
+        borderColor: ['#e84393', '#58a6ff'],
+        borderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      cutout: '60%',
+      plugins: {
+        legend: {position:'bottom', labels:{color:'#e6edf3', padding:12}},
+        datalabels: {
+          color: '#e6edf3',
+          font: {weight:'bold', size:16},
+          formatter: function(v){return v+'%';}
+        }
+      }
+    }
+  });
+})();
+
+// 5. Breed Profit Horizontal Bar
+(function(){
+  var ctx = document.getElementById('breedProfitChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['豆柴', 'Kダックス(SD)', 'フレブル', 'コーギー', 'タイニープードル', 'パグ', 'バーニーズ', 'M.シュナウザー'],
+      datasets: [{
+        label: '月間粗利（万円）',
+        data: [86.4, 75.6, 72.0, 57.6, 45.0, 37.8, 36.0, 35.1],
+        backgroundColor: [
+          'rgba(232,67,147,0.7)',
+          'rgba(232,67,147,0.7)',
+          'rgba(46,160,67,0.6)',
+          'rgba(46,160,67,0.6)',
+          'rgba(232,67,147,0.7)',
+          'rgba(46,160,67,0.6)',
+          'rgba(232,67,147,0.7)',
+          'rgba(46,160,67,0.6)'
+        ],
+        borderColor: [
+          '#e84393','#e84393','#2ea043','#2ea043','#e84393','#2ea043','#e84393','#2ea043'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: {grid:{color:'rgba(48,54,61,0.3)'}, ticks:{color:'#8b949e', callback:function(v){return v+'万'}}, title:{display:true,text:'月間粗利（万円）',color:'#8b949e'}},
+        y: {grid:{display:false}, ticks:{color:'#e6edf3',font:{size:12}}}
+      },
+      plugins: {
+        legend: {display:false},
+        datalabels: {
+          anchor: 'end',
+          align: 'end',
+          color: '#e6edf3',
+          font: {weight:'bold', size:11},
+          formatter: function(v){return v.toFixed(1)+'万';}
+        }
+      }
+    }
+  });
+})();
+
+// === Accordion ===
+var touchStartY = 0;
+var touchStartX = 0;
+var touchStartTime = 0;
+
+function toggleAccordion(sec){
+  if(!sec) return;
+  var isCollapsed = sec.classList.contains('collapsed');
+  if(isCollapsed){
+    sec.classList.remove('collapsed');
+    sec.classList.add('collapsing');
+    var body = sec.querySelector('.section-body');
+    var onEnd = function(){ sec.classList.remove('collapsing'); body.removeEventListener('transitionend', onEnd); };
+    body.addEventListener('transitionend', onEnd);
+    setTimeout(function(){ sec.classList.remove('collapsing'); }, 400);
+  } else {
+    sec.classList.add('collapsing','collapsed');
+    var body2 = sec.querySelector('.section-body');
+    var onEnd2 = function(){ sec.classList.remove('collapsing'); body2.removeEventListener('transitionend', onEnd2); };
+    body2.addEventListener('transitionend', onEnd2);
+    setTimeout(function(){ sec.classList.remove('collapsing'); }, 400);
+  }
+}
+
+document.querySelectorAll('[data-accordion] .section-title').forEach(function(title){
+  title.addEventListener('touchstart', function(e){
+    touchStartY = e.touches[0].clientY;
+    touchStartX = e.touches[0].clientX;
+    touchStartTime = Date.now();
+  }, {passive:true});
+  title.addEventListener('touchend', function(e){
+    var dy = Math.abs(e.changedTouches[0].clientY - touchStartY);
+    var dx = Math.abs(e.changedTouches[0].clientX - touchStartX);
+    var dt = Date.now() - touchStartTime;
+    if(dy < 10 && dx < 10 && dt < 300){
+      e.preventDefault();
+      toggleAccordion(this.closest('[data-accordion]'));
+    }
+  });
+  title.addEventListener('click', function(e){
+    if(e.sourceCapabilities && e.sourceCapabilities.firesTouchEvents) return;
+    if(window.matchMedia('(pointer:fine)').matches){
+      toggleAccordion(this.closest('[data-accordion]'));
+    }
+  });
+});
+
+// Auto-collapse on mobile
+(function(){
+  if(window.innerWidth <= 768){
+    document.querySelectorAll('[data-accordion]').forEach(function(sec){
+      sec.classList.add('collapsed');
+    });
+  }
+})();
+
+// === TOC ===
+function toggleToc(){
+  var menu = document.getElementById('tocMenu');
+  var btn = document.getElementById('tocToggle');
+  menu.classList.toggle('open');
+  btn.classList.toggle('open');
+  btn.textContent = menu.classList.contains('open') ? '✕ セクション' : '☰';
+}
+
+function tocJump(id){
+  var sec = document.getElementById(id);
+  if(sec){
+    sec.classList.remove('collapsed');
+    toggleToc();
+    setTimeout(function(){
+      sec.scrollIntoView({behavior:'smooth', block:'start'});
+    }, 100);
+  }
+}
+
+function toggleAllSections(expand){
+  document.querySelectorAll('[data-accordion]').forEach(function(sec){
+    if(expand) sec.classList.remove('collapsed');
+    else sec.classList.add('collapsed');
+  });
+}
+</script>
+
+</body>
+</html>
