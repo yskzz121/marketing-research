@@ -1,0 +1,1547 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>PUPPY LUV マーケティング調査レポート</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+:root{
+  --bg:#0d1117;--card:#161b22;--border:#21262d;--text:#e6edf3;--text-sub:#8b949e;
+  --blue:#58a6ff;--green:#2ea043;--red:#f85149;--pink:#e84393;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;padding:0;min-height:100vh}
+.container{max-width:1200px;margin:0 auto;padding:20px}
+
+/* Header */
+.header{background:linear-gradient(135deg,#1a2332 0%,#0d1117 50%,#1a1a2e 100%);border-bottom:1px solid #21262d;padding:40px 20px 30px;text-align:center;position:relative;overflow:hidden}
+.header::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 30% 50%,rgba(232,67,147,0.08) 0%,transparent 60%),radial-gradient(ellipse at 70% 50%,rgba(46,160,67,0.06) 0%,transparent 60%)}
+.header-content{position:relative;z-index:1}
+.header h1{font-size:2.2em;font-weight:900;margin-bottom:4px}
+.header .subtitle{color:var(--text-sub);font-size:1.1em}
+.header .date{color:var(--text-sub);font-size:.85em;margin-top:8px}
+.header-logo-row{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:8px}
+.ticker-badge{display:inline-block;background:rgba(232,67,147,0.15);border:1px solid rgba(232,67,147,0.3);border-radius:8px;padding:6px 16px;font-size:14px;color:var(--pink);margin-bottom:12px;letter-spacing:1px}
+
+/* Sections */
+.section{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:28px 24px;margin-bottom:20px;position:relative}
+.section-title{font-size:1.25em;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:8px}
+.section-icon{font-size:1.2em}
+
+/* Score */
+.score-container{text-align:center;padding:20px 0}
+.score-big{font-size:5em;font-weight:900;color:var(--pink);line-height:1}
+.score-label{font-size:1.4em;font-weight:700;margin-top:8px}
+.score-sub{color:var(--text-sub);margin-top:8px;font-size:.95em;max-width:600px;margin-left:auto;margin-right:auto}
+
+/* Cards */
+.card{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:18px;transition:border-color .2s}
+.card:hover{border-color:var(--pink)}
+.card-label{font-size:.78em;color:var(--text-sub);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px}
+.card-value{font-size:1.4em;font-weight:700}
+.card-note{font-size:.8em;color:var(--text-sub);margin-top:4px}
+
+/* Grid */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.grid-6{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
+.metrics-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+
+/* Tables */
+.tbl{width:100%;border-collapse:collapse;font-size:.85rem}
+.tbl th,.tbl td{padding:10px 12px;border-bottom:1px solid var(--border);text-align:left}
+.tbl th{color:var(--text-sub);font-weight:500;font-size:.78em;text-transform:uppercase}
+.tbl tr:hover{background:rgba(232,67,147,0.04)}
+.tbl .highlight-row{background:rgba(232,67,147,0.08);border-left:3px solid var(--pink)}
+
+/* Charts */
+.chart-container{position:relative;height:320px;margin:16px 0}
+.chart-row{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+
+/* Tags */
+.tag{display:inline-block;padding:4px 10px;border-radius:6px;font-size:.75em;font-weight:500;margin:2px}
+.tag-green{background:rgba(46,160,67,0.15);color:var(--green)}
+.tag-red{background:rgba(248,81,73,0.15);color:var(--red)}
+.tag-blue{background:rgba(88,166,255,0.15);color:var(--blue)}
+.tag-pink{background:rgba(232,67,147,0.15);color:var(--pink)}
+
+/* SWOT */
+.swot-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.swot-card{border-radius:10px;padding:20px;border:1px solid var(--border)}
+.swot-card h3{font-size:1em;font-weight:700;margin-bottom:10px}
+.swot-card ul{list-style:none;padding:0}
+.swot-card li{padding:4px 0;font-size:.88em;padding-left:16px;position:relative}
+.swot-card li::before{content:'';position:absolute;left:0;top:11px;width:6px;height:6px;border-radius:50%}
+.swot-s{background:rgba(46,160,67,0.06)}
+.swot-s h3{color:var(--green)}
+.swot-s li::before{background:var(--green)}
+.swot-w{background:rgba(248,81,73,0.06)}
+.swot-w h3{color:var(--red)}
+.swot-w li::before{background:var(--red)}
+.swot-o{background:rgba(88,166,255,0.06)}
+.swot-o h3{color:var(--blue)}
+.swot-o li::before{background:var(--blue)}
+.swot-t{background:rgba(232,67,147,0.06)}
+.swot-t h3{color:var(--pink)}
+.swot-t li::before{background:var(--pink)}
+
+/* Pyramid */
+.pyramid{display:flex;flex-direction:column;align-items:center;gap:0;margin:20px 0}
+.pyramid-level{text-align:center;padding:14px 20px;border:1px solid var(--border);position:relative}
+.pyramid-level:first-child{border-radius:8px 8px 0 0}
+.pyramid-level:last-child{border-radius:0 0 8px 8px}
+.pyramid-label{font-weight:700;font-size:.9em}
+.pyramid-score{font-size:1.6em;font-weight:900;margin:4px 0}
+.pyramid-desc{font-size:.78em;color:var(--text-sub)}
+
+/* Progress bar */
+.progress-wrap{margin:8px 0}
+.progress-bar{height:8px;border-radius:4px;background:var(--border);overflow:hidden}
+.progress-fill{height:100%;border-radius:4px;transition:width .6s}
+
+/* Alert card */
+.alert-card{background:rgba(248,81,73,0.08);border:1px solid rgba(248,81,73,0.3);border-radius:10px;padding:20px;text-align:center}
+.alert-card .alert-icon{font-size:2em;margin-bottom:8px}
+.alert-card .alert-text{font-size:1.1em;font-weight:700;color:var(--red)}
+.alert-card .alert-sub{font-size:.85em;color:var(--text-sub);margin-top:6px}
+
+/* Info card (green variant) */
+.info-card{background:rgba(46,160,67,0.08);border:1px solid rgba(46,160,67,0.3);border-radius:10px;padding:20px;text-align:center}
+.info-card .alert-icon{font-size:2em;margin-bottom:8px}
+.info-card .alert-text{font-size:1.1em;font-weight:700;color:var(--green)}
+.info-card .alert-sub{font-size:.85em;color:var(--text-sub);margin-top:6px}
+
+/* Timeline */
+.timeline{position:relative;padding-left:24px}
+.timeline::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:2px;background:var(--border)}
+.timeline-item{position:relative;margin-bottom:18px;padding-left:20px}
+.timeline-item::before{content:'';position:absolute;left:-20px;top:6px;width:12px;height:12px;border-radius:50%;border:2px solid var(--border)}
+.timeline-item.risk::before{background:var(--red);border-color:var(--red)}
+.timeline-item.opp::before{background:var(--green);border-color:var(--green)}
+.timeline-label{font-size:.72em;color:var(--text-sub);text-transform:uppercase;letter-spacing:1px}
+.timeline-text{font-size:.9em;margin-top:2px}
+
+/* Rec cards */
+.rec-card{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:12px;border-left:4px solid var(--pink)}
+.rec-card .rec-num{font-size:.72em;color:var(--pink);font-weight:700;text-transform:uppercase;letter-spacing:1px}
+.rec-card .rec-title{font-size:1.05em;font-weight:700;margin:4px 0}
+.rec-card .rec-body{font-size:.85em;color:var(--text-sub);line-height:1.6}
+.rec-card .rec-kpi{margin-top:8px;font-size:.8em;color:var(--blue)}
+.rec-urgent{border-left-color:var(--red)}
+
+/* Radar / Scatter specific */
+.chart-sm{height:280px;max-width:480px;margin:0 auto}
+
+/* Two col */
+.two-col{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+
+/* Star rating */
+.stars{color:var(--pink);letter-spacing:2px}
+
+/* Overview grid */
+.overview-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+
+/* Sentiment bar */
+.sent-bar{display:flex;border-radius:6px;overflow:hidden;height:28px;margin:8px 0}
+.sent-bar div{display:flex;align-items:center;justify-content:center;font-size:.72em;font-weight:700}
+
+/* Risk grid */
+.risk-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+
+/* KPI big card */
+.kpi-big{text-align:center}
+.kpi-big .card-value{font-size:1.8em;color:var(--pink)}
+
+/* Print */
+@media print{
+  body{background:#fff;color:#111;padding:20px}
+  .header{background:#f8f9fa!important;color:#111}
+  .header::before{display:none}
+  .header h1,.header .subtitle,.header .date{color:#111}
+  .ticker-badge{color:#111;border-color:#ccc;background:#f0f0f0}
+  .section{background:#fff;border-color:#ddd;break-inside:avoid}
+  .card{background:#f8f9fa;border-color:#ddd}
+  .toc-nav,.toc-toggle{display:none!important}
+  .score-big{color:var(--pink)}
+}
+
+/* === Mobile Responsive === */
+@media(max-width:768px){
+  body{padding:12px!important}
+  .container{padding:12px}
+  .header{padding:28px 16px}
+  .header h1{font-size:1.4rem}
+  .header .subtitle{font-size:.95em}
+  .header-logo-row{flex-direction:column;gap:8px}
+  .ticker-badge{font-size:12px;padding:4px 12px}
+  .grid,.metrics-grid{grid-template-columns:1fr 1fr!important}
+  .grid-4,.grid-6{grid-template-columns:1fr 1fr!important}
+  .chart-container{height:250px}
+  .section{padding:20px 16px}
+  .two-col{grid-template-columns:1fr!important}
+  .swot-grid{grid-template-columns:1fr!important}
+  .chart-row{grid-template-columns:1fr!important}
+  .overview-grid{grid-template-columns:1fr!important}
+  .risk-grid{grid-template-columns:1fr!important}
+  table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .tbl{font-size:.78rem}
+}
+@media(max-width:480px){
+  .grid,.metrics-grid,.grid-4,.grid-6{grid-template-columns:1fr!important}
+  .chart-row,.overview-grid,.swot-grid,.risk-grid{grid-template-columns:1fr!important}
+  .header h1{font-size:1.2rem}
+  .score-big{font-size:3.5em}
+  .score-label{font-size:1.2em}
+  .section-title{font-size:1rem}
+}
+
+/* === Accordion (mobile only) === */
+.section[data-accordion]{position:relative}
+.section[data-accordion] .section-title{cursor:pointer;user-select:none;padding-right:36px}
+.section[data-accordion] .section-title::after{content:'\25BC';position:absolute;right:20px;top:28px;font-size:.7em;color:var(--text-sub);transition:transform .25s}
+.section[data-accordion].collapsed .section-title::after{transform:rotate(-90deg)}
+.section[data-accordion] .section-body{overflow:visible;transition:max-height .35s ease,opacity .25s ease;max-height:5000px;opacity:1}
+.section[data-accordion].collapsing .section-body{overflow:hidden}
+.section[data-accordion].collapsed .section-body{max-height:0;overflow:hidden;opacity:0;margin:0;padding:0}
+
+/* === TOC Nav (mobile only) === */
+.toc-nav{display:none}
+@media(max-width:768px){
+  .toc-nav{display:block;position:fixed;bottom:0;left:0;right:0;z-index:998;background:#161b22;border-top:1px solid #30363d;box-shadow:0 -2px 12px rgba(0,0,0,.4)}
+  .toc-toggle{position:fixed;bottom:16px;right:16px;z-index:999;width:48px;height:48px;border-radius:50%;background:var(--pink);color:#0d1117;border:none;font-size:1.2rem;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;transition:all .2s}
+  .toc-toggle.open{border-radius:12px 12px 0 0;bottom:0;right:0;left:0;width:100%;height:44px;font-size:.9rem}
+  .toc-menu{max-height:0;overflow:hidden;transition:max-height .3s ease}
+  .toc-menu.open{max-height:60vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
+  .toc-list{list-style:none;padding:8px 0;margin:0}
+  .toc-list li{border-bottom:1px solid #21262d}
+  .toc-list li:last-child{border-bottom:none}
+  .toc-list a{display:flex;align-items:center;gap:10px;padding:12px 20px;color:#e6edf3;text-decoration:none;font-size:.85rem;transition:background .15s}
+  .toc-list a:hover,.toc-list a:active{background:rgba(232,67,147,.1)}
+  .toc-list .toc-icon{font-size:1.1em;flex-shrink:0;width:24px;text-align:center}
+  .toc-list .toc-label{flex:1}
+  .toc-expand-all{display:flex;justify-content:center;gap:12px;padding:10px 16px;border-bottom:1px solid #21262d}
+  .toc-expand-all button{font-family:'Noto Sans JP',sans-serif;font-size:.75rem;padding:4px 14px;border-radius:6px;border:1px solid #30363d;background:transparent;color:#8b949e;cursor:pointer}
+  .toc-expand-all button:active{background:var(--pink);color:#0d1117}
+  body{padding-bottom:60px!important}
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-content">
+    <div class="header-logo-row">
+      <div class="ticker-badge">ペットショップ ｜ 沖縄県北谷町</div>
+    </div>
+    <h1>PUPPY LUV マーケティング調査レポート</h1>
+    <div class="subtitle">ブランド認知・エクイティ・ポジショニング総合分析（実売上データ反映版）</div>
+    <div class="date">調査日: 2026年3月20日 ｜ データ期間: 2024年2月〜2026年2月</div>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ==================== 1. Brand Health Score + Key Findings ==================== -->
+<div class="section" id="sec-score">
+  <div class="score-container">
+    <div class="score-big">3.0<span style="font-size:.35em;color:var(--text-sub)">/5</span></div>
+    <div class="score-label" style="color:var(--pink)">&#9878;&#65039; 普通（上方修正: 2.5 &#8594; 3.0）</div>
+    <div class="score-sub">推定年商1億円・月平均23頭の安定販売実績が判明。Instagramが最大集客チャネル（55%）で外国人ニッチを80%支配。デジタル基盤は想定より機能しているが、TikTok/X/Google口コミは未展開で成長余地が大きい。</div>
+  </div>
+  <div style="margin-top:24px">
+    <div class="section-title"><span class="section-icon">&#128270;</span> Key Findings</div>
+    <div class="metrics-grid">
+      <div class="card">
+        <div class="card-label">推定年商</div>
+        <div class="card-value" style="color:var(--green)">約1億円</div>
+        <div class="card-note">月平均826万円 × 12ヶ月</div>
+      </div>
+      <div class="card">
+        <div class="card-label">月平均販売頭数</div>
+        <div class="card-value" style="color:var(--pink)">約23頭</div>
+        <div class="card-note">累計601頭（25ヶ月間）</div>
+      </div>
+      <div class="card">
+        <div class="card-label">平均単価</div>
+        <div class="card-value">35.8万円</div>
+        <div class="card-note">約$2,500〜$3,300（業界標準以上）</div>
+      </div>
+      <div class="card">
+        <div class="card-label">最大集客チャネル</div>
+        <div class="card-value" style="color:var(--blue)">Instagram 55%</div>
+        <div class="card-note">215件/388件（実データ）</div>
+      </div>
+      <div class="card">
+        <div class="card-label">顧客構成</div>
+        <div class="card-value" style="color:var(--pink)">外国人 80%</div>
+        <div class="card-note">米軍関係者中心・平均年齢30.7歳</div>
+      </div>
+      <div class="card">
+        <div class="card-label">エクイティ総合到達度</div>
+        <div class="card-value" style="color:var(--green)">51.3<span style="font-size:.6em;color:var(--text-sub)">/100</span></div>
+        <div class="card-note">Kellerピラミッド加重平均（+8.8pt）</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 2. Brand Profile ==================== -->
+<div class="section" id="sec-profile" data-accordion>
+  <div class="section-title"><span class="section-icon">&#128054;</span> ブランドプロファイル</div>
+  <div class="section-body">
+    <div class="grid" style="margin-bottom:20px">
+      <div class="card">
+        <div class="card-label">WHO &#8212; ターゲット顧客</div>
+        <div style="font-size:.88em;margin-top:8px;line-height:1.8">
+          &#8226; <strong>外国人80%</strong>（在沖米軍関係者中心）<br>
+          &#8226; 平均年齢30.7歳（20代以下が57%）<br>
+          &#8226; 日本人20%（地元住民・ファミリー層）<br>
+          &#8226; 大型犬（ゴールデン・ラブ・ハスキー）志向
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">WHAT &#8212; 提供価値</div>
+        <div style="font-size:.88em;margin-top:8px;line-height:1.8">
+          &#8226; 子犬販売（常時約30頭）<br>
+          &#8226; トリミングサービス<br>
+          &#8226; ペットホテル（夜間スタッフ常駐・1泊3,000円〜）<br>
+          &#8226; 永年割引 5&#12316;10%<br>
+          &#8226; アニコム保険1ヶ月プレゼント
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">HOW &#8212; チャネル</div>
+        <div style="font-size:.88em;margin-top:8px;line-height:1.8">
+          &#8226; 本店（北谷R58沿い）<br>
+          &#8226; 姉妹店 Salon de OHANA<br>
+          &#8226; <strong>Instagram（55%の集客）</strong><br>
+          &#8226; Facebook 2,322いいね<br>
+          &#8226; EC（puppyluv.jp）
+        </div>
+      </div>
+    </div>
+    <table class="tbl">
+      <tr><th style="width:140px">項目</th><th>内容</th></tr>
+      <tr><td>店名</td><td>PUPPY LUV（パピーラブ）</td></tr>
+      <tr><td>運営</td><td>合同会社ハッピーファクトリー</td></tr>
+      <tr><td>オーナー</td><td>Aki（久貝アキ）氏</td></tr>
+      <tr><td>所在地</td><td>沖縄県中頭郡北谷町北谷2-7-3</td></tr>
+      <tr><td>店舗</td><td>2拠点（本店 + Salon de OHANA）</td></tr>
+      <tr><td>主要事業</td><td>子犬販売 / トリミング / ペットホテル</td></tr>
+      <tr><td>推定年商</td><td>約1億円（月平均826万円）</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ==================== 3. Sales Data (NEW) ==================== -->
+<div class="section" id="sec-sales" data-accordion>
+  <div class="section-title"><span class="section-icon">&#128176;</span> 売上データ（実績）</div>
+  <div class="section-body">
+    <div class="grid-4" style="margin-bottom:20px">
+      <div class="card kpi-big">
+        <div class="card-label">推定年商</div>
+        <div class="card-value" style="font-size:1.8em;color:var(--green)">約1億円</div>
+        <div class="card-note">月平均826万円 × 12ヶ月</div>
+      </div>
+      <div class="card kpi-big">
+        <div class="card-label">月平均販売</div>
+        <div class="card-value" style="font-size:1.8em;color:var(--pink)">23頭</div>
+        <div class="card-note">安定的な販売推移</div>
+      </div>
+      <div class="card kpi-big">
+        <div class="card-label">平均単価</div>
+        <div class="card-value" style="font-size:1.8em;color:var(--blue)">35.8万円</div>
+        <div class="card-note">業界標準以上</div>
+      </div>
+      <div class="card kpi-big">
+        <div class="card-label">累計販売</div>
+        <div class="card-value" style="font-size:1.8em;color:var(--text)">601頭</div>
+        <div class="card-note">2024/2〜2026/2（25ヶ月）</div>
+      </div>
+    </div>
+    <div style="font-size:.9em;font-weight:700;margin-bottom:8px">月別販売頭数の推移（2024年2月〜2026年2月）</div>
+    <div class="chart-container" style="height:320px">
+      <canvas id="chartSalesVolume"></canvas>
+    </div>
+    <div class="chart-row" style="margin-top:20px">
+      <div>
+        <div style="font-size:.9em;font-weight:700;margin-bottom:8px;text-align:center">月別売上額（金額確認分のみ）</div>
+        <div class="chart-container" style="height:280px">
+          <canvas id="chartSalesAmount"></canvas>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:.9em;font-weight:700;margin-bottom:8px;text-align:center">平均単価の推移</div>
+        <div class="chart-container" style="height:280px">
+          <canvas id="chartAvgPrice"></canvas>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:16px;font-size:.85em;color:var(--text-sub)">
+      ※ 2024年12月〜2025年10月、2025年12月〜2026年2月は販売頭数のみ確認。売上額は未取得。2025年11月は売上額16,418,704円（39頭、単価420,992円）で過去最高。
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 4. Customer Analysis (NEW) ==================== -->
+<div class="section" id="sec-customer" data-accordion>
+  <div class="section-title"><span class="section-icon">&#128101;</span> 顧客分析（実データ）</div>
+  <div class="section-body">
+    <div class="chart-row" style="margin-bottom:20px">
+      <div>
+        <div style="font-size:.9em;font-weight:700;margin-bottom:8px;text-align:center">顧客属性: 日本人 vs 外国人</div>
+        <div class="chart-container" style="height:280px">
+          <canvas id="chartNationality"></canvas>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:.9em;font-weight:700;margin-bottom:8px;text-align:center">年齢分布</div>
+        <div class="chart-container" style="height:280px">
+          <canvas id="chartAge"></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="chart-row" style="margin-bottom:20px">
+      <div>
+        <div style="font-size:.9em;font-weight:700;margin-bottom:8px;text-align:center">来店きっかけ</div>
+        <div class="chart-container" style="height:320px">
+          <canvas id="chartSource"></canvas>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:.9em;font-weight:700;margin-bottom:8px;text-align:center">支払方法</div>
+        <div class="chart-container" style="height:280px">
+          <canvas id="chartPayment"></canvas>
+        </div>
+        <div class="grid-2" style="margin-top:16px">
+          <div class="card" style="text-align:center">
+            <div class="card-label">分割払い</div>
+            <div class="card-value" style="color:var(--pink)">55.5%</div>
+            <div class="card-note">141件</div>
+          </div>
+          <div class="card" style="text-align:center">
+            <div class="card-label">一括払い</div>
+            <div class="card-value" style="color:var(--blue)">44.5%</div>
+            <div class="card-note">113件</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="info-card">
+      <div class="alert-icon">&#127919;</div>
+      <div class="alert-text" style="color:var(--green)">Instagram = 最大の集客エンジン（55.4%）</div>
+      <div class="alert-sub">リピーター（7.5%）と紹介（5.7%）を合わせると13.2%が既存顧客ネットワーク経由。Web/HP（7.0%）とFacebook（6.4%）もデジタル経由。通りがかり（4.6%）はロードサイド立地効果。</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 5. Breed Analysis (NEW) ==================== -->
+<div class="section" id="sec-breeds" data-accordion>
+  <div class="section-title"><span class="section-icon">&#128062;</span> 犬種分析（実データ）</div>
+  <div class="section-body">
+    <div class="chart-container" style="height:380px">
+      <canvas id="chartBreeds"></canvas>
+    </div>
+    <div class="two-col" style="margin-top:20px">
+      <div class="card">
+        <div class="card-label" style="color:var(--green)">仕入元データ</div>
+        <div class="grid-2" style="margin-top:12px">
+          <div style="text-align:center">
+            <div style="font-size:2em;font-weight:900;color:var(--pink)">24</div>
+            <div style="font-size:.85em;color:var(--text-sub)">自家繁殖</div>
+          </div>
+          <div style="text-align:center">
+            <div style="font-size:2em;font-weight:900;color:var(--blue)">78</div>
+            <div style="font-size:.85em;color:var(--text-sub)">県外仕入</div>
+          </div>
+        </div>
+        <div style="margin-top:12px;font-size:.82em;color:var(--text-sub)">自家繁殖率: 約23.5%。県外ブリーダーからの仕入れが主力。認可ブリーダー100%ポリシーを維持。</div>
+      </div>
+      <div class="card">
+        <div class="card-label" style="color:var(--blue)">犬種の傾向</div>
+        <div style="font-size:.88em;margin-top:8px;line-height:1.8">
+          &#8226; <strong>大型犬が人気</strong>: ゴールデン・ラブラドール・ハスキーが上位<br>
+          &#8226; 外国人顧客80%を反映（米国では大型犬が一般的）<br>
+          &#8226; M.ダックスが同率1位（日本人顧客に人気）<br>
+          &#8226; トイプードルは3位（日本の飼育頭数No.1犬種）<br>
+          &#8226; 柴犬は外国人にも人気（5位）
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 6. Market Overview ==================== -->
+<div class="section" id="sec-market" data-accordion>
+  <div class="section-title"><span class="section-icon">&#127970;</span> 業界・市場概況</div>
+  <div class="section-body">
+    <div class="grid-4" style="margin-bottom:20px">
+      <div class="card" style="text-align:center">
+        <div class="card-label">ペット関連市場</div>
+        <div class="card-value" style="color:var(--pink)">1.9兆円</div>
+      </div>
+      <div class="card" style="text-align:center">
+        <div class="card-label">ペットフード市場</div>
+        <div class="card-value">4,931億円</div>
+      </div>
+      <div class="card" style="text-align:center">
+        <div class="card-label">犬飼育頭数</div>
+        <div class="card-value">682万頭</div>
+      </div>
+      <div class="card" style="text-align:center">
+        <div class="card-label">ペット保険加入</div>
+        <div class="card-value" style="color:var(--green)">320.7万件</div>
+      </div>
+    </div>
+    <div class="two-col" style="margin-bottom:20px">
+      <div class="card">
+        <div class="card-label" style="color:var(--green)">&#127744; 追い風要因</div>
+        <ul style="list-style:none;padding:0;margin-top:8px;font-size:.88em;line-height:2">
+          <li>&#9989; ペットの家族化・プレミアム化</li>
+          <li>&#9989; ペット保険市場の急成長</li>
+          <li>&#9989; 単身・DINKS世帯のペット需要</li>
+          <li>&#9989; 沖縄の米軍関係者需要（安定的）</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-label" style="color:var(--red)">&#127786;&#65039; 逆風要因</div>
+        <ul style="list-style:none;padding:0;margin-top:8px;font-size:.88em;line-height:2">
+          <li>&#10060; 犬飼育頭数の長期減少トレンド</li>
+          <li>&#10060; 生体販売批判の高まり（48.9%不要論）</li>
+          <li>&#10060; 大手チェーンの攻勢</li>
+          <li>&#10060; ブリーダー直販プラットフォーム台頭</li>
+        </ul>
+      </div>
+    </div>
+    <div class="chart-container" style="height:300px">
+      <canvas id="chartNewDogs"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 7. Competitor Landscape ==================== -->
+<div class="section" id="sec-competitor" data-accordion>
+  <div class="section-title"><span class="section-icon">&#9878;&#65039;</span> 競合ランドスケープ</div>
+  <div class="section-body">
+    <div style="overflow-x:auto;margin-bottom:20px">
+      <table class="tbl">
+        <thead>
+          <tr><th>ブランド</th><th>業態</th><th>エリア</th><th>規模</th><th>価格帯</th><th>特徴</th></tr>
+        </thead>
+        <tbody>
+          <tr class="highlight-row"><td><strong>PUPPY LUV</strong></td><td>子犬専門</td><td>北谷</td><td>小規模（2店舗）</td><td>中</td><td>認可ブリーダー100%・バイリンガル・夜間ホテル・年商1億円</td></tr>
+          <tr><td>ペットボックス北谷</td><td>総合ペットショップ</td><td>北谷</td><td>中規模</td><td>中〜高</td><td>品揃え豊富・北谷エリア老舗</td></tr>
+          <tr><td>Coo&RIKU 北谷</td><td>全国チェーン</td><td>北谷</td><td>大規模</td><td>低〜中</td><td>全国ネットワーク・大量仕入れ</td></tr>
+          <tr><td>ハピネス</td><td>地域密着型</td><td>中部</td><td>小規模</td><td>中</td><td>ブリーダー直営・専門性高い</td></tr>
+          <tr><td>沖縄愛犬ランド</td><td>総合ペット</td><td>中南部</td><td>中規模</td><td>低〜中</td><td>低価格帯訴求</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="chart-row">
+      <div>
+        <div style="font-size:.9em;font-weight:700;margin-bottom:8px;text-align:center">ペットショップの一般的な収益構成</div>
+        <div class="chart-container" style="height:280px">
+          <canvas id="chartRevMix"></canvas>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:.9em;font-weight:700;margin-bottom:8px">間接競合</div>
+        <div class="card" style="margin-bottom:8px">
+          <div class="card-label">ブリーダー直販プラットフォーム</div>
+          <div style="font-size:.85em;color:var(--text-sub)">みんなのブリーダー、ブリーダーナビ等。仲介手数料型で価格透明性を訴求。</div>
+        </div>
+        <div class="card" style="margin-bottom:8px">
+          <div class="card-label">保護犬譲渡団体</div>
+          <div style="font-size:.85em;color:var(--text-sub)">保護犬カフェ、NPO団体。社会的意識の高い層を取り込む。</div>
+        </div>
+        <div class="card">
+          <div class="card-label">EC（Amazon / 楽天）</div>
+          <div style="font-size:.85em;color:var(--text-sub)">ペット用品・フードのEC化率上昇。来店動機の低下リスク。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 8. Positioning Map ==================== -->
+<div class="section" id="sec-positioning" data-accordion>
+  <div class="section-title"><span class="section-icon">&#128205;</span> ポジショニングマップ</div>
+  <div class="section-body">
+    <div class="chart-container" style="height:400px;max-width:700px;margin:0 auto">
+      <canvas id="chartPositioning"></canvas>
+    </div>
+    <div style="text-align:center;margin-top:12px;font-size:.82em;color:var(--text-sub)">
+      X軸: 規模・品揃え（小 &#8592; &#8594; 大）｜ Y軸: 顧客関係の深さ（浅 &#8592; &#8594; 深）
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 9. POP / POD ==================== -->
+<div class="section" id="sec-popod" data-accordion>
+  <div class="section-title"><span class="section-icon">&#128142;</span> POP / POD 分析</div>
+  <div class="section-body">
+    <div class="two-col">
+      <div class="card">
+        <div class="card-label" style="color:var(--blue)">POP &#8212; Points of Parity（業界標準）</div>
+        <ul style="list-style:none;padding:0;margin-top:12px;font-size:.88em;line-height:2.2">
+          <li><span class="tag tag-blue">POP</span> 生体健康証明の提供</li>
+          <li><span class="tag tag-blue">POP</span> 基本ペット用品の取り扱い</li>
+          <li><span class="tag tag-blue">POP</span> 清潔な店内環境</li>
+          <li><span class="tag tag-blue">POP</span> 購入後アフターサポート</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-label" style="color:var(--pink)">POD &#8212; Points of Difference（差別化要因）</div>
+        <ul style="list-style:none;padding:0;margin-top:12px;font-size:.88em;line-height:2.2">
+          <li><span class="tag tag-pink">POD</span> 夜間スタッフ常駐ペットホテル</li>
+          <li><span class="tag tag-pink">POD</span> バイリンガル対応（日英）</li>
+          <li><span class="tag tag-pink">POD</span> 認可ブリーダー100%仕入れ</li>
+          <li><span class="tag tag-pink">POD</span> 外国人顧客80%のニッチ支配</li>
+          <li><span class="tag tag-pink">POD</span> Instagram集客55%のデジタル導線</li>
+          <li><span class="tag tag-pink">POD</span> 購入者永年割引5&#12316;10%</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 10. Brand Awareness ==================== -->
+<div class="section" id="sec-awareness" data-accordion>
+  <div class="section-title"><span class="section-icon">&#128227;</span> ブランド認知度</div>
+  <div class="section-body">
+    <div style="margin-bottom:20px">
+      <div class="card-label" style="margin-bottom:12px">認知経路の強度（実データ反映）</div>
+      <div class="grid">
+        <div class="card" style="text-align:center">
+          <div style="font-size:.85em">Instagram</div>
+          <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <div style="font-size:.75em;color:var(--green);margin-top:4px">55.4%（最大）</div>
+        </div>
+        <div class="card" style="text-align:center">
+          <div style="font-size:.85em">ロードサイド看板</div>
+          <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9734;</div>
+        </div>
+        <div class="card" style="text-align:center">
+          <div style="font-size:.85em">口コミ・紹介</div>
+          <div class="stars">&#9733;&#9733;&#9733;&#9734;&#9734;</div>
+          <div style="font-size:.75em;color:var(--text-sub);margin-top:4px">リピーター7.5%+紹介5.7%</div>
+        </div>
+        <div class="card" style="text-align:center">
+          <div style="font-size:.85em">Web/HP</div>
+          <div class="stars">&#9733;&#9733;&#9734;&#9734;&#9734;</div>
+          <div style="font-size:.75em;color:var(--text-sub);margin-top:4px">7.0%</div>
+        </div>
+        <div class="card" style="text-align:center">
+          <div style="font-size:.85em">Facebook</div>
+          <div class="stars">&#9733;&#9733;&#9734;&#9734;&#9734;</div>
+          <div style="font-size:.75em;color:var(--text-sub);margin-top:4px">6.4%</div>
+        </div>
+        <div class="card" style="text-align:center">
+          <div style="font-size:.85em">通りがかり</div>
+          <div class="stars">&#9733;&#9734;&#9734;&#9734;&#9734;</div>
+          <div style="font-size:.75em;color:var(--text-sub);margin-top:4px">4.6%</div>
+        </div>
+      </div>
+    </div>
+    <div class="two-col" style="margin-bottom:20px">
+      <div class="info-card">
+        <div class="alert-icon">&#128247;</div>
+        <div class="alert-text" style="color:var(--green)">Instagram &#8212; 機能中！</div>
+        <div class="alert-sub">前回調査では「未確認」としていたが、実データで55.4%の最大集客チャネルであることが判明。外国人コミュニティでのリーチが強い。</div>
+      </div>
+      <div class="alert-card">
+        <div class="alert-icon">&#11088;</div>
+        <div class="alert-text">TikTok / X / Google口コミ 未展開</div>
+        <div class="alert-sub">Instagramは機能しているが、他のデジタルチャネルは未活用。Google口コミゼロはMEO機会損失。</div>
+      </div>
+    </div>
+    <div style="font-size:.9em;font-weight:700;margin-bottom:8px">デジタル接点の充実度比較</div>
+    <div class="chart-container" style="height:280px">
+      <canvas id="chartDigital"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 11. Preference ==================== -->
+<div class="section" id="sec-preference" data-accordion>
+  <div class="section-title"><span class="section-icon">&#10084;&#65039;</span> プリファレンス（選好要因）</div>
+  <div class="section-body">
+    <div class="chart-row">
+      <div>
+        <div style="font-size:.9em;font-weight:700;margin-bottom:8px;text-align:center">ペットショップ選好要因</div>
+        <div class="chart-container" style="height:300px">
+          <canvas id="chartPreference"></canvas>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:.9em;font-weight:700;margin-bottom:12px">セグメント別 PUPPY LUV 親和性</div>
+        <table class="tbl">
+          <thead><tr><th>セグメント</th><th>親和性</th></tr></thead>
+          <tbody>
+            <tr><td>外国人（米軍関係者）</td><td><span class="tag tag-green">非常に高（80%）</span></td></tr>
+            <tr><td>20代以下</td><td><span class="tag tag-green">非常に高（57%）</span></td></tr>
+            <tr><td>リピーター</td><td><span class="tag tag-green">高（7.5%）</span></td></tr>
+            <tr><td>大型犬志向</td><td><span class="tag tag-green">高</span></td></tr>
+            <tr><td>日本人顧客</td><td><span class="tag tag-blue">中（20%）</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 12. Brand Equity (Keller Pyramid) ==================== -->
+<div class="section" id="sec-equity" data-accordion>
+  <div class="section-title"><span class="section-icon">&#127942;</span> ブランドエクイティ（Keller ピラミッド）</div>
+  <div class="section-body">
+    <div class="pyramid">
+      <div class="pyramid-level" style="width:40%;background:rgba(232,67,147,0.08)">
+        <div class="pyramid-label">&#9316; 共鳴（Resonance）</div>
+        <div class="pyramid-score" style="color:var(--pink)">45<span style="font-size:.5em">/100</span></div>
+        <div class="pyramid-desc">リピーター7.5%・紹介5.7%（実データ確認） &#8593;+10</div>
+      </div>
+      <div class="pyramid-level" style="width:55%;background:rgba(232,67,147,0.1)">
+        <div class="pyramid-label">&#9315; 反応（Response）</div>
+        <div class="pyramid-score" style="color:var(--pink)">55<span style="font-size:.5em">/100</span></div>
+        <div class="pyramid-desc">信頼性高・温かみ高・分割払い対応 &#8593;+5</div>
+      </div>
+      <div class="pyramid-level" style="width:70%;background:rgba(232,67,147,0.12)">
+        <div class="pyramid-label">&#9314; 意味（Meaning）</div>
+        <div class="pyramid-score" style="color:var(--pink)">65<span style="font-size:.5em">/100</span></div>
+        <div class="pyramid-desc">年商1億円・平均単価35.8万円で品質裏付け &#8593;+10</div>
+      </div>
+      <div class="pyramid-level" style="width:85%;background:rgba(88,166,255,0.08);border:2px solid var(--blue)">
+        <div class="pyramid-label">&#9313; 認知（Salience）</div>
+        <div class="pyramid-score" style="color:var(--blue)">40<span style="font-size:.5em">/100</span></div>
+        <div class="pyramid-desc">Instagram55%で実は機能中。ただしTikTok/X/Google口コミは未展開 &#8593;+10</div>
+      </div>
+    </div>
+    <div style="margin-top:20px">
+      <div style="font-size:.9em;font-weight:700;margin-bottom:12px">各段階の到達度（改定版）</div>
+      <div class="grid-4">
+        <div class="card">
+          <div class="card-label">&#9313; 認知 <span style="color:var(--green)">30&#8594;40</span></div>
+          <div class="progress-wrap">
+            <div class="progress-bar"><div class="progress-fill" style="width:40%;background:var(--blue)"></div></div>
+          </div>
+          <div style="font-size:.78em;color:var(--text-sub);margin-top:4px">Instagram55%が判明。ただしGoogle口コミゼロ・TikTok/X未展開。</div>
+        </div>
+        <div class="card">
+          <div class="card-label">&#9314; 意味 <span style="color:var(--green)">55&#8594;65</span></div>
+          <div class="progress-wrap">
+            <div class="progress-bar"><div class="progress-fill" style="width:65%;background:var(--pink)"></div></div>
+          </div>
+          <div style="font-size:.78em;color:var(--text-sub);margin-top:4px">年商1億円・平均単価35.8万円で品質・価格の妥当性が裏付け。</div>
+        </div>
+        <div class="card">
+          <div class="card-label">&#9315; 反応 <span style="color:var(--green)">50&#8594;55</span></div>
+          <div class="progress-wrap">
+            <div class="progress-bar"><div class="progress-fill" style="width:55%;background:var(--pink)"></div></div>
+          </div>
+          <div style="font-size:.78em;color:var(--text-sub);margin-top:4px">分割55%対応、外国人ニッチでの高信頼。</div>
+        </div>
+        <div class="card">
+          <div class="card-label">&#9316; 共鳴 <span style="color:var(--green)">35&#8594;45</span></div>
+          <div class="progress-wrap">
+            <div class="progress-bar"><div class="progress-fill" style="width:45%;background:var(--pink)"></div></div>
+          </div>
+          <div style="font-size:.78em;color:var(--text-sub);margin-top:4px">リピーター7.5%、紹介5.7%が実データで確認。コミュニティ化は未達。</div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:16px;text-align:center;font-size:.9em">
+      <strong>総合エクイティスコア: </strong>
+      <span style="color:var(--text-sub);text-decoration:line-through">42.5</span>
+      <span style="color:var(--green);font-weight:900;font-size:1.2em"> &#8594; 51.3 </span>
+      <span style="color:var(--green)">(+8.8pt)</span>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 13. Brand Personality ==================== -->
+<div class="section" id="sec-personality" data-accordion>
+  <div class="section-title"><span class="section-icon">&#127912;</span> ブランドパーソナリティ</div>
+  <div class="section-body">
+    <div class="chart-row">
+      <div>
+        <div class="chart-sm" style="height:320px">
+          <canvas id="chartPersonality"></canvas>
+        </div>
+      </div>
+      <div>
+        <div class="card" style="margin-bottom:8px">
+          <div class="card-label" style="color:var(--green)">誠実（Sincerity）: 8/10</div>
+          <div style="font-size:.85em;color:var(--text-sub)">認可ブリーダー100%仕入れ、永年割引、オーナーの温かい人柄が強く反映。ブランドの最大の強み。</div>
+        </div>
+        <div class="card" style="margin-bottom:8px">
+          <div class="card-label">能力（Competence）: 7/10</div>
+          <div style="font-size:.85em;color:var(--text-sub)">年商1億円の実績、Instagram集客55%の運用力。経営能力は想定より高い。</div>
+        </div>
+        <div class="card" style="margin-bottom:8px">
+          <div class="card-label">刺激（Excitement）: 5/10</div>
+          <div style="font-size:.85em;color:var(--text-sub)">Instagramは機能中だが、TikTok/X未展開。子犬のかわいさを活かす余地はまだ大きい。</div>
+        </div>
+        <div class="card" style="margin-bottom:8px">
+          <div class="card-label">頑健（Ruggedness）: 4/10</div>
+          <div style="font-size:.85em;color:var(--text-sub)">沖縄のロードサイド立地・2店舗体制は堅実だが規模は限定的。</div>
+        </div>
+        <div class="card">
+          <div class="card-label" style="color:var(--text-sub)">洗練（Sophistication）: 3/10</div>
+          <div style="font-size:.85em;color:var(--text-sub)">プレミアム感やラグジュアリーな演出は不足。店舗デザイン・ブランディングに改善余地。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 14. Brand Asset Value ==================== -->
+<div class="section" id="sec-brand-value" data-accordion>
+  <div class="section-title"><span class="section-icon">&#128176;</span> ブランド資産価値</div>
+  <div class="section-body">
+    <div class="grid-4">
+      <div class="card">
+        <div class="card-label">ブランドポジション</div>
+        <div style="font-size:.88em;margin-top:6px">北谷エリアの外国人ニッチ支配型子犬専門店。「安心・信頼・バイリンガル」を核とするポジション。</div>
+      </div>
+      <div class="card">
+        <div class="card-label">ブランドプレミアム</div>
+        <div style="font-size:.88em;margin-top:6px">平均単価35.8万円（業界標準以上）。外国人80%の顧客基盤が価格感度を下げ、高単価を実現。</div>
+      </div>
+      <div class="card">
+        <div class="card-label">拡張実績</div>
+        <div style="font-size:.88em;margin-top:6px">
+          <span class="tag tag-green">&#10003; トリミング</span>
+          <span class="tag tag-green">&#10003; ペットホテル</span>
+          <span class="tag tag-blue">&#10003; EC（停滞疑い）</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">拡張余地</div>
+        <div style="font-size:.88em;margin-top:6px;line-height:1.8">
+          &#8226; しつけ教室<br>
+          &#8226; 保護犬譲渡会<br>
+          &#8226; フードサブスク<br>
+          &#8226; 保険代理強化
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 15. Consumer Sentiment ==================== -->
+<div class="section" id="sec-sentiment" data-accordion>
+  <div class="section-title"><span class="section-icon">&#128172;</span> 消費者センチメント</div>
+  <div class="section-body">
+    <div class="two-col" style="margin-bottom:20px">
+      <div>
+        <div style="font-size:.9em;font-weight:700;margin-bottom:8px">レビュー状況</div>
+        <div class="card" style="margin-bottom:8px">
+          <div class="card-label">ホームメイト</div>
+          <div style="font-size:.88em">1件（ポジティブ）&#8212; 「親切で丁寧」</div>
+        </div>
+        <div class="card" style="margin-bottom:8px">
+          <div class="card-label">Google / 食べログ / エキテン</div>
+          <div style="font-size:.88em;color:var(--red)">データ不足 &#8212; 口コミほぼゼロ</div>
+        </div>
+        <div class="card">
+          <div class="card-label" style="color:var(--green)">実データからの示唆</div>
+          <div style="font-size:.88em">リピーター7.5% + 紹介5.7% = 13.2%が既存ネットワーク経由。口コミゼロにもかかわらず、リアルな口コミは機能している。</div>
+        </div>
+      </div>
+      <div>
+        <div class="alert-card" style="height:100%;display:flex;flex-direction:column;justify-content:center">
+          <div class="alert-icon">&#128680;</div>
+          <div class="alert-text">Google口コミ ほぼゼロ</div>
+          <div class="alert-sub">ペット業界では口コミが購買決定要因の上位。リアルでは口コミが機能しているのにオンラインで可視化されていない。口コミ促進オペレーションの導入で大きな改善が見込める。</div>
+        </div>
+      </div>
+    </div>
+    <div style="font-size:.9em;font-weight:700;margin-bottom:8px">業界全体のセンチメント：生体販売に対する消費者意識</div>
+    <div class="chart-container" style="height:240px">
+      <canvas id="chartSentiment"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 16. SWOT ==================== -->
+<div class="section" id="sec-swot" data-accordion>
+  <div class="section-title"><span class="section-icon">&#128200;</span> SWOT分析</div>
+  <div class="section-body">
+    <div class="swot-grid">
+      <div class="swot-card swot-s">
+        <h3>S &#8212; 強み（Strengths）</h3>
+        <ul>
+          <li><strong>推定年商1億円の安定実績</strong></li>
+          <li><strong>Instagram最大集客チャネル（55%）</strong></li>
+          <li><strong>外国人ニッチ80%支配</strong></li>
+          <li>夜間スタッフ常駐ペットホテル</li>
+          <li>バイリンガル対応（日英）</li>
+          <li>認可ブリーダー100%仕入れ</li>
+          <li>オーナーの専門知識・人柄</li>
+          <li>購入者永年割引5&#12316;10%</li>
+          <li>国道58号線沿いの立地</li>
+          <li>平均単価35.8万円（業界標準以上）</li>
+        </ul>
+      </div>
+      <div class="swot-card swot-w">
+        <h3>W &#8212; 弱み（Weaknesses）</h3>
+        <ul>
+          <li>Instagramは機能しているが、<strong>TikTok/X/Google口コミは未展開</strong></li>
+          <li>Google口コミほぼゼロ（MEO機会損失）</li>
+          <li>EC事業の停滞疑い</li>
+          <li>品揃え（大手チェーンに劣位）</li>
+          <li>日本人顧客比率が低い（20%）</li>
+          <li>月による販売頭数のバラつき（15〜39頭）</li>
+        </ul>
+      </div>
+      <div class="swot-card swot-o">
+        <h3>O &#8212; 機会（Opportunities）</h3>
+        <ul>
+          <li>TikTok/Google口コミの新規開設で更なる集客</li>
+          <li>ペット保険市場の急成長</li>
+          <li>ペットのプレミアム化トレンド</li>
+          <li>外国人（米軍）市場の更なる深耕</li>
+          <li>ペット用品EC市場の成長</li>
+          <li>保護犬連携による社会的価値</li>
+        </ul>
+      </div>
+      <div class="swot-card swot-t">
+        <h3>T &#8212; 脅威（Threats）</h3>
+        <ul>
+          <li>生体販売批判（不要論48.9%）</li>
+          <li>大手チェーンの攻勢</li>
+          <li>犬飼育頭数の長期減少</li>
+          <li>ブリーダー直販PFの台頭</li>
+          <li>動物愛護法の規制強化</li>
+          <li>物価上昇による消費抑制</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 17. Risk & Opportunity ==================== -->
+<div class="section" id="sec-risk" data-accordion>
+  <div class="section-title"><span class="section-icon">&#9888;&#65039;</span> リスク・機会タイムライン</div>
+  <div class="section-body">
+    <div class="risk-grid">
+      <div>
+        <div style="font-size:.9em;font-weight:700;margin-bottom:12px;color:var(--red)">&#9888; リスク</div>
+        <div class="timeline">
+          <div class="timeline-item risk">
+            <div class="timeline-label">短期（0&#12316;6ヶ月）</div>
+            <div class="timeline-text">TikTok/X/Google口コミ未展開による集客機会の逸失が継続</div>
+          </div>
+          <div class="timeline-item risk">
+            <div class="timeline-label">短期（0&#12316;6ヶ月）</div>
+            <div class="timeline-text">Coo&RIKU等大手チェーンの北谷エリア攻勢激化</div>
+          </div>
+          <div class="timeline-item risk">
+            <div class="timeline-label">中期（6ヶ月&#12316;2年）</div>
+            <div class="timeline-text">生体販売批判の世論強化（規制リスク）</div>
+          </div>
+          <div class="timeline-item risk">
+            <div class="timeline-label">中期（6ヶ月&#12316;2年）</div>
+            <div class="timeline-text">ブリーダー直販PFの浸透による生体販売の中抜きリスク</div>
+          </div>
+          <div class="timeline-item risk">
+            <div class="timeline-label">長期（2年超）</div>
+            <div class="timeline-text">犬飼育頭数減少トレンドによる市場縮小</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:.9em;font-weight:700;margin-bottom:12px;color:var(--green)">&#128640; 機会</div>
+        <div class="timeline">
+          <div class="timeline-item opp">
+            <div class="timeline-label">短期（0&#12316;6ヶ月）</div>
+            <div class="timeline-text">Instagram強化 + TikTok新規開設で子犬コンテンツのリーチ拡大</div>
+          </div>
+          <div class="timeline-item opp">
+            <div class="timeline-label">短期（0&#12316;6ヶ月）</div>
+            <div class="timeline-text">MEO対策 + Google口コミ促進で日本人顧客比率を向上</div>
+          </div>
+          <div class="timeline-item opp">
+            <div class="timeline-label">中期（6ヶ月&#12316;2年）</div>
+            <div class="timeline-text">米軍関係者向け英語SNS展開で競合不在のブルーオーシャン獲得</div>
+          </div>
+          <div class="timeline-item opp">
+            <div class="timeline-label">中期（6ヶ月&#12316;2年）</div>
+            <div class="timeline-text">保護犬譲渡会の開催でCSR強化・ブランドイメージ向上</div>
+          </div>
+          <div class="timeline-item opp">
+            <div class="timeline-label">長期（2年超）</div>
+            <div class="timeline-text">「認可ブリーダー100%」を軸とした沖縄No.1信頼ブランドの確立</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 18. Strategic Implications ==================== -->
+<div class="section" id="sec-implications" data-accordion>
+  <div class="section-title"><span class="section-icon">&#128161;</span> 戦略的示唆（7提言・更新版）</div>
+  <div class="section-body">
+    <div class="rec-card rec-urgent">
+      <div class="rec-num">&#9312; 最優先・短期</div>
+      <div class="rec-title">Instagram強化 + TikTok / Google口コミ新規開設</div>
+      <div class="rec-body">Instagramは既に55%の集客を担う最大チャネル。これを更に強化しつつ、TikTokを新規開設して子犬動画でのバイラルリーチを狙う。Google ビジネスプロフィールを最適化しMEO対策を実施。来店客に口コミ投稿を促進するオペレーションを構築。</div>
+      <div class="rec-kpi">KPI: 6ヶ月以内に TikTok 3,000フォロワー / Google口コミ 30件 / IG フォロワー2倍</div>
+    </div>
+    <div class="rec-card">
+      <div class="rec-num">&#9313; 戦略的・中長期</div>
+      <div class="rec-title">収益構造の脱・生体販売依存</div>
+      <div class="rec-body">トリミング・ペットホテル・フード/用品のサービス収益比率を段階的に高め、生体販売への依存を50%以下に。サブスクリプション型フード配送やしつけ教室などリカーリング収益を追加。</div>
+      <div class="rec-kpi">KPI: サービス比率 50%目標（現状推定 45%以下）</div>
+    </div>
+    <div class="rec-card">
+      <div class="rec-num">&#9314; 差別化・短〜中期</div>
+      <div class="rec-title">外国人市場の戦略的深耕（80% &#8594; 更なる単価向上）</div>
+      <div class="rec-body">既に80%が外国人。量的拡大よりも単価向上・LTV最大化にフォーカス。英語SNSアカウント強化、基地内フリーペーパー・BX掲示板への広告出稿、PCS（異動）時のペット輸送サポート情報の提供。</div>
+      <div class="rec-kpi">KPI: 平均単価40万円超 / リピーター率10%超</div>
+    </div>
+    <div class="rec-card">
+      <div class="rec-num">&#9315; ブランディング・短期</div>
+      <div class="rec-title">認可ブリーダー100%のストーリー化</div>
+      <div class="rec-body">仕入れ先ブリーダーの紹介動画・写真をSNSで発信し、出自の透明性をブランドの核心的価値として訴求。「ペットショップ＝悪」の世論に対し、PUPPY LUVの倫理的スタンスを明確に差別化。自家繁殖24頭の取り組みもアピール。</div>
+      <div class="rec-kpi">KPI: ブリーダー紹介コンテンツ月2本以上</div>
+    </div>
+    <div class="rec-card">
+      <div class="rec-num">&#9316; 共鳴構築・中期</div>
+      <div class="rec-title">ペットコミュニティのハブ化</div>
+      <div class="rec-body">PUPPY LUV卒業犬の「同窓会」イベント、保護犬譲渡会の共催、#パピーラブファミリー ハッシュタグでのUGC促進。リピーター7.5%+紹介5.7%の既存ネットワークを公式コミュニティに昇格させ、ブランド共鳴を構築。</div>
+      <div class="rec-kpi">KPI: 年4回イベント開催 / UGC月10件 / リピーター率15%</div>
+    </div>
+    <div class="rec-card">
+      <div class="rec-num">&#9317; 短期</div>
+      <div class="rec-title">EC事業の再起動 / 撤退判断</div>
+      <div class="rec-body">puppyluv.jp の現状診断を実施。更新頻度・流入・売上を確認し、テコ入れ（フード/用品サブスク追加）か、BASE/Shopify等プラットフォーム移行か、撤退して店舗集中かを3ヶ月以内に判断。</div>
+      <div class="rec-kpi">KPI: 3ヶ月以内に方針決定</div>
+    </div>
+    <div class="rec-card">
+      <div class="rec-num">&#9318; 基盤・中期</div>
+      <div class="rec-title">販売データの継続的トラッキング体制構築</div>
+      <div class="rec-body">今回判明した25ヶ月分のデータは貴重な経営資産。POS/CRM導入（Square、Airレジ等のクラウド型）で顧客データ・売上データを自動蓄積する体制を構築。月次KPIレポート（販売頭数・売上額・平均単価・顧客属性・チャネル別集客）の定期モニタリングを実施。</div>
+      <div class="rec-kpi">KPI: CRM導入6ヶ月以内 / 月次KPIレポート体制 / 売上額100%トラッキング</div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /.container -->
+
+<!-- TOC Navigation (mobile) -->
+<nav class="toc-nav" id="tocNav">
+  <div class="toc-menu" id="tocMenu">
+    <div class="toc-expand-all">
+      <button onclick="toggleAllSections(true)">すべて展開</button>
+      <button onclick="toggleAllSections(false)">すべて折りたたむ</button>
+    </div>
+    <ul class="toc-list">
+      <li><a href="#sec-profile" onclick="tocJump('sec-profile')"><span class="toc-icon">&#128054;</span><span class="toc-label">ブランドプロファイル</span></a></li>
+      <li><a href="#sec-sales" onclick="tocJump('sec-sales')"><span class="toc-icon">&#128176;</span><span class="toc-label">売上データ</span></a></li>
+      <li><a href="#sec-customer" onclick="tocJump('sec-customer')"><span class="toc-icon">&#128101;</span><span class="toc-label">顧客分析</span></a></li>
+      <li><a href="#sec-breeds" onclick="tocJump('sec-breeds')"><span class="toc-icon">&#128062;</span><span class="toc-label">犬種分析</span></a></li>
+      <li><a href="#sec-market" onclick="tocJump('sec-market')"><span class="toc-icon">&#127970;</span><span class="toc-label">業界・市場概況</span></a></li>
+      <li><a href="#sec-competitor" onclick="tocJump('sec-competitor')"><span class="toc-icon">&#9878;&#65039;</span><span class="toc-label">競合ランドスケープ</span></a></li>
+      <li><a href="#sec-positioning" onclick="tocJump('sec-positioning')"><span class="toc-icon">&#128205;</span><span class="toc-label">ポジショニングマップ</span></a></li>
+      <li><a href="#sec-popod" onclick="tocJump('sec-popod')"><span class="toc-icon">&#128142;</span><span class="toc-label">POP / POD分析</span></a></li>
+      <li><a href="#sec-awareness" onclick="tocJump('sec-awareness')"><span class="toc-icon">&#128227;</span><span class="toc-label">ブランド認知度</span></a></li>
+      <li><a href="#sec-preference" onclick="tocJump('sec-preference')"><span class="toc-icon">&#10084;&#65039;</span><span class="toc-label">プリファレンス</span></a></li>
+      <li><a href="#sec-equity" onclick="tocJump('sec-equity')"><span class="toc-icon">&#127942;</span><span class="toc-label">ブランドエクイティ</span></a></li>
+      <li><a href="#sec-personality" onclick="tocJump('sec-personality')"><span class="toc-icon">&#127912;</span><span class="toc-label">ブランドパーソナリティ</span></a></li>
+      <li><a href="#sec-brand-value" onclick="tocJump('sec-brand-value')"><span class="toc-icon">&#128176;</span><span class="toc-label">ブランド資産価値</span></a></li>
+      <li><a href="#sec-sentiment" onclick="tocJump('sec-sentiment')"><span class="toc-icon">&#128172;</span><span class="toc-label">消費者センチメント</span></a></li>
+      <li><a href="#sec-swot" onclick="tocJump('sec-swot')"><span class="toc-icon">&#128200;</span><span class="toc-label">SWOT分析</span></a></li>
+      <li><a href="#sec-risk" onclick="tocJump('sec-risk')"><span class="toc-icon">&#9888;&#65039;</span><span class="toc-label">リスク・機会</span></a></li>
+      <li><a href="#sec-implications" onclick="tocJump('sec-implications')"><span class="toc-icon">&#128161;</span><span class="toc-label">戦略的示唆</span></a></li>
+    </ul>
+  </div>
+</nav>
+<button class="toc-toggle" id="tocToggle" onclick="toggleToc()">&#9776;</button>
+
+<script>
+// ==================== Chart.js Defaults ====================
+Chart.defaults.color = '#8b949e';
+Chart.defaults.borderColor = '#21262d';
+Chart.defaults.font.family = "'Noto Sans JP', sans-serif";
+
+// ==================== 3. Sales Volume (Bar) ====================
+new Chart(document.getElementById('chartSalesVolume'),{
+  type:'bar',
+  data:{
+    labels:['24/2','24/3','24/4','24/5','24/6','24/7','24/8','24/9','24/10','24/11','24/12','25/1','25/2','25/3','25/4','25/5','25/6','25/7','25/8','25/9','25/10','25/11','25/12','26/1','26/2'],
+    datasets:[{
+      label:'販売頭数',
+      data:[21,22,22,21,22,23,21,18,30,17,32,22,24,19,20,15,26,30,30,22,15,39,35,24,31],
+      backgroundColor:function(ctx){
+        var v = ctx.raw;
+        if(v >= 30) return 'rgba(232,67,147,0.9)';
+        if(v >= 23) return 'rgba(232,67,147,0.6)';
+        return 'rgba(232,67,147,0.35)';
+      },
+      borderColor:'#e84393',
+      borderWidth:1,
+      borderRadius:3
+    }]
+  },
+  options:{
+    responsive:true,
+    maintainAspectRatio:false,
+    plugins:{
+      title:{display:true,text:'月別販売頭数（2024/2〜2026/2）',color:'#e6edf3',font:{size:14,weight:'bold'}},
+      legend:{display:false},
+      tooltip:{callbacks:{label:function(ctx){return ctx.raw+'頭'}}}
+    },
+    scales:{
+      y:{beginAtZero:true,ticks:{callback:function(v){return v+'頭'}},grid:{color:'rgba(48,54,61,0.3)'}},
+      x:{grid:{display:false},ticks:{maxRotation:45,font:{size:10}}}
+    }
+  }
+});
+
+// ==================== 3b. Sales Amount (Bar) ====================
+new Chart(document.getElementById('chartSalesAmount'),{
+  type:'bar',
+  data:{
+    labels:['24/2','24/3','24/4','24/5','24/6','24/7','24/8','24/9','24/10','24/11','25/11'],
+    datasets:[{
+      label:'売上額（万円）',
+      data:[661.4,666.9,703.2,732.5,813.2,881.7,747.6,665.0,902.2,666.6,1641.9],
+      backgroundColor:function(ctx){
+        var v = ctx.raw;
+        if(v >= 1000) return 'rgba(46,160,67,0.9)';
+        if(v >= 800) return 'rgba(46,160,67,0.7)';
+        return 'rgba(46,160,67,0.45)';
+      },
+      borderColor:'#2ea043',
+      borderWidth:1,
+      borderRadius:3
+    }]
+  },
+  options:{
+    responsive:true,
+    maintainAspectRatio:false,
+    plugins:{
+      title:{display:true,text:'月別売上額（金額確認分のみ）',color:'#e6edf3',font:{size:13,weight:'bold'}},
+      legend:{display:false},
+      tooltip:{callbacks:{label:function(ctx){return (ctx.raw).toFixed(1)+'万円'}}}
+    },
+    scales:{
+      y:{beginAtZero:true,ticks:{callback:function(v){return v+'万'}},grid:{color:'rgba(48,54,61,0.3)'}},
+      x:{grid:{display:false},ticks:{font:{size:10}}}
+    }
+  }
+});
+
+// ==================== 3c. Average Price (Line) ====================
+new Chart(document.getElementById('chartAvgPrice'),{
+  type:'line',
+  data:{
+    labels:['24/2','24/3','24/4','24/5','24/6','24/7','24/8','24/9','24/10','24/11','25/11'],
+    datasets:[{
+      label:'平均単価（万円）',
+      data:[31.5,31.8,32.0,34.9,37.0,38.3,35.6,39.1,30.1,39.2,42.1],
+      borderColor:'#58a6ff',
+      backgroundColor:'rgba(88,166,255,0.1)',
+      borderWidth:2,
+      pointBackgroundColor:'#58a6ff',
+      pointRadius:5,
+      tension:0.3,
+      fill:true
+    }]
+  },
+  options:{
+    responsive:true,
+    maintainAspectRatio:false,
+    plugins:{
+      title:{display:true,text:'平均単価の推移',color:'#e6edf3',font:{size:13,weight:'bold'}},
+      legend:{display:false},
+      tooltip:{callbacks:{label:function(ctx){return ctx.raw.toFixed(1)+'万円'}}}
+    },
+    scales:{
+      y:{min:25,max:45,ticks:{callback:function(v){return v+'万'}},grid:{color:'rgba(48,54,61,0.3)'}},
+      x:{grid:{display:false},ticks:{font:{size:10}}}
+    }
+  }
+});
+
+// ==================== 4. Nationality (Donut) ====================
+new Chart(document.getElementById('chartNationality'),{
+  type:'doughnut',
+  data:{
+    labels:['外国人（80%）','日本人（20%）'],
+    datasets:[{
+      data:[80,20],
+      backgroundColor:['#e84393','#58a6ff'],
+      borderColor:'#161b22',
+      borderWidth:3
+    }]
+  },
+  options:{
+    responsive:true,
+    maintainAspectRatio:false,
+    cutout:'60%',
+    plugins:{
+      legend:{position:'bottom',labels:{padding:12,usePointStyle:true,font:{size:12}}}
+    }
+  }
+});
+
+// ==================== 4b. Age Distribution (Bar) ====================
+new Chart(document.getElementById('chartAge'),{
+  type:'bar',
+  data:{
+    labels:['20代以下','30代','40代','50代以上'],
+    datasets:[{
+      label:'割合',
+      data:[56.8,26.4,11.1,5.7],
+      backgroundColor:['#e84393','#58a6ff','#2ea043','#8b949e'],
+      borderColor:['#e84393','#58a6ff','#2ea043','#8b949e'],
+      borderWidth:1,
+      borderRadius:4
+    }]
+  },
+  options:{
+    responsive:true,
+    maintainAspectRatio:false,
+    plugins:{
+      title:{display:true,text:'年齢分布（平均30.7歳）',color:'#e6edf3',font:{size:13,weight:'bold'}},
+      legend:{display:false},
+      tooltip:{callbacks:{label:function(ctx){return ctx.raw+'%'}}}
+    },
+    scales:{
+      y:{beginAtZero:true,max:70,ticks:{callback:function(v){return v+'%'}},grid:{color:'rgba(48,54,61,0.3)'}},
+      x:{grid:{display:false}}
+    }
+  }
+});
+
+// ==================== 4c. Traffic Source (Donut) ====================
+new Chart(document.getElementById('chartSource'),{
+  type:'doughnut',
+  data:{
+    labels:['Instagram (55.4%)','リピーター (7.5%)','その他 (7.5%)','Web/HP (7.0%)','Facebook (6.4%)','紹介 (5.7%)','通りがかり (4.6%)','不明 (5.9%)'],
+    datasets:[{
+      data:[55.4,7.5,7.5,7.0,6.4,5.7,4.6,5.9],
+      backgroundColor:['#e84393','#2ea043','#8b949e','#58a6ff','#3b5998','#f0883e','#a371f7','#484f58'],
+      borderColor:'#161b22',
+      borderWidth:2
+    }]
+  },
+  options:{
+    responsive:true,
+    maintainAspectRatio:false,
+    cutout:'50%',
+    plugins:{
+      legend:{position:'bottom',labels:{padding:8,usePointStyle:true,pointStyleWidth:10,font:{size:10}}}
+    }
+  }
+});
+
+// ==================== 4d. Payment (Donut) ====================
+new Chart(document.getElementById('chartPayment'),{
+  type:'doughnut',
+  data:{
+    labels:['分割払い (55.5%)','一括払い (44.5%)'],
+    datasets:[{
+      data:[55.5,44.5],
+      backgroundColor:['#e84393','#58a6ff'],
+      borderColor:'#161b22',
+      borderWidth:3
+    }]
+  },
+  options:{
+    responsive:true,
+    maintainAspectRatio:false,
+    cutout:'55%',
+    plugins:{
+      legend:{position:'bottom',labels:{padding:12,usePointStyle:true,font:{size:11}}}
+    }
+  }
+});
+
+// ==================== 5. Breed Ranking (Horizontal Bar) ====================
+new Chart(document.getElementById('chartBreeds'),{
+  type:'bar',
+  data:{
+    labels:['ゴールデンレトリバー','M.ダックス','トイプードル','ラブラドール','柴犬','シベリアンハスキー','フレンチブルドッグ','コーギー','M.シュナウザー','ボーダーコリー'],
+    datasets:[{
+      label:'販売頭数',
+      data:[30,30,20,17,17,12,12,9,8,8],
+      backgroundColor:['#e84393','#e84393','#58a6ff','#2ea043','#f0883e','#a371f7','#3fb950','#d2a8ff','#8b949e','#8b949e'],
+      borderWidth:0,
+      borderRadius:4
+    }]
+  },
+  options:{
+    indexAxis:'y',
+    responsive:true,
+    maintainAspectRatio:false,
+    plugins:{
+      title:{display:true,text:'犬種ランキング TOP10',color:'#e6edf3',font:{size:14,weight:'bold'}},
+      legend:{display:false},
+      tooltip:{callbacks:{label:function(ctx){return ctx.raw+'頭'}}}
+    },
+    scales:{
+      x:{beginAtZero:true,ticks:{callback:function(v){return v+'頭'}},grid:{color:'rgba(48,54,61,0.3)'}},
+      y:{grid:{display:false}}
+    }
+  }
+});
+
+// ==================== 6. New Dog Registrations ====================
+new Chart(document.getElementById('chartNewDogs'),{
+  type:'bar',
+  data:{
+    labels:['2020','2021','2022','2023','2024','2025'],
+    datasets:[{
+      label:'犬の新規飼育頭数（万頭）',
+      data:[46.2,39.7,42.6,39.7,44.4,45.1],
+      backgroundColor:['rgba(232,67,147,0.6)','rgba(232,67,147,0.6)','rgba(232,67,147,0.6)','rgba(232,67,147,0.6)','rgba(232,67,147,0.6)','rgba(232,67,147,0.8)'],
+      borderColor:'#e84393',
+      borderWidth:1,
+      borderRadius:4
+    }]
+  },
+  options:{
+    responsive:true,
+    maintainAspectRatio:false,
+    plugins:{
+      title:{display:true,text:'日本の犬 新規飼育頭数推移',color:'#e6edf3',font:{size:14,weight:'bold'}},
+      legend:{display:false}
+    },
+    scales:{
+      y:{beginAtZero:false,min:30,ticks:{callback:function(v){return v+'万頭'}},grid:{color:'rgba(48,54,61,0.3)'}},
+      x:{grid:{display:false}}
+    }
+  }
+});
+
+// ==================== 7. Revenue Mix (Donut) ====================
+new Chart(document.getElementById('chartRevMix'),{
+  type:'doughnut',
+  data:{
+    labels:['生体販売','トリミング','ペットフード/用品','ペットホテル','その他'],
+    datasets:[{
+      data:[45,20,20,10,5],
+      backgroundColor:['#e84393','#58a6ff','#2ea043','#f0883e','#8b949e'],
+      borderColor:'#161b22',
+      borderWidth:2
+    }]
+  },
+  options:{
+    responsive:true,
+    maintainAspectRatio:false,
+    plugins:{
+      legend:{position:'bottom',labels:{padding:12,usePointStyle:true,pointStyleWidth:10,font:{size:11}}}
+    }
+  }
+});
+
+// ==================== 8. Positioning Scatter ====================
+new Chart(document.getElementById('chartPositioning'),{
+  type:'scatter',
+  data:{
+    datasets:[
+      {label:'PUPPY LUV',data:[{x:2,y:9}],backgroundColor:'#e84393',borderColor:'#e84393',pointRadius:14,pointHoverRadius:16},
+      {label:'ペットボックス北谷',data:[{x:6,y:4}],backgroundColor:'#8b949e',borderColor:'#8b949e',pointRadius:9,pointHoverRadius:11},
+      {label:'Coo&RIKU北谷',data:[{x:8,y:3}],backgroundColor:'#8b949e',borderColor:'#8b949e',pointRadius:9,pointHoverRadius:11},
+      {label:'ハピネス',data:[{x:3,y:7}],backgroundColor:'#8b949e',borderColor:'#8b949e',pointRadius:9,pointHoverRadius:11},
+      {label:'イオンペット',data:[{x:9,y:2}],backgroundColor:'#8b949e',borderColor:'#8b949e',pointRadius:9,pointHoverRadius:11},
+      {label:'ブリーダー直販',data:[{x:4,y:6}],backgroundColor:'#8b949e',borderColor:'#8b949e',pointRadius:9,pointHoverRadius:11}
+    ]
+  },
+  options:{
+    responsive:true,
+    maintainAspectRatio:false,
+    plugins:{
+      title:{display:true,text:'ポジショニングマップ',color:'#e6edf3',font:{size:14,weight:'bold'}},
+      legend:{position:'bottom',labels:{padding:10,usePointStyle:true,font:{size:11}}},
+      tooltip:{callbacks:{label:function(ctx){return ctx.dataset.label}}}
+    },
+    scales:{
+      x:{title:{display:true,text:'規模・品揃え →',color:'#8b949e'},min:0,max:10,grid:{color:'rgba(48,54,61,0.3)'}},
+      y:{title:{display:true,text:'顧客関係の深さ →',color:'#8b949e'},min:0,max:10,grid:{color:'rgba(48,54,61,0.3)'}}
+    }
+  }
+});
+
+// ==================== 10. Digital Presence (Horizontal Bar) ====================
+new Chart(document.getElementById('chartDigital'),{
+  type:'bar',
+  data:{
+    labels:['Instagram','TikTok','Google口コミ','Facebook'],
+    datasets:[
+      {label:'PUPPY LUV',data:[215,0,1,2322],backgroundColor:'rgba(232,67,147,0.7)',borderColor:'#e84393',borderWidth:1},
+      {label:'大手チェーン平均（参考）',data:[5000,3000,200,5000],backgroundColor:'rgba(139,148,158,0.3)',borderColor:'#8b949e',borderWidth:1}
+    ]
+  },
+  options:{
+    indexAxis:'y',
+    responsive:true,
+    maintainAspectRatio:false,
+    plugins:{
+      legend:{position:'bottom',labels:{usePointStyle:true,font:{size:11}}},
+      tooltip:{callbacks:{label:function(ctx){return ctx.dataset.label+': '+ctx.raw.toLocaleString()}}}
+    },
+    scales:{
+      x:{type:'logarithmic',min:0.5,ticks:{callback:function(v){if(v===1||v===10||v===100||v===1000||v===10000) return v.toLocaleString();return ''}},grid:{color:'rgba(48,54,61,0.3)'}},
+      y:{grid:{display:false}}
+    }
+  }
+});
+
+// ==================== 11. Preference (Donut) ====================
+new Chart(document.getElementById('chartPreference'),{
+  type:'doughnut',
+  data:{
+    labels:['生体の健康','スタッフ知識','価格','立地','アフターサポート','品揃え','清潔感','ブランド知名度'],
+    datasets:[{
+      data:[25,20,15,12,10,8,5,5],
+      backgroundColor:['#e84393','#58a6ff','#2ea043','#f0883e','#a371f7','#8b949e','#3fb950','#d2a8ff'],
+      borderColor:'#161b22',
+      borderWidth:2
+    }]
+  },
+  options:{
+    responsive:true,
+    maintainAspectRatio:false,
+    plugins:{
+      legend:{position:'bottom',labels:{padding:10,usePointStyle:true,pointStyleWidth:10,font:{size:11}}}
+    }
+  }
+});
+
+// ==================== 13. Brand Personality (Radar) ====================
+new Chart(document.getElementById('chartPersonality'),{
+  type:'radar',
+  data:{
+    labels:['誠実','刺激','能力','洗練','頑健'],
+    datasets:[{
+      label:'PUPPY LUV',
+      data:[8,5,7,3,4],
+      backgroundColor:'rgba(232,67,147,0.15)',
+      borderColor:'#e84393',
+      borderWidth:2,
+      pointBackgroundColor:'#e84393',
+      pointBorderColor:'#e84393',
+      pointRadius:5
+    }]
+  },
+  options:{
+    responsive:true,
+    maintainAspectRatio:false,
+    plugins:{legend:{display:false}},
+    scales:{
+      r:{
+        beginAtZero:true,
+        max:10,
+        ticks:{stepSize:2,color:'#8b949e',backdropColor:'transparent'},
+        grid:{color:'rgba(48,54,61,0.4)'},
+        angleLines:{color:'rgba(48,54,61,0.4)'},
+        pointLabels:{color:'#e6edf3',font:{size:13,weight:'bold'}}
+      }
+    }
+  }
+});
+
+// ==================== 15. Sentiment (Horizontal Bar) ====================
+new Chart(document.getElementById('chartSentiment'),{
+  type:'bar',
+  data:{
+    labels:['ペットショップでの生体販売は不要','禁止すべきと考える'],
+    datasets:[{
+      label:'消費者の割合',
+      data:[48.9,60],
+      backgroundColor:['rgba(248,81,73,0.6)','rgba(248,81,73,0.8)'],
+      borderColor:'#f85149',
+      borderWidth:1,
+      borderRadius:4
+    }]
+  },
+  options:{
+    indexAxis:'y',
+    responsive:true,
+    maintainAspectRatio:false,
+    plugins:{
+      legend:{display:false},
+      tooltip:{callbacks:{label:function(ctx){return ctx.raw+'%'}}}
+    },
+    scales:{
+      x:{max:100,ticks:{callback:function(v){return v+'%'}},grid:{color:'rgba(48,54,61,0.3)'}},
+      y:{grid:{display:false}}
+    }
+  }
+});
+
+// ==================== Accordion ====================
+var touchStartY=0,touchStartX=0,touchStartTime=0;
+function toggleAccordion(sec){
+  if(!sec)return;
+  var isCollapsed=sec.classList.contains('collapsed');
+  if(isCollapsed){
+    sec.classList.remove('collapsed');
+    sec.classList.add('collapsing');
+    var body=sec.querySelector('.section-body');
+    var onEnd=function(){sec.classList.remove('collapsing');body.removeEventListener('transitionend',onEnd)};
+    body.addEventListener('transitionend',onEnd);
+    setTimeout(function(){sec.classList.remove('collapsing')},400);
+  }else{
+    sec.classList.add('collapsing','collapsed');
+    var body2=sec.querySelector('.section-body');
+    var onEnd2=function(){sec.classList.remove('collapsing');body2.removeEventListener('transitionend',onEnd2)};
+    body2.addEventListener('transitionend',onEnd2);
+    setTimeout(function(){sec.classList.remove('collapsing')},400);
+  }
+}
+document.querySelectorAll('[data-accordion] .section-title').forEach(function(title){
+  title.addEventListener('touchstart',function(e){touchStartY=e.touches[0].clientY;touchStartX=e.touches[0].clientX;touchStartTime=Date.now()},{passive:true});
+  title.addEventListener('touchend',function(e){
+    var dy=Math.abs(e.changedTouches[0].clientY-touchStartY);
+    var dx=Math.abs(e.changedTouches[0].clientX-touchStartX);
+    var dt=Date.now()-touchStartTime;
+    if(dy<10&&dx<10&&dt<300){e.preventDefault();toggleAccordion(this.closest('[data-accordion]'))}
+  });
+  title.addEventListener('click',function(e){
+    if(e.sourceCapabilities&&e.sourceCapabilities.firesTouchEvents)return;
+    if(window.matchMedia('(pointer:fine)').matches){toggleAccordion(this.closest('[data-accordion]'))}
+  });
+});
+(function(){
+  if(window.innerWidth<=768){
+    document.querySelectorAll('[data-accordion]').forEach(function(sec){sec.classList.add('collapsed')});
+  }
+})();
+
+// ==================== TOC ====================
+function toggleToc(){
+  var menu=document.getElementById('tocMenu');
+  var btn=document.getElementById('tocToggle');
+  menu.classList.toggle('open');
+  btn.classList.toggle('open');
+  btn.textContent=menu.classList.contains('open')?'\u2715 セクション':'\u2630';
+}
+function tocJump(id){
+  var sec=document.getElementById(id);
+  if(sec){
+    sec.classList.remove('collapsed');
+    toggleToc();
+    setTimeout(function(){sec.scrollIntoView({behavior:'smooth',block:'start'})},100);
+  }
+}
+function toggleAllSections(expand){
+  document.querySelectorAll('[data-accordion]').forEach(function(sec){
+    if(expand)sec.classList.remove('collapsed');
+    else sec.classList.add('collapsed');
+  });
+}
+</script>
+</body>
+</html>

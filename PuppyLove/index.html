@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PUPPY LUV 販売データダッシュボード</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<style>
+:root{--bg:#0d1117;--card:#161b22;--border:#21262d;--text:#e6edf3;--text-sub:#8b949e;--blue:#58a6ff;--green:#2ea043;--red:#f85149;--pink:#e84393;--orange:#ff6b35;--purple:#a371f7}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;padding:0}
+.container{max-width:1200px;margin:0 auto;padding:0 20px 60px}
+
+/* Header */
+.header{background:linear-gradient(135deg,#1a2332 0%,#0d1117 50%,#1a1a2e 100%);border-bottom:1px solid #21262d;padding:40px 20px 30px;text-align:center;position:relative;overflow:hidden}
+.header::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 30% 50%,rgba(232,67,147,0.08) 0%,transparent 60%),radial-gradient(ellipse at 70% 50%,rgba(46,160,67,0.06) 0%,transparent 60%)}
+.header-content{position:relative;z-index:1}
+.header h1{font-size:2.2em;font-weight:900;margin-bottom:4px;color:#e6edf3}
+.header .subtitle{color:#8b949e;font-size:1.1em}
+.header .date{color:#8b949e;font-size:0.85em;margin-top:8px}
+
+/* Section */
+.section{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:28px 24px;margin-top:24px}
+.section-title{font-size:1.3em;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:8px}
+.section-icon{font-size:1.1em}
+
+/* KPI Grid */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.kpi-card{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:20px 16px;text-align:center;position:relative;overflow:hidden}
+.kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.kpi-card.pink::before{background:var(--pink)}
+.kpi-card.blue::before{background:var(--blue)}
+.kpi-card.green::before{background:var(--green)}
+.kpi-card.orange::before{background:var(--orange)}
+.kpi-card.purple::before{background:var(--purple)}
+.kpi-icon{font-size:1.6em;margin-bottom:6px}
+.kpi-value{font-size:1.8em;font-weight:900;line-height:1.2}
+.kpi-label{font-size:0.85em;color:var(--text-sub);margin-top:4px}
+.kpi-sub{font-size:0.75em;color:var(--text-sub);margin-top:2px}
+
+/* Chart containers */
+.chart-wrap{position:relative;height:320px;width:100%}
+.chart-note{font-size:0.8em;color:var(--text-sub);margin-top:10px;text-align:center}
+
+/* Grid layouts */
+.three-col{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+
+/* Highlight card */
+.highlight-card{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:20px;position:relative}
+.highlight-card h3{font-size:1em;font-weight:700;margin-bottom:12px;color:var(--pink)}
+.highlight-card .big-num{font-size:1.6em;font-weight:900;color:var(--text)}
+.highlight-card .detail{font-size:0.85em;color:var(--text-sub);margin-top:4px}
+.highlight-card .note{font-size:0.78em;color:var(--text-sub);margin-top:10px;border-top:1px solid var(--border);padding-top:8px}
+
+/* Insight cards */
+.insight-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.insight-card{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:18px;position:relative}
+.insight-card .insight-icon{font-size:1.4em;margin-bottom:6px}
+.insight-card h4{font-size:0.95em;font-weight:700;margin-bottom:6px;color:var(--pink)}
+.insight-card p{font-size:0.82em;color:var(--text-sub);line-height:1.5}
+
+/* Tables */
+.data-table{width:100%;border-collapse:collapse;font-size:0.85em}
+.data-table th{text-align:left;padding:10px 12px;border-bottom:2px solid var(--border);color:var(--text-sub);font-weight:500;font-size:0.85em}
+.data-table td{padding:10px 12px;border-bottom:1px solid var(--border)}
+.data-table tr:last-child td{border-bottom:none}
+.change-up{color:var(--green);font-weight:700}
+.change-down{color:var(--red);font-weight:700}
+.change-flat{color:var(--text-sub)}
+
+/* Supply cards */
+.supply-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.supply-card{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:16px}
+.supply-card h4{font-size:0.9em;font-weight:700;margin-bottom:6px}
+.supply-card p{font-size:0.8em;color:var(--text-sub);line-height:1.5}
+
+/* Sub section title */
+.sub-title{font-size:1em;font-weight:700;margin:20px 0 12px;color:var(--text)}
+
+/* Responsive */
+@media(max-width:768px){
+  body{padding:0!important}
+  .container{padding:0 12px 40px}
+  .header{padding:28px 16px}
+  .header h1{font-size:1.4rem}
+  .kpi-grid{grid-template-columns:1fr 1fr}
+  .three-col{grid-template-columns:1fr}
+  .two-col{grid-template-columns:1fr}
+  .insight-grid{grid-template-columns:1fr}
+  .supply-grid{grid-template-columns:1fr}
+  .section{padding:20px 16px}
+  .chart-wrap{height:260px}
+  table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+}
+@media(max-width:480px){
+  .kpi-grid{grid-template-columns:1fr 1fr}
+  .kpi-value{font-size:1.4em}
+  .header h1{font-size:1.2rem}
+}
+
+/* Print */
+@media print{
+  :root{--bg:#fff;--card:#fff;--border:#ddd;--text:#111;--text-sub:#555}
+  body{background:#fff;color:#111;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .header{background:#f5f5f5!important;border-bottom:2px solid #ddd}
+  .header::before{display:none}
+  .header h1{color:#111}
+  .header .subtitle,.header .date{color:#555}
+  .section{break-inside:avoid;border:1px solid #ddd;page-break-inside:avoid}
+  .kpi-card,.highlight-card,.insight-card,.supply-card{background:#f9f9f9;border:1px solid #ddd;break-inside:avoid}
+  canvas{max-width:100%!important;height:auto!important}
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-content">
+    <h1>🐾 PUPPY LUV 販売データダッシュボード</h1>
+    <div class="subtitle">直近12ヶ月（2025年4月〜2026年3月）</div>
+    <div class="date">データ更新日: 2026年3月20日</div>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- Section 1: KPI -->
+<div class="section">
+  <div class="section-title"><span class="section-icon">📊</span> KPIサマリー</div>
+  <div class="kpi-grid">
+    <div class="kpi-card pink">
+      <div class="kpi-icon">🐕</div>
+      <div class="kpi-value">312頭</div>
+      <div class="kpi-label">累計販売頭数</div>
+      <div class="kpi-sub">直近12ヶ月</div>
+    </div>
+    <div class="kpi-card blue">
+      <div class="kpi-icon">📊</div>
+      <div class="kpi-value">26.0頭</div>
+      <div class="kpi-label">月平均販売</div>
+      <div class="kpi-sub">&nbsp;</div>
+    </div>
+    <div class="kpi-card green">
+      <div class="kpi-icon">💰</div>
+      <div class="kpi-value">約1.3億円</div>
+      <div class="kpi-label">推定年商</div>
+      <div class="kpi-sub">月平均1,083万円推定※</div>
+    </div>
+    <div class="kpi-card orange">
+      <div class="kpi-icon">💎</div>
+      <div class="kpi-value">¥421,000</div>
+      <div class="kpi-label">平均単価</div>
+      <div class="kpi-sub">≒$2,700</div>
+    </div>
+    <div class="kpi-card purple">
+      <div class="kpi-icon">🌏</div>
+      <div class="kpi-value">82.4%</div>
+      <div class="kpi-label">外国人比率</div>
+      <div class="kpi-sub">257/312人</div>
+    </div>
+    <div class="kpi-card pink">
+      <div class="kpi-icon">📱</div>
+      <div class="kpi-value">48.0%</div>
+      <div class="kpi-label">Instagram集客率</div>
+      <div class="kpi-sub">135/281件</div>
+    </div>
+    <div class="kpi-card blue">
+      <div class="kpi-icon">👤</div>
+      <div class="kpi-value">30.0歳</div>
+      <div class="kpi-label">平均年齢</div>
+      <div class="kpi-sub">20代が58%</div>
+    </div>
+    <div class="kpi-card green">
+      <div class="kpi-icon">🏠</div>
+      <div class="kpi-value">25.6%</div>
+      <div class="kpi-label">自家繁殖比率</div>
+      <div class="kpi-sub">10/39件(判明分)</div>
+    </div>
+  </div>
+</div>
+
+<!-- Section 2: 月別販売頭数推移 -->
+<div class="section">
+  <div class="section-title"><span class="section-icon">📈</span> 月別販売頭数推移</div>
+  <div class="chart-wrap">
+    <canvas id="chartMonthly"></canvas>
+  </div>
+  <div class="chart-note">2025年11月が最高（39頭）、10月が最低（12頭）</div>
+</div>
+
+<!-- Section 3: 月別売上額（参考） -->
+<div class="section">
+  <div class="section-title"><span class="section-icon">💰</span> 月別売上額（参考）</div>
+  <div class="two-col">
+    <div class="highlight-card">
+      <h3>📅 2025年11月実績</h3>
+      <div class="big-num">¥16,418,704</div>
+      <div class="detail">販売頭数: 39頭 ｜ 月商1,642万円</div>
+      <div class="detail">平均単価: ¥420,992</div>
+    </div>
+    <div class="highlight-card">
+      <h3>📊 推定年商</h3>
+      <div class="big-num">約1.3億円</div>
+      <div class="detail">月平均26頭 × ¥421,000 = 推定年商 約1.3億円</div>
+      <div class="note">他の月の金額データは未取得。2025年11月は繁忙月のためこの数値が年間平均を上回っている可能性あり</div>
+    </div>
+  </div>
+</div>
+
+<!-- Section 4: 顧客属性 -->
+<div class="section">
+  <div class="section-title"><span class="section-icon">👥</span> 顧客属性</div>
+  <div class="three-col">
+    <div>
+      <div class="sub-title">日本人 vs 外国人</div>
+      <div class="chart-wrap" style="height:280px">
+        <canvas id="chartNationality"></canvas>
+      </div>
+    </div>
+    <div>
+      <div class="sub-title">年齢分布</div>
+      <div class="chart-wrap" style="height:280px">
+        <canvas id="chartAge"></canvas>
+      </div>
+    </div>
+    <div>
+      <div class="sub-title">月別・国籍推移</div>
+      <div class="chart-wrap" style="height:280px">
+        <canvas id="chartNatMonthly"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Section 5: 来店きっかけ分析 -->
+<div class="section">
+  <div class="section-title"><span class="section-icon">📱</span> 来店きっかけ分析</div>
+  <div class="two-col">
+    <div>
+      <div class="sub-title">チャネル別構成</div>
+      <div class="chart-wrap" style="height:300px">
+        <canvas id="chartChannel"></canvas>
+      </div>
+    </div>
+    <div>
+      <div class="sub-title">前期比較（直近12ヶ月 vs 前12ヶ月）</div>
+      <table class="data-table">
+        <thead>
+          <tr><th>チャネル</th><th>前期(24/02-25/03)</th><th>直近(25/04-26/03)</th><th>変化</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Instagram</td><td>41件（28%）</td><td>135件（48%）</td><td class="change-up">↑ 大幅増</td></tr>
+          <tr><td>Facebook</td><td>3件（2%）</td><td>22件（8%）</td><td class="change-up">↑ 増加</td></tr>
+          <tr><td>紹介</td><td>10件（7%）</td><td>19件（7%）</td><td class="change-flat">→ 横ばい</td></tr>
+          <tr><td>リピーター</td><td>22件（15%）</td><td>14件（5%）</td><td class="change-down">↓ 減少</td></tr>
+          <tr><td>Web/HP</td><td>14件（10%）</td><td>10件（4%）</td><td class="change-down">↓ 減少</td></tr>
+          <tr><td>通りがかり</td><td>11件（8%）</td><td>7件（2%）</td><td class="change-down">↓ 減少</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Section 6: 仕入元分析 -->
+<div class="section">
+  <div class="section-title"><span class="section-icon">🚚</span> 仕入元分析</div>
+  <div class="two-col">
+    <div>
+      <div class="sub-title">仕入元構成（判明分）</div>
+      <div class="chart-wrap" style="height:280px">
+        <canvas id="chartSupply"></canvas>
+      </div>
+    </div>
+    <div>
+      <div class="sub-title">自家繁殖 vs 県外仕入 比較</div>
+      <table class="data-table">
+        <thead>
+          <tr><th>項目</th><th>自家繁殖</th><th>県外仕入</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>比率</td><td>25.6%</td><td>74.4%</td></tr>
+          <tr><td>主要犬種</td><td>M.ダックス</td><td>ゴールデン、ラブ、柴犬等</td></tr>
+          <tr><td>メリット</td><td>高マージン、品質管理、安定供給</td><td>犬種の多様性、希少犬種対応</td></tr>
+          <tr><td>コスト</td><td>繁殖設備・管理費</td><td>仕入費+輸送費（沖縄輸送）</td></tr>
+          <tr><td>リスク</td><td>繁殖規制強化</td><td>輸送中の健康リスク、為替</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="supply-grid" style="margin-top:16px">
+    <div class="supply-card">
+      <h4>🏠 自家繁殖 25.6%</h4>
+      <p>主にM.ダックスを自家繁殖。マージンが高く利益率に貢献。品質管理が直接可能</p>
+    </div>
+    <div class="supply-card">
+      <h4>🚚 県外仕入 74.4%</h4>
+      <p>本土のブリーダーから仕入れ。犬種の幅を確保するために不可欠。輸送コスト（沖縄→本土）が発生</p>
+    </div>
+    <div class="supply-card">
+      <h4>📋 全期間データ参考</h4>
+      <p>全26ヶ月の仕入元判明分でも同様の比率（自家繁殖24件/県外仕入78件 ≒ 24%/76%）</p>
+    </div>
+  </div>
+</div>
+
+<!-- Section 7: 犬種ランキング -->
+<div class="section">
+  <div class="section-title"><span class="section-icon">🐶</span> 犬種ランキング</div>
+  <div class="two-col">
+    <div>
+      <div class="sub-title">直近12ヶ月（判明分）</div>
+      <div class="chart-wrap" style="height:320px">
+        <canvas id="chartBreed12"></canvas>
+      </div>
+      <div class="chart-note">犬種データは一部月のみ記録あり</div>
+    </div>
+    <div>
+      <div class="sub-title">全期間 TOP10（26ヶ月・参考）</div>
+      <div class="chart-wrap" style="height:320px">
+        <canvas id="chartBreedAll"></canvas>
+      </div>
+      <div class="chart-note">全期間ではゴールデンレトリバーとM.ダックスが同率首位（各30頭）</div>
+    </div>
+  </div>
+</div>
+
+<!-- Section 8: 支払方法分析 -->
+<div class="section">
+  <div class="section-title"><span class="section-icon">💳</span> 支払方法分析</div>
+  <div class="two-col">
+    <div>
+      <div class="chart-wrap" style="height:260px">
+        <canvas id="chartPayment"></canvas>
+      </div>
+    </div>
+    <div class="highlight-card" style="display:flex;flex-direction:column;justify-content:center">
+      <h3>💳 支払方法（判明分）</h3>
+      <div class="detail" style="margin-top:8px"><strong style="color:var(--orange)">分割: 26件（63.4%）</strong></div>
+      <div class="detail"><strong style="color:var(--green)">一括: 15件（36.6%）</strong></div>
+      <div class="note">2025年11月のデータが中心。平均単価42万円のため分割比率が全期間（55%）より高い</div>
+    </div>
+  </div>
+</div>
+
+<!-- Section 9: インサイト・サマリー -->
+<div class="section">
+  <div class="section-title"><span class="section-icon">💡</span> インサイト・サマリー</div>
+  <div class="insight-grid">
+    <div class="insight-card">
+      <div class="insight-icon">🌏</div>
+      <h4>外国人ニッチの独占的支配</h4>
+      <p>顧客の82%が外国人（主に在沖米軍）。北谷・嘉手納エリアで唯一のバイリンガル対応ペットショップとして、事実上の独占状態を維持</p>
+    </div>
+    <div class="insight-card">
+      <div class="insight-icon">📱</div>
+      <h4>Instagram集客の爆発的成長</h4>
+      <p>直近12ヶ月でInstagram経由が48%（前期28%→48%で1.7倍に成長）。SNSマーケティングの投資効果が顕著に現れている</p>
+    </div>
+    <div class="insight-card">
+      <div class="insight-icon">🏠</div>
+      <h4>自家繁殖25% / 県外仕入75%</h4>
+      <p>M.ダックスを中心に自家繁殖で高マージンを確保。県外仕入で犬種の多様性を担保するバランス型の仕入戦略</p>
+    </div>
+    <div class="insight-card">
+      <div class="insight-icon">📈</div>
+      <h4>月販26頭・推定年商1.3億円</h4>
+      <p>個人ペットショップとしては堅実な規模。2025年11月は39頭・月商1,642万円と繁忙月のポテンシャルを示す</p>
+    </div>
+    <div class="insight-card">
+      <div class="insight-icon">👤</div>
+      <h4>若年層が圧倒的</h4>
+      <p>平均30.0歳、20代以下が58%。米軍の若い隊員・家族が主要顧客。PCS（転属サイクル）による継続的な新規需要が存在</p>
+    </div>
+    <div class="insight-card">
+      <div class="insight-icon">💳</div>
+      <h4>分割払い63%</h4>
+      <p>単価42万円帯では分割ニーズが高い。分割手数料収入も潜在的な収益源</p>
+    </div>
+  </div>
+</div>
+
+</div><!-- /.container -->
+
+<script>
+// Chart.js defaults
+Chart.defaults.color = '#8b949e';
+Chart.defaults.borderColor = '#21262d';
+Chart.defaults.font.family = "'Noto Sans JP', sans-serif";
+
+// === Chart 1: 月別販売頭数推移 ===
+(function(){
+  var ctx = document.getElementById('chartMonthly').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['4月','5月','6月','7月','8月','9月','10月','11月','12月','1月','2月','3月'],
+      datasets: [
+        {
+          label: '販売頭数',
+          data: [27, 22, 28, 28, 29, 21, 12, 39, 35, 24, 31, 16],
+          backgroundColor: 'rgba(232,67,147,0.8)',
+          borderColor: '#e84393',
+          borderWidth: 1,
+          borderRadius: 4,
+          order: 2
+        },
+        {
+          label: '月平均 (26.0頭)',
+          data: [26,26,26,26,26,26,26,26,26,26,26,26],
+          type: 'line',
+          borderColor: '#58a6ff',
+          borderDash: [6,4],
+          borderWidth: 2,
+          pointRadius: 0,
+          fill: false,
+          order: 1
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { labels: { usePointStyle: true, padding: 16 } }
+      },
+      scales: {
+        y: { beginAtZero: true, grid: { color: 'rgba(33,38,45,0.6)' } },
+        x: { grid: { display: false } }
+      }
+    }
+  });
+})();
+
+// === Chart 2: 日本人 vs 外国人 ドーナツ ===
+(function(){
+  var ctx = document.getElementById('chartNationality').getContext('2d');
+  new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['外国人 (82.4%)','日本人 (17.6%)'],
+      datasets: [{
+        data: [257, 55],
+        backgroundColor: ['#e84393','#58a6ff'],
+        borderColor: '#161b22',
+        borderWidth: 3
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      cutout: '65%',
+      plugins: {
+        legend: { position: 'bottom', labels: { padding: 12, usePointStyle: true } }
+      }
+    },
+    plugins: [{
+      id: 'centerText',
+      afterDraw: function(chart){
+        var w = chart.width, h = chart.height, ctx2 = chart.ctx;
+        ctx2.save();
+        ctx2.font = '900 2em "Noto Sans JP", sans-serif';
+        ctx2.fillStyle = '#e6edf3';
+        ctx2.textAlign = 'center';
+        ctx2.textBaseline = 'middle';
+        ctx2.fillText('82%', w/2, h/2 - 10);
+        ctx2.restore();
+      }
+    }]
+  });
+})();
+
+// === Chart 3: 年齢分布 ===
+(function(){
+  var ctx = document.getElementById('chartAge').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['20代以下','30代','40代','50代以上'],
+      datasets: [{
+        label: '人数',
+        data: [118, 57, 19, 9],
+        backgroundColor: ['#e84393','#a371f7','#58a6ff','#8b949e'],
+        borderRadius: 4
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      indexAxis: 'y',
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: function(c){
+              var total = 203;
+              return c.raw + '人 (' + (c.raw/total*100).toFixed(1) + '%)';
+            }
+          }
+        }
+      },
+      scales: {
+        x: { beginAtZero: true, grid: { color: 'rgba(33,38,45,0.6)' } },
+        y: { grid: { display: false } }
+      }
+    }
+  });
+})();
+
+// === Chart 4: 月別・日本人vs外国人推移 ===
+(function(){
+  var ctx = document.getElementById('chartNatMonthly').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['4月','5月','6月','7月','8月','9月','10月','11月','12月','1月','2月','3月'],
+      datasets: [
+        {
+          label: '日本人',
+          data: [4,3,4,7,6,5,3,7,5,1,8,2],
+          backgroundColor: '#58a6ff',
+          borderRadius: 2
+        },
+        {
+          label: '外国人',
+          data: [23,19,24,21,23,16,9,32,30,23,23,14],
+          backgroundColor: '#e84393',
+          borderRadius: 2
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'bottom', labels: { usePointStyle: true, padding: 10, font: { size: 11 } } }
+      },
+      scales: {
+        x: { stacked: true, grid: { display: false }, ticks: { font: { size: 10 } } },
+        y: { stacked: true, beginAtZero: true, grid: { color: 'rgba(33,38,45,0.6)' } }
+      }
+    }
+  });
+})();
+
+// === Chart 5: チャネル別構成 ドーナツ ===
+(function(){
+  var ctx = document.getElementById('chartChannel').getContext('2d');
+  new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['Instagram (48.0%)','その他 (26.3%)','Facebook (7.8%)','紹介 (6.8%)','リピーター (5.0%)','Web/HP (3.6%)','通りがかり (2.5%)'],
+      datasets: [{
+        data: [135, 74, 22, 19, 14, 10, 7],
+        backgroundColor: ['#e84393','#8b949e','#58a6ff','#a371f7','#2ea043','#ff6b35','#484f58'],
+        borderColor: '#161b22',
+        borderWidth: 3
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      cutout: '55%',
+      plugins: {
+        legend: { position: 'bottom', labels: { padding: 8, usePointStyle: true, font: { size: 11 } } }
+      }
+    }
+  });
+})();
+
+// === Chart 6: 仕入元構成 ドーナツ ===
+(function(){
+  var ctx = document.getElementById('chartSupply').getContext('2d');
+  new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['県外仕入 (74.4%)','自家繁殖 (25.6%)'],
+      datasets: [{
+        data: [29, 10],
+        backgroundColor: ['#ff6b35','#2ea043'],
+        borderColor: '#161b22',
+        borderWidth: 3
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      cutout: '60%',
+      plugins: {
+        legend: { position: 'bottom', labels: { padding: 12, usePointStyle: true } }
+      }
+    }
+  });
+})();
+
+// === Chart 7: 犬種ランキング（直近12ヶ月） ===
+(function(){
+  var ctx = document.getElementById('chartBreed12').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['M.ダックス','チワワ系','ゴールデンR','柴犬','トイプードル','秋田犬','ラブラドール','ワイマラナー','ドーベルマン','ボーダーコリー'],
+      datasets: [{
+        label: '頭数',
+        data: [5,5,4,3,3,2,2,2,2,1],
+        backgroundColor: 'rgba(232,67,147,0.7)',
+        borderColor: '#e84393',
+        borderWidth: 1,
+        borderRadius: 4
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      indexAxis: 'y',
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { beginAtZero: true, grid: { color: 'rgba(33,38,45,0.6)' }, ticks: { stepSize: 1 } },
+        y: { grid: { display: false }, ticks: { font: { size: 11 } } }
+      }
+    }
+  });
+})();
+
+// === Chart 8: 犬種ランキング（全期間） ===
+(function(){
+  var ctx = document.getElementById('chartBreedAll').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['ゴールデンR','M.ダックス','トイプードル','ラブラドール','柴犬','チワワ系','シベリアンH','フレブル','コーギー','M.シュナウザー'],
+      datasets: [{
+        label: '頭数',
+        data: [30,30,20,17,17,12,12,12,9,8],
+        backgroundColor: 'rgba(163,113,247,0.7)',
+        borderColor: '#a371f7',
+        borderWidth: 1,
+        borderRadius: 4
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      indexAxis: 'y',
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { beginAtZero: true, grid: { color: 'rgba(33,38,45,0.6)' } },
+        y: { grid: { display: false }, ticks: { font: { size: 11 } } }
+      }
+    }
+  });
+})();
+
+// === Chart 9: 支払方法 ドーナツ ===
+(function(){
+  var ctx = document.getElementById('chartPayment').getContext('2d');
+  new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['分割 (63.4%)','一括 (36.6%)'],
+      datasets: [{
+        data: [26, 15],
+        backgroundColor: ['#ff6b35','#2ea043'],
+        borderColor: '#161b22',
+        borderWidth: 3
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      cutout: '60%',
+      plugins: {
+        legend: { position: 'bottom', labels: { padding: 12, usePointStyle: true } }
+      }
+    },
+    plugins: [{
+      id: 'payCenter',
+      afterDraw: function(chart){
+        var w = chart.width, h = chart.height, ctx2 = chart.ctx;
+        ctx2.save();
+        ctx2.font = '900 1.5em "Noto Sans JP", sans-serif';
+        ctx2.fillStyle = '#e6edf3';
+        ctx2.textAlign = 'center';
+        ctx2.textBaseline = 'middle';
+        ctx2.fillText('63%', w/2, h/2 - 10);
+        ctx2.font = '500 0.7em "Noto Sans JP", sans-serif';
+        ctx2.fillStyle = '#8b949e';
+        ctx2.fillText('分割', w/2, h/2 + 14);
+        ctx2.restore();
+      }
+    }]
+  });
+})();
+</script>
+
+</body>
+</html>
