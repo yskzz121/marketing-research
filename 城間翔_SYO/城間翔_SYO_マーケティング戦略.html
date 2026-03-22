@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>城間翔（SYO）マーケティング戦略設計書</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0d1117;--bg-card:#161b22;--border:#21262d;--border-light:#30363d;
+  --text:#e6edf3;--text-sub:#8b949e;--text-muted:#6e7681;
+  --blue:#58a6ff;--green:#2ea043;--green-bg:rgba(46,160,67,.12);
+  --red:#f85149;--red-bg:rgba(248,81,73,.12);
+  --orange:#d29922;--orange-bg:rgba(210,153,34,.12);
+  --purple:#bc8cff;--purple-bg:rgba(188,140,255,.12);
+  --pink:#f778ba;--pink-bg:rgba(247,120,186,.12);
+  --accent:#f0883e;--accent-bg:rgba(240,136,62,.12);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;padding:0}
+.container{max-width:1200px;margin:0 auto;padding:20px}
+
+/* Header */
+.header{background:linear-gradient(135deg,#1a2332 0%,#0d1117 50%,#1a1a2e 100%);border-bottom:1px solid #21262d;padding:40px 20px 30px;text-align:center;position:relative;overflow:hidden}
+.header::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 30% 50%,rgba(240,136,62,.1) 0%,transparent 60%),radial-gradient(ellipse at 70% 50%,rgba(247,120,186,.08) 0%,transparent 60%)}
+.header-content{position:relative;z-index:1}
+.header h1{font-size:2.2em;font-weight:900;margin-bottom:4px;background:linear-gradient(135deg,#f0883e,#f778ba);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.header .subtitle{color:var(--text-sub);font-size:1.1em}
+.header .date{color:var(--text-sub);font-size:.85em;margin-top:8px}
+.header-badge{display:inline-block;background:rgba(240,136,62,.15);border:1px solid rgba(240,136,62,.3);border-radius:8px;padding:6px 16px;font-size:14px;color:var(--accent);margin-bottom:12px;letter-spacing:1px}
+
+/* Section */
+.section{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:28px 24px;margin-bottom:20px}
+.section-title{font-size:1.25em;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:10px;position:relative}
+.section-icon{font-size:1.2em}
+.section-tag{display:inline-block;font-size:.7em;padding:2px 10px;border-radius:4px;font-weight:500;margin-left:8px}
+.tag-who{background:rgba(88,166,255,.15);color:var(--blue)}
+.tag-what{background:rgba(46,160,67,.15);color:var(--green)}
+.tag-how{background:rgba(240,136,62,.15);color:var(--accent)}
+.tag-brand{background:rgba(188,140,255,.15);color:var(--purple)}
+.tag-concept{background:rgba(247,120,186,.15);color:var(--pink)}
+
+/* Cards */
+.card{background:rgba(22,27,34,.6);border:1px solid var(--border);border-radius:12px;padding:20px}
+.card-title{font-weight:700;font-size:1em;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.card-label{font-size:.75em;color:var(--text-sub);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+
+/* Grid */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.grid-4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:16px}
+
+/* Persona Card */
+.persona-card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:24px;position:relative;overflow:hidden}
+.persona-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px}
+.persona-card.p1::before{background:linear-gradient(90deg,var(--blue),var(--purple))}
+.persona-card.p2::before{background:linear-gradient(90deg,var(--green),var(--blue))}
+.persona-card.p3::before{background:linear-gradient(90deg,var(--accent),var(--pink))}
+.persona-name{font-size:1.1em;font-weight:700;margin-bottom:4px}
+.persona-age{color:var(--text-sub);font-size:.85em;margin-bottom:12px}
+.persona-detail{font-size:.88em;line-height:1.8}
+.persona-detail dt{color:var(--blue);font-weight:600;margin-top:8px}
+.persona-detail dd{color:var(--text);margin-left:0}
+
+/* Insight Box */
+.insight-box{background:linear-gradient(135deg,rgba(88,166,255,.08),rgba(188,140,255,.08));border:1px solid rgba(88,166,255,.2);border-radius:12px;padding:20px;margin-top:16px}
+.insight-title{font-weight:700;color:var(--blue);margin-bottom:8px;font-size:.95em}
+
+/* Benefit Card */
+.benefit-card{border-radius:12px;padding:20px;border:1px solid var(--border)}
+.benefit-card.func{background:rgba(88,166,255,.06);border-color:rgba(88,166,255,.2)}
+.benefit-card.emo{background:rgba(247,120,186,.06);border-color:rgba(247,120,186,.2)}
+.benefit-card.self{background:rgba(188,140,255,.06);border-color:rgba(188,140,255,.2)}
+.benefit-card.rtb{background:rgba(240,136,62,.06);border-color:rgba(240,136,62,.2)}
+.benefit-label{font-size:.7em;letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:8px}
+.benefit-card.func .benefit-label{color:var(--blue)}
+.benefit-card.emo .benefit-label{color:var(--pink)}
+.benefit-card.self .benefit-label{color:var(--purple)}
+.benefit-card.rtb .benefit-label{color:var(--accent)}
+
+/* How Section */
+.how-phase{border-left:3px solid var(--accent);padding-left:20px;margin-bottom:20px}
+.how-phase-title{font-weight:700;color:var(--accent);margin-bottom:8px}
+.how-item{background:rgba(22,27,34,.6);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:8px}
+.how-item-title{font-weight:600;font-size:.9em;margin-bottom:4px}
+.how-item-desc{font-size:.85em;color:var(--text-sub)}
+
+/* CRM Funnel */
+.funnel-stage{display:flex;align-items:stretch;gap:12px;margin-bottom:12px}
+.funnel-label{min-width:120px;display:flex;align-items:center;justify-content:center;border-radius:8px;font-weight:700;font-size:.85em;text-align:center;padding:12px 8px}
+.funnel-content{flex:1;background:rgba(22,27,34,.6);border:1px solid var(--border);border-radius:8px;padding:14px}
+.f1 .funnel-label{background:rgba(88,166,255,.15);color:var(--blue)}
+.f2 .funnel-label{background:rgba(46,160,67,.15);color:var(--green)}
+.f3 .funnel-label{background:rgba(240,136,62,.15);color:var(--accent)}
+.f4 .funnel-label{background:rgba(247,120,186,.15);color:var(--pink)}
+.f5 .funnel-label{background:rgba(188,140,255,.15);color:var(--purple)}
+
+/* Brand Equity */
+.brand-vision{background:linear-gradient(135deg,rgba(240,136,62,.1),rgba(247,120,186,.1));border:1px solid rgba(240,136,62,.25);border-radius:16px;padding:32px;text-align:center;margin-bottom:20px}
+.brand-vision-text{font-size:1.5em;font-weight:900;background:linear-gradient(135deg,#f0883e,#f778ba);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
+.brand-vision-sub{color:var(--text-sub);font-size:.9em}
+
+.aaker-grid{display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:12px}
+.aaker-card{border-radius:12px;padding:16px;text-align:center;border:1px solid var(--border)}
+.aaker-dim{font-weight:700;font-size:.85em;margin-bottom:6px}
+.aaker-score{font-size:2em;font-weight:900;margin-bottom:4px}
+.aaker-bar{height:6px;border-radius:3px;background:rgba(255,255,255,.1);margin:8px 0;overflow:hidden}
+.aaker-bar-fill{height:100%;border-radius:3px;transition:width .6s ease}
+.aaker-traits{font-size:.78em;color:var(--text-sub);line-height:1.6}
+.a-sincerity{background:rgba(46,160,67,.08)}.a-sincerity .aaker-dim{color:var(--green)}.a-sincerity .aaker-score{color:var(--green)}.a-sincerity .aaker-bar-fill{background:var(--green)}
+.a-excitement{background:rgba(240,136,62,.08)}.a-excitement .aaker-dim{color:var(--accent)}.a-excitement .aaker-score{color:var(--accent)}.a-excitement .aaker-bar-fill{background:var(--accent)}
+.a-competence{background:rgba(88,166,255,.08)}.a-competence .aaker-dim{color:var(--blue)}.a-competence .aaker-score{color:var(--blue)}.a-competence .aaker-bar-fill{background:var(--blue)}
+.a-sophistication{background:rgba(188,140,255,.08)}.a-sophistication .aaker-dim{color:var(--purple)}.a-sophistication .aaker-score{color:var(--purple)}.a-sophistication .aaker-bar-fill{background:var(--purple)}
+.a-ruggedness{background:rgba(210,153,34,.08)}.a-ruggedness .aaker-dim{color:var(--orange)}.a-ruggedness .aaker-score{color:var(--orange)}.a-ruggedness .aaker-bar-fill{background:var(--orange)}
+
+/* Positioning Statement */
+.pos-statement{background:var(--bg);border:1px solid var(--border-light);border-radius:12px;padding:24px;font-size:.95em;line-height:2}
+.pos-highlight{color:var(--accent);font-weight:700}
+
+/* Concept */
+.concept-hero{background:linear-gradient(135deg,rgba(240,136,62,.12),rgba(247,120,186,.08),rgba(188,140,255,.06));border:2px solid rgba(240,136,62,.3);border-radius:20px;padding:40px 32px;text-align:center;margin-bottom:20px}
+.concept-message{font-size:2em;font-weight:900;background:linear-gradient(135deg,#f0883e,#f778ba,#bc8cff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:16px;line-height:1.4}
+.concept-desc{color:var(--text);font-size:.95em;max-width:700px;margin:0 auto;line-height:2}
+
+.tagline-card{background:rgba(22,27,34,.8);border:1px solid var(--border);border-radius:12px;padding:24px;text-align:center}
+.tagline-num{font-size:.7em;color:var(--text-muted);letter-spacing:2px;margin-bottom:8px}
+.tagline-text{font-size:1.4em;font-weight:700;margin-bottom:8px}
+.tagline-context{font-size:.82em;color:var(--text-sub)}
+
+/* Enemy */
+.enemy-card{background:linear-gradient(135deg,rgba(248,81,73,.08),rgba(210,153,34,.06));border:1px solid rgba(248,81,73,.2);border-radius:12px;padding:20px}
+.enemy-title{color:var(--red);font-weight:700;margin-bottom:8px}
+
+/* Lists */
+.strat-list{list-style:none;padding:0}
+.strat-list li{padding:8px 0;border-bottom:1px solid var(--border);font-size:.9em;display:flex;gap:10px}
+.strat-list li:last-child{border-bottom:none}
+.strat-list .bullet{color:var(--accent);font-weight:700;flex-shrink:0}
+
+/* JTBD */
+.jtbd-card{background:rgba(22,27,34,.6);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:10px}
+.jtbd-type{font-size:.7em;letter-spacing:1px;font-weight:700;margin-bottom:4px}
+.jtbd-func .jtbd-type{color:var(--blue)}
+.jtbd-emo .jtbd-type{color:var(--pink)}
+.jtbd-social .jtbd-type{color:var(--purple)}
+.jtbd-text{font-size:.9em}
+
+/* Summary Hero */
+.summary-hero{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:32px;margin-bottom:20px;text-align:center}
+.summary-label{font-size:.8em;color:var(--text-sub);letter-spacing:2px;margin-bottom:8px}
+.summary-value{font-size:2.8em;font-weight:900;color:var(--accent);margin-bottom:4px}
+.summary-sub{color:var(--text-sub);font-size:.9em}
+
+/* Accordion */
+.section[data-accordion]{position:relative}
+.section[data-accordion] .section-title{cursor:pointer;user-select:none;padding-right:36px}
+.section[data-accordion] .section-title::after{content:'▼';position:absolute;right:20px;top:28px;font-size:.7em;color:var(--text-sub);transition:transform .25s}
+.section[data-accordion].collapsed .section-title::after{transform:rotate(-90deg)}
+.section[data-accordion] .section-body{overflow:visible;transition:max-height .35s ease,opacity .25s ease;max-height:5000px;opacity:1}
+.section[data-accordion].collapsing .section-body{overflow:hidden}
+.section[data-accordion].collapsed .section-body{max-height:0;overflow:hidden;opacity:0;margin:0;padding:0}
+
+/* TOC Nav (mobile only) */
+.toc-nav{display:none}
+@media(max-width:768px){
+  .toc-nav{display:block;position:fixed;bottom:0;left:0;right:0;z-index:998;background:#161b22;border-top:1px solid #30363d;box-shadow:0 -2px 12px rgba(0,0,0,.4)}
+  .toc-toggle{position:fixed;bottom:16px;right:16px;z-index:999;width:48px;height:48px;border-radius:50%;background:var(--accent);color:#0d1117;border:none;font-size:1.2rem;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;transition:all .2s}
+  .toc-toggle.open{border-radius:12px 12px 0 0;bottom:0;right:0;left:0;width:100%;height:44px;font-size:.9rem}
+  .toc-menu{max-height:0;overflow:hidden;transition:max-height .3s ease}
+  .toc-menu.open{max-height:60vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
+  .toc-list{list-style:none;padding:8px 0;margin:0}
+  .toc-list li{border-bottom:1px solid #21262d}
+  .toc-list li:last-child{border-bottom:none}
+  .toc-list a{display:flex;align-items:center;gap:10px;padding:12px 20px;color:#e6edf3;text-decoration:none;font-size:.85rem;transition:background .15s}
+  .toc-list a:hover,.toc-list a:active{background:rgba(240,136,62,.1)}
+  .toc-list .toc-icon{font-size:1.1em;flex-shrink:0;width:24px;text-align:center}
+  .toc-list .toc-label{flex:1}
+  .toc-expand-all{display:flex;justify-content:center;gap:12px;padding:10px 16px;border-bottom:1px solid #21262d}
+  .toc-expand-all button{font-family:'Noto Sans JP',sans-serif;font-size:.75rem;padding:4px 14px;border-radius:6px;border:1px solid #30363d;background:transparent;color:#8b949e;cursor:pointer}
+  .toc-expand-all button:active{background:var(--accent);color:#0d1117}
+  body{padding-bottom:60px!important}
+}
+
+/* Mobile Responsive */
+@media(max-width:768px){
+  body{padding:12px!important}
+  .container{padding:12px}
+  .header{padding:28px 16px}
+  .header h1{font-size:1.4rem}
+  .header .subtitle{font-size:.95em}
+  .grid-2,.grid-3,.grid-4{grid-template-columns:1fr}
+  .aaker-grid{grid-template-columns:1fr 1fr}
+  .section{padding:20px 16px}
+  .concept-message{font-size:1.3em}
+  .concept-hero{padding:24px 16px}
+  .funnel-stage{flex-direction:column}
+  .funnel-label{min-width:auto}
+  .summary-value{font-size:2em}
+  table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+}
+@media(max-width:480px){
+  .grid-2,.grid-3,.grid-4,.aaker-grid{grid-template-columns:1fr!important}
+  .header h1{font-size:1.2rem}
+  .tagline-text{font-size:1.1em}
+}
+
+/* Print */
+@media print{
+  body{background:#fff!important;color:#1a1a1a!important}
+  .header{background:#f5f5f5!important;color:#1a1a1a!important}
+  .header::before{display:none}
+  .header h1{-webkit-text-fill-color:#1a1a1a;color:#1a1a1a!important}
+  .section{break-inside:avoid;border:1px solid #ddd!important;background:#fff!important}
+  .card,.persona-card,.benefit-card,.how-item,.jtbd-card,.tagline-card,.enemy-card,.insight-box,.funnel-content,.funnel-label,.concept-hero,.brand-vision,.pos-statement{background:#f9f9f9!important;color:#1a1a1a!important;border-color:#ddd!important}
+  .toc-nav,.toc-toggle{display:none!important}
+  .section[data-accordion].collapsed .section-body{max-height:none!important;overflow:visible!important;opacity:1!important}
+  a{color:#1a1a1a!important}
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-content">
+    <div class="header-badge">TikTok LIVE | パーソナルブランド戦略</div>
+    <h1>城間翔（SYO）マーケティング戦略設計書</h1>
+    <div class="subtitle">Who / What / How フレームワーク + ブランドエクイティ設計</div>
+    <div class="date">設計日: 2026年3月22日 ｜ @syo11212 TikTok 2.9万フォロワー</div>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ==================== -->
+<!-- Summary Hero -->
+<!-- ==================== -->
+<div class="summary-hero">
+  <div class="summary-label">STRATEGIC POSITIONING</div>
+  <div class="summary-value" style="font-size:1.6em;background:linear-gradient(135deg,#f0883e,#f778ba);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">"お母さん世代の、いちばん素直な居場所"</div>
+  <div class="summary-sub">癒し × 旅 × LIVE × ミドル世代女性 ── ブルーオーシャン戦略</div>
+</div>
+
+<!-- ==================== -->
+<!-- 1. WHO -->
+<!-- ==================== -->
+<div class="section" id="sec-who" data-accordion>
+  <div class="section-title"><span class="section-icon">🎯</span> 1. Who｜誰に届けるか <span class="section-tag tag-who">WHO</span></div>
+  <div class="section-body">
+
+    <h3 style="font-size:1em;font-weight:700;margin-bottom:16px;color:var(--blue)">プライマリーターゲット｜詳細ペルソナ 3パターン</h3>
+    <div class="grid-3">
+
+      <!-- Persona 1 -->
+      <div class="persona-card p1">
+        <div class="persona-name">ペルソナ A:「見守り系おかん」恵子さん</div>
+        <div class="persona-age">47歳 / 熊本在住 / パート勤務（スーパー）/ 既婚・子2人（高校生＋中学生）</div>
+        <div class="persona-detail">
+          <dt>日常</dt>
+          <dd>朝5:30起き、弁当→パート→夕飯→片付け。自分の時間は21時以降のスマホだけ。夫との会話は事務連絡のみ。</dd>
+          <dt>TikTok利用</dt>
+          <dd>2024年から。最初はレシピ動画目的。LIVE配信を「ながら視聴」するようになり、推しライバーに投げ銭するのが唯一の趣味に。</dd>
+          <dt>SYOとの接点</dt>
+          <dd>旅配信のサムネで目に留まり、声のトーンと笑顔に「うちの息子と同じくらいの歳だ」と親近感。毎朝の癒し配信が日課化。</dd>
+          <dt>課題</dt>
+          <dd>「自分のために何かする」ことへの罪悪感。誰かを応援することで間接的に自分の人生に彩りを足している。</dd>
+        </div>
+      </div>
+
+      <!-- Persona 2 -->
+      <div class="persona-card p2">
+        <div class="persona-name">ペルソナ B:「自立リスタート」美和さん</div>
+        <div class="persona-age">52歳 / 東京在住 / 事務職正社員 / 離婚歴あり・子1人（社会人）</div>
+        <div class="persona-detail">
+          <dt>日常</dt>
+          <dd>子供が独立し一人暮らし。仕事は安定しているが、ふとした瞬間に孤独感。友人とは月1ランチ程度。</dd>
+          <dt>TikTok利用</dt>
+          <dd>2025年から。YouTubeのショート動画経由で流入。夜のLIVE配信でコメントを読んでもらえた体験がきっかけでハマる。</dd>
+          <dt>SYOとの接点</dt>
+          <dd>「全部リセットして世界一周」という生き方に自分の離婚後の再出発を重ねた。弟との旅に「家族の温かさ」を感じて泣いた。</dd>
+          <dt>課題</dt>
+          <dd>人生後半の生きがい探し。「もう一度ときめきたい」が恋愛ではなく、「応援する対象」「見守る幸せ」で満たしたい。</dd>
+        </div>
+      </div>
+
+      <!-- Persona 3 -->
+      <div class="persona-card p3">
+        <div class="persona-name">ペルソナ C:「癒し渇望」節子さん</div>
+        <div class="persona-age">38歳 / 大阪在住 / 介護職 / 既婚・子1人（幼稚園）</div>
+        <div class="persona-detail">
+          <dt>日常</dt>
+          <dd>介護施設で肉体労働。帰宅後は育児。寝かしつけ後の23時〜が唯一の自由時間。心身ともに疲弊気味。</dd>
+          <dt>TikTok利用</dt>
+          <dd>2023年から。ストレス発散で雑学・おもしろ動画を見ていたが、LIVE配信で「自分の名前を呼んでもらえる」体験にハマる。</dd>
+          <dt>SYOとの接点</dt>
+          <dd>夜の感謝配信でコメントを丁寧に拾ってもらえた。「いつもお疲れさまです」の一言で涙。以来、毎晩の配信が心の支え。</dd>
+          <dt>課題</dt>
+          <dd>日常に「自分を大切にしてくれる人」がいない感覚。ケアする側が「ケアされる側」になれる場所を渇望している。</dd>
+        </div>
+      </div>
+    </div>
+
+    <!-- Secondary Target -->
+    <div class="card" style="margin-top:20px">
+      <div class="card-title">🔹 セカンダリーターゲット</div>
+      <div class="grid-2" style="margin-top:12px">
+        <div>
+          <div style="font-weight:600;color:var(--purple);margin-bottom:4px">60代女性（孫世代応援層）</div>
+          <div style="font-size:.88em;color:var(--text-sub)">子育て完了後の「応援対象ロス」を抱える層。SYOの素直さに孫世代への愛情を投影。TikTok利用率は低いが、LINE経由で流入する可能性大。一人あたりの投げ銭額が高い傾向（可処分所得＋時間余裕）。</div>
+        </div>
+        <div>
+          <div style="font-weight:600;color:var(--green);margin-bottom:4px">25〜34歳男性（再起共感層）</div>
+          <div style="font-size:.88em;color:var(--text-sub)">ホスト→経営者→世界一周というキャリアに「自分も人生変えたい」と共感する層。バトル配信でのチーム感・団結力で巻き込む。投げ銭額は少額だがSNS拡散力が高く、認知拡大に貢献。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Insight -->
+    <div class="insight-box">
+      <div class="insight-title">ターゲットインサイト（深層心理）</div>
+      <div class="grid-2" style="gap:16px">
+        <div>
+          <div style="font-weight:600;margin-bottom:6px">インサイト 1:「ケアの非対称性」への渇き</div>
+          <div style="font-size:.88em;color:var(--text-sub)">35〜50代女性は家庭でも職場でも「ケアする側」。本人すら自覚していないが、「誰かに心配されたい」「名前を呼ばれたい」「存在を認知されたい」という根源的欲求がある。SYOの配信は「私がケアしている」と思わせながら、実は「ケアされている」体験を提供している。</div>
+        </div>
+        <div>
+          <div style="font-weight:600;margin-bottom:6px">インサイト 2:「正しくない応援」の解放感</div>
+          <div style="font-size:.88em;color:var(--text-sub)">子供の受験、夫のキャリア — 日常の「応援」には結果責任が伴う。一方、ライバーへの応援は「結果を求めない純粋な好意」を出せる唯一の場。投げ銭は「見返りのない贈与」であり、それ自体が自己肯定感の源泉になっている。</div>
+        </div>
+        <div>
+          <div style="font-weight:600;margin-bottom:6px">インサイト 3:「完璧じゃない人」への安心</div>
+          <div style="font-size:.88em;color:var(--text-sub)">SNS上の「キラキラした完璧な人」に疲弊している。SYOの「ちょっと抜けてる」「素直に失敗を話す」姿に、自分の不完全さを許される感覚を得ている。これは「推し」ではなく「家族」に近い心理的距離感。</div>
+        </div>
+        <div>
+          <div style="font-weight:600;margin-bottom:6px">インサイト 4:「見てないと心配」= 擬似親子関係</div>
+          <div style="font-size:.88em;color:var(--text-sub)">「見てないと心配になる」という感情フックは、恋愛感情ではなく母性本能の発露。SYOは無意識に「可愛がられる息子」ポジションを確立しており、これは他のイケメンライバーには模倣できないモート（参入障壁）。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- JTBD -->
+    <div style="margin-top:20px">
+      <h3 style="font-size:1em;font-weight:700;margin-bottom:12px;color:var(--blue)">ターゲットの JTBD（Jobs To Be Done）</h3>
+      <div class="grid-3">
+        <div class="jtbd-card jtbd-func">
+          <div class="jtbd-type">FUNCTIONAL JOB</div>
+          <div class="jtbd-text">
+            <ul class="strat-list">
+              <li><span class="bullet">1</span>一日の始まりと終わりに、心地よいルーティンが欲しい</li>
+              <li><span class="bullet">2</span>スマホひとつで手軽にアクセスできる「居場所」が欲しい</li>
+              <li><span class="bullet">3</span>海外旅行に行けない分、疑似旅行体験を得たい</li>
+            </ul>
+          </div>
+        </div>
+        <div class="jtbd-card jtbd-emo">
+          <div class="jtbd-type">EMOTIONAL JOB</div>
+          <div class="jtbd-text">
+            <ul class="strat-list">
+              <li><span class="bullet">1</span>誰かを無条件に応援して、自分の存在意義を感じたい</li>
+              <li><span class="bullet">2</span>「見守る幸せ」で日常のストレスを忘れたい</li>
+              <li><span class="bullet">3</span>自分の名前を呼ばれ、認知されることで孤独を癒したい</li>
+            </ul>
+          </div>
+        </div>
+        <div class="jtbd-card jtbd-social">
+          <div class="jtbd-type">SOCIAL JOB</div>
+          <div class="jtbd-text">
+            <ul class="strat-list">
+              <li><span class="bullet">1</span>同じ推しを持つ仲間とのつながりが欲しい（コミュニティ帰属）</li>
+              <li><span class="bullet">2</span>「私が育てた」と言える成長ストーリーに参加したい</li>
+              <li><span class="bullet">3</span>「いい趣味を持っている自分」を家族や友人に見せたい</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ==================== -->
+<!-- 2. WHAT -->
+<!-- ==================== -->
+<div class="section" id="sec-what" data-accordion>
+  <div class="section-title"><span class="section-icon">💎</span> 2. What｜何を届けるか <span class="section-tag tag-what">WHAT</span></div>
+  <div class="section-body">
+
+    <div class="grid-2">
+      <!-- Functional Benefit -->
+      <div class="benefit-card func">
+        <div class="benefit-label">Functional Benefit（機能的価値）</div>
+        <ul class="strat-list">
+          <li><span class="bullet">&#9654;</span><strong>朝の癒しルーティン:</strong> 毎朝決まった時間の配信で、一日の「心の準備運動」を提供。目覚ましの次に開くアプリになる。</li>
+          <li><span class="bullet">&#9654;</span><strong>疑似旅行体験:</strong> 世界各地からのリアルタイム配信で、視聴者はスマホ越しに「一緒に旅をしている」感覚を得る。旅先の文化・食・風景のライブ解説。</li>
+          <li><span class="bullet">&#9654;</span><strong>双方向コミュニケーション:</strong> LIVE配信でコメントを拾い、名前を呼ぶ。一方通行のTV・YouTubeとは異なる「参加型エンターテインメント」。</li>
+          <li><span class="bullet">&#9654;</span><strong>夜の振り返り時間:</strong> 感謝配信で一日の締めくくり。「お疲れさま」を言ってもらえる場所。</li>
+        </ul>
+      </div>
+
+      <!-- Emotional Benefit -->
+      <div class="benefit-card emo">
+        <div class="benefit-label">Emotional Benefit（情緒的価値）</div>
+        <ul class="strat-list">
+          <li><span class="bullet">&#9654;</span><strong>「見守る幸せ」:</strong> SYOの成長・挑戦を見守ることで、自分の人生にも希望と彩りを感じる。子供を見守る母親の幸福感に近い。</li>
+          <li><span class="bullet">&#9654;</span><strong>「素直な安心感」:</strong> 飾らない・盛らない・攻撃しない。SNS疲れした心に、温かい毛布のような安堵を提供。</li>
+          <li><span class="bullet">&#9654;</span><strong>「居場所がある」実感:</strong> 配信に行けば名前を覚えてくれている人がいる。コメント欄で常連同士が挨拶する。孤独の対極にある「帰属感」。</li>
+          <li><span class="bullet">&#9654;</span><strong>「応援」という自己肯定:</strong> 投げ銭・コメント・バトル参加を通じて「自分が誰かの力になっている」と実感できる。</li>
+        </ul>
+      </div>
+
+      <!-- Self-Expressive Benefit -->
+      <div class="benefit-card self">
+        <div class="benefit-label">Self-Expressive Benefit（自己表現価値）</div>
+        <ul class="strat-list">
+          <li><span class="bullet">&#9654;</span><strong>「新しいことに開かれた自分」:</strong> TikTok LIVEという新プラットフォームを使いこなし、世界の旅を疑似体験する自分は「守りに入っていない」。</li>
+          <li><span class="bullet">&#9654;</span><strong>「人を見る目がある自分」:</strong> まだ有名になる前から応援していた。初期ファンとしての誇りと審美眼。</li>
+          <li><span class="bullet">&#9654;</span><strong>「優しさを持った自分」:</strong> 攻撃的なコンテンツではなく、癒し系を選ぶ自分のセンスと人間性の表現。</li>
+          <li><span class="bullet">&#9654;</span><strong>「挑戦を応援できる自分」:</strong> SYOの生き方に共鳴することで、自分自身も「変化を恐れない人間だ」というアイデンティティを補強。</li>
+        </ul>
+      </div>
+
+      <!-- RTB -->
+      <div class="benefit-card rtb">
+        <div class="benefit-label">RTB — なぜ城間翔なのか</div>
+        <ul class="strat-list">
+          <li><span class="bullet">&#9654;</span><strong>圧倒的な原体験:</strong> 元ホスト年間1億→ジム14店舗→全リセット世界一周。「言葉だけの挑戦」ではなく実行で証明済み。</li>
+          <li><span class="bullet">&#9654;</span><strong>「可愛がられる」の天然モート:</strong> ホスト時代に磨かれた対人スキル × 沖縄育ちの天然の温かさ × 「完璧じゃないスキ」。この三位一体は意図的に作れるものではない。</li>
+          <li><span class="bullet">&#9654;</span><strong>弟との世界一周ストーリー:</strong> 「兄弟の旅」は家族の絆を象徴するコンテンツ。ターゲット層の家族への感情に直接響く。</li>
+          <li><span class="bullet">&#9654;</span><strong>配信設計の秀逸さ:</strong> 朝＝癒し/夜＝感謝/バトル＝団結という3本柱は、ターゲットの1日のリズムに完璧にフィットしている。</li>
+          <li><span class="bullet">&#9654;</span><strong>「挑戦 × 癒し × 感謝」のバランス:</strong> 挑戦だけなら「すごい人」。癒しだけなら「優しい人」。感謝があることで「人として信頼できる人」になる。この三角形の均衡が唯一無二。</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ==================== -->
+<!-- 3. HOW -->
+<!-- ==================== -->
+<div class="section" id="sec-how" data-accordion>
+  <div class="section-title"><span class="section-icon">🚀</span> 3. How｜どう届けるか <span class="section-tag tag-how">HOW</span></div>
+  <div class="section-body">
+
+    <!-- Communication Strategy -->
+    <div class="card" style="margin-bottom:20px">
+      <div class="card-title">📡 コミュニケーション戦略の大方針</div>
+      <div style="font-size:.95em;line-height:1.9;margin-top:8px">
+        <p><strong>基本姿勢:「引き寄せる」のではなく「居つづける」</strong></p>
+        <p style="color:var(--text-sub);margin-top:8px">
+          城間翔のコミュニケーションは「バズって一気に伸ばす」型ではなく、<strong style="color:var(--accent)">「毎日同じ場所にいて、来た人を温かく迎える」型</strong>で設計する。
+          これはターゲット層（35〜50代女性）の心理と完全に合致する。彼女たちは「突然の刺激」ではなく「安定した日常の中の小さな光」を求めている。
+        </p>
+        <div style="margin-top:12px;padding:12px 16px;background:rgba(240,136,62,.08);border-radius:8px;border-left:3px solid var(--accent)">
+          <strong style="color:var(--accent)">3原則:</strong><br>
+          1. <strong>毎日の接点</strong> — 配信の頻度と時間を守り、「生活の一部」になる<br>
+          2. <strong>双方向の温度</strong> — 一方通行のコンテンツではなく、名前を呼び、コメントを拾い、「あなたがいてくれて嬉しい」を伝える<br>
+          3. <strong>成長の共有</strong> — 完成された姿ではなく、プロセス（失敗も含む）をオープンに見せる
+        </div>
+      </div>
+    </div>
+
+    <!-- Channel Strategy -->
+    <h3 style="font-size:1em;font-weight:700;margin-bottom:12px;color:var(--accent)">チャネル戦略</h3>
+    <div class="grid-2" style="margin-bottom:20px">
+      <div class="how-item">
+        <div class="how-item-title">🔴 TikTok LIVE（メインチャネル・収益の柱）</div>
+        <div class="how-item-desc">
+          <strong>役割:</strong> ファンとの直接接点 + 収益エンジン<br>
+          <strong>配信頻度:</strong> 毎日2〜3枠（朝・夜・バトル）<br>
+          <strong>KPI:</strong> 同時視聴者数、配信時間、投げ銭額、新規フォロー転換率<br>
+          <strong>戦略:</strong> 配信時間の固定化で「生活リズムへの組み込み」を促進。常連のコメントは必ず拾い、新規リスナーには歓迎コメントで心理的ハードルを下げる。
+        </div>
+      </div>
+      <div class="how-item">
+        <div class="how-item-title">🎬 TikTok 短尺動画（認知拡大エンジン）</div>
+        <div class="how-item-desc">
+          <strong>役割:</strong> 新規ファン獲得の入り口<br>
+          <strong>投稿頻度:</strong> 毎日1〜2本<br>
+          <strong>KPI:</strong> 再生数、プロフィール遷移率、フォロー転換率<br>
+          <strong>戦略:</strong> LIVE切り抜き（感動・面白・旅ハイライト）+ 旅Vlog短尺 + 弟との掛け合い。「LIVE見たくなる」導線を最優先。<br>
+          <strong>NG:</strong> 過度な編集・テロップ芸・煽りサムネ。「素のSYO」が伝わる自然体を維持。
+        </div>
+      </div>
+      <div class="how-item">
+        <div class="how-item-title">📸 Instagram（世界観の深化・アーカイブ）</div>
+        <div class="how-item-desc">
+          <strong>役割:</strong> ブランドイメージの確立 + 旅の記録アーカイブ<br>
+          <strong>投稿頻度:</strong> フィード週3回 / ストーリーズ毎日<br>
+          <strong>KPI:</strong> 保存数、プロフィール訪問数、ストーリーズ完走率<br>
+          <strong>戦略:</strong> フィードは写真品質を上げ「旅×城間翔」のビジュアルブランディング。ストーリーズは日常の裏側・感情の吐露で距離感を縮める。リール＝TikTokからのクロスポスト。
+        </div>
+      </div>
+      <div class="how-item">
+        <div class="how-item-title">💬 LINE公式（コアファン向けCRM）</div>
+        <div class="how-item-desc">
+          <strong>役割:</strong> プッシュ通知でLIVE告知 + 限定コンテンツ配信<br>
+          <strong>配信頻度:</strong> 週3〜4回（配信告知 + 週1限定メッセージ）<br>
+          <strong>KPI:</strong> 友だち数、開封率、リンクCTR、ブロック率<br>
+          <strong>戦略:</strong> TikTokの通知に依存しない「確実なリーチ手段」。60代ターゲットへの最重要チャネル。配信開始5分前のリマインド + 旅先からの限定写真で特別感を演出。
+        </div>
+      </div>
+      <div class="how-item">
+        <div class="how-item-title">⭐ bitfan ファンクラブ（ロイヤルファン基盤）</div>
+        <div class="how-item-desc">
+          <strong>役割:</strong> 月額収益の安定化 + コアファンのロイヤルティ最大化<br>
+          <strong>コンテンツ:</strong> 限定LIVE（月2回）/ 旅日記（テキスト+写真）/ 限定動画 / 誕生日メッセージ<br>
+          <strong>KPI:</strong> 有料会員数、継続率、ARPU<br>
+          <strong>戦略:</strong> TikTok LIVEでは見せない「プライベートな翔」を提供。ファンクラブ限定の質問コーナーや旅の裏話で、擬似的な「家族の輪」を形成。
+        </div>
+      </div>
+      <div class="how-item">
+        <div class="how-item-title">🌐 HP / ブログ（ブランドの砦）</div>
+        <div class="how-item-desc">
+          <strong>役割:</strong> 新規ファンの情報集約地 + SEO + メディア露出時のランディング先<br>
+          <strong>コンテンツ:</strong> プロフィール / 世界一周マップ / 旅ブログ / メディア掲載一覧 / 各SNSリンク<br>
+          <strong>更新頻度:</strong> 週1（旅ブログ）<br>
+          <strong>戦略:</strong> Google検索「城間翔」「SYO TikTok」で確実に到達する公式ハブ。プラットフォームリスク（TikTok規制等）への保険。
+        </div>
+      </div>
+    </div>
+
+    <!-- Content Strategy -->
+    <h3 style="font-size:1em;font-weight:700;margin-bottom:12px;color:var(--accent)">コンテンツ戦略｜配信テーマ・頻度・時間帯</h3>
+    <div style="overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;font-size:.88em;margin-bottom:20px">
+        <thead>
+          <tr style="border-bottom:2px solid var(--border-light)">
+            <th style="padding:10px;text-align:left;color:var(--accent)">配信枠</th>
+            <th style="padding:10px;text-align:left;color:var(--text-sub)">時間帯</th>
+            <th style="padding:10px;text-align:left;color:var(--text-sub)">テーマ</th>
+            <th style="padding:10px;text-align:left;color:var(--text-sub)">目的</th>
+            <th style="padding:10px;text-align:left;color:var(--text-sub)">ターゲット心理</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--border)">
+            <td style="padding:10px;font-weight:600">🌅 朝の癒し配信</td>
+            <td style="padding:10px">7:00〜8:30</td>
+            <td style="padding:10px">おはよう挨拶 / 旅先の朝の風景 / 今日の予定共有 / ゆるトーク</td>
+            <td style="padding:10px">一日の始まりのルーティン化</td>
+            <td style="padding:10px">「朝、翔くんの声で始まると安心する」</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border)">
+            <td style="padding:10px;font-weight:600">🌍 旅ライブ（不定期）</td>
+            <td style="padding:10px">11:00〜15:00</td>
+            <td style="padding:10px">観光地散策 / 現地グルメ / 弟との冒険 / ハプニング</td>
+            <td style="padding:10px">疑似旅行体験 + エンタメ</td>
+            <td style="padding:10px">「一緒に旅してる気分になれる」</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border)">
+            <td style="padding:10px;font-weight:600">🌙 夜の感謝配信</td>
+            <td style="padding:10px">21:30〜23:00</td>
+            <td style="padding:10px">一日の振り返り / 感謝メッセージ / リスナーとの対話 / 明日の予告</td>
+            <td style="padding:10px">一日の締めくくり + 帰属感</td>
+            <td style="padding:10px">「おやすみ、と言ってくれる人がいる」</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border)">
+            <td style="padding:10px;font-weight:600">⚔️ バトル配信</td>
+            <td style="padding:10px">週3〜4回（夜帯）</td>
+            <td style="padding:10px">PK / ランキング戦 / イベント参戦</td>
+            <td style="padding:10px">団結感 + 収益最大化</td>
+            <td style="padding:10px">「みんなで力を合わせて勝った！」</td>
+          </tr>
+          <tr>
+            <td style="padding:10px;font-weight:600">🎉 特別配信（月1〜2回）</td>
+            <td style="padding:10px">不定期</td>
+            <td style="padding:10px">記念日 / 新しい国到着 / 弟合流 / ファン感謝祭</td>
+            <td style="padding:10px">イベント性 + 離脱防止</td>
+            <td style="padding:10px">「特別な瞬間に立ち会えた」</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- CRM Strategy -->
+    <h3 style="font-size:1em;font-weight:700;margin-bottom:12px;color:var(--accent)">CRM戦略｜ファンの段階別コミュニケーション</h3>
+
+    <div class="funnel-stage f1">
+      <div class="funnel-label">L1<br>認知<br><span style="font-size:.7em;font-weight:400">Awareness</span></div>
+      <div class="funnel-content">
+        <div style="font-weight:600;margin-bottom:6px">「なんとなく目に入った」段階</div>
+        <div style="font-size:.88em;color:var(--text-sub)">
+          <strong>接点:</strong> TikTok FYP（おすすめ）での短尺動画 / 切り抜き動画<br>
+          <strong>コンテンツ:</strong> 旅先の絶景3秒フック → 翔の笑顔 → 「LIVE来てね」CTA<br>
+          <strong>目標行動:</strong> プロフィール訪問 → フォロー<br>
+          <strong>KPI:</strong> 動画再生→プロフィール遷移率 5%以上 / フォロー転換率 3%以上
+        </div>
+      </div>
+    </div>
+
+    <div class="funnel-stage f2">
+      <div class="funnel-label">L2<br>初回LIVE<br><span style="font-size:.7em;font-weight:400">Trial</span></div>
+      <div class="funnel-content">
+        <div style="font-weight:600;margin-bottom:6px">「初めてLIVEを覗いた」段階</div>
+        <div style="font-size:.88em;color:var(--text-sub)">
+          <strong>接点:</strong> TikTok LIVE（おすすめ表示 or フォロー後の通知）<br>
+          <strong>コンテンツ:</strong> 新規リスナーの名前を必ず読む / 「初めてですか？ありがとうございます！」の歓迎<br>
+          <strong>目標行動:</strong> 5分以上の滞在 → 初コメント → 2回目のLIVE参加<br>
+          <strong>KPI:</strong> 初回滞在5分以上率 / 初コメント率 / 3日以内再訪率
+        </div>
+      </div>
+    </div>
+
+    <div class="funnel-stage f3">
+      <div class="funnel-label">L3<br>常連化<br><span style="font-size:.7em;font-weight:400">Retention</span></div>
+      <div class="funnel-content">
+        <div style="font-weight:600;margin-bottom:6px">「毎日配信を見るのが日課」段階</div>
+        <div style="font-size:.88em;color:var(--text-sub)">
+          <strong>接点:</strong> 毎日のLIVE + LINE公式 + Instagram ストーリーズ<br>
+          <strong>コンテンツ:</strong> 名前を覚えて呼ぶ / 個別エピソードを記憶 / 「昨日来れなかったんですね、待ってましたよ」<br>
+          <strong>目標行動:</strong> 週5回以上のLIVE参加 → 初投げ銭 → LINE友だち登録<br>
+          <strong>KPI:</strong> 週次LIVE参加回数 / 初課金率 / LINE登録率
+        </div>
+      </div>
+    </div>
+
+    <div class="funnel-stage f4">
+      <div class="funnel-label">L4<br>コアファン<br><span style="font-size:.7em;font-weight:400">Loyalty</span></div>
+      <div class="funnel-content">
+        <div style="font-weight:600;margin-bottom:6px">「翔くんを応援することが生きがい」段階</div>
+        <div style="font-size:.88em;color:var(--text-sub)">
+          <strong>接点:</strong> 全チャネル（LIVE + LINE + IG + bitfan）<br>
+          <strong>コンテンツ:</strong> バトル時の「○○さん、いつもありがとう！力貸して！」 / 限定配信への招待<br>
+          <strong>目標行動:</strong> 月間投げ銭額の安定化 → bitfanファンクラブ入会 → バトル時の積極支援<br>
+          <strong>KPI:</strong> 月間ARPU / bitfan入会率 / バトル参加率
+        </div>
+      </div>
+    </div>
+
+    <div class="funnel-stage f5">
+      <div class="funnel-label">L5<br>伝道者<br><span style="font-size:.7em;font-weight:400">Advocacy</span></div>
+      <div class="funnel-content">
+        <div style="font-weight:600;margin-bottom:6px">「周りの人にも翔くんを教えたい」段階</div>
+        <div style="font-size:.88em;color:var(--text-sub)">
+          <strong>接点:</strong> 全チャネル + オフライン口コミ + SNS拡散<br>
+          <strong>コンテンツ:</strong> ファンの応援ストーリーを配信で紹介 / 「○○さんが連れてきてくれた新しい仲間です！」<br>
+          <strong>目標行動:</strong> 友人・家族への口コミ → 新規ファンの紹介 → コミュニティ内でのリーダーシップ<br>
+          <strong>KPI:</strong> 紹介経由の新規フォロー数 / UGC投稿数 / コミュニティ内の発言頻度
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ==================== -->
+<!-- 4. Brand Equity -->
+<!-- ==================== -->
+<div class="section" id="sec-equity" data-accordion>
+  <div class="section-title"><span class="section-icon">🏛️</span> 4. ブランドエクイティ <span class="section-tag tag-brand">BRAND</span></div>
+  <div class="section-body">
+
+    <!-- Brand Vision -->
+    <div class="brand-vision">
+      <div style="font-size:.75em;color:var(--text-sub);letter-spacing:2px;margin-bottom:8px">BRAND VISION</div>
+      <div class="brand-vision-text">「誰もが帰ってこれる、世界でいちばん温かい配信」</div>
+      <div class="brand-vision-sub">完璧じゃなくていい。素直でいい。その場所に行けば、ホッとする。<br>城間翔は「デジタル時代の実家」になる。</div>
+    </div>
+
+    <!-- Brand Personality (Aaker) -->
+    <h3 style="font-size:1em;font-weight:700;margin-bottom:12px;color:var(--purple)">ブランドパーソナリティ（Aaker 5次元モデル）</h3>
+    <div class="aaker-grid" style="margin-bottom:20px">
+      <div class="aaker-card a-sincerity">
+        <div class="aaker-dim">誠実 Sincerity</div>
+        <div class="aaker-score">9.5</div>
+        <div class="aaker-bar"><div class="aaker-bar-fill" style="width:95%"></div></div>
+        <div class="aaker-traits">
+          <strong>最も強い次元</strong><br>
+          素直・正直・温かい・感謝を忘れない・飾らない・人を裏切らない
+        </div>
+      </div>
+      <div class="aaker-card a-excitement">
+        <div class="aaker-dim">刺激 Excitement</div>
+        <div class="aaker-score">7.5</div>
+        <div class="aaker-bar"><div class="aaker-bar-fill" style="width:75%"></div></div>
+        <div class="aaker-traits">
+          世界一周の冒険心・元ホストの大胆な転身・挑戦を止めない行動力・明るいエネルギー
+        </div>
+      </div>
+      <div class="aaker-card a-competence">
+        <div class="aaker-dim">能力 Competence</div>
+        <div class="aaker-score">6.0</div>
+        <div class="aaker-bar"><div class="aaker-bar-fill" style="width:60%"></div></div>
+        <div class="aaker-traits">
+          ホスト年間1億の実績・ジム14店舗経営力<br>
+          <span style="color:var(--text-muted)">※表に出しすぎない。「実はすごい」が魅力</span>
+        </div>
+      </div>
+      <div class="aaker-card a-sophistication">
+        <div class="aaker-dim">洗練 Sophistication</div>
+        <div class="aaker-score">4.0</div>
+        <div class="aaker-bar"><div class="aaker-bar-fill" style="width:40%"></div></div>
+        <div class="aaker-traits">
+          意図的に低く設定<br>
+          <span style="color:var(--text-muted)">洗練を出すと「可愛がられるキャラ」が崩壊。親しみやすさを最優先</span>
+        </div>
+      </div>
+      <div class="aaker-card a-ruggedness">
+        <div class="aaker-dim">頑健 Ruggedness</div>
+        <div class="aaker-score">6.5</div>
+        <div class="aaker-bar"><div class="aaker-bar-fill" style="width:65%"></div></div>
+        <div class="aaker-traits">
+          世界一周のタフさ・全リセットの胆力・沖縄の自然体<br>
+          <span style="color:var(--text-muted)">「しなやかな強さ」であり「硬い強さ」ではない</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Brand Essence / Promise -->
+    <div class="grid-2" style="margin-bottom:20px">
+      <div class="card">
+        <div style="font-size:.75em;color:var(--accent);letter-spacing:2px;font-weight:700;margin-bottom:8px">BRAND ESSENCE（一言で表すと）</div>
+        <div style="font-size:1.8em;font-weight:900;color:var(--accent);margin-bottom:8px">「素直な温もり」</div>
+        <div style="font-size:.88em;color:var(--text-sub)">
+          城間翔というブランドのすべてのコミュニケーション・体験・判断の中心にある核。<br>
+          飾らず、盛らず、ただ素直に。その素直さが、人の心を温める。<br>
+          これがブレた瞬間、ブランドは死ぬ。
+        </div>
+      </div>
+      <div class="card">
+        <div style="font-size:.75em;color:var(--pink);letter-spacing:2px;font-weight:700;margin-bottom:8px">BRAND PROMISE</div>
+        <div style="font-size:1.1em;font-weight:700;margin-bottom:8px">
+          「あなたの毎日に、帰ってこれる場所を」
+        </div>
+        <div style="font-size:.88em;color:var(--text-sub)">
+          城間翔の配信を開けば、いつでもそこに温かい声と笑顔がある。<br>
+          名前を呼んでくれる。今日も来てくれてありがとう、と言ってくれる。<br>
+          どんなに疲れた日でも、ここに来れば大丈夫。<br>
+          それが城間翔がファンに約束すること。
+        </div>
+      </div>
+    </div>
+
+    <!-- Positioning Statement -->
+    <div style="margin-bottom:20px">
+      <h3 style="font-size:1em;font-weight:700;margin-bottom:12px;color:var(--purple)">ポジショニングステートメント</h3>
+      <div class="pos-statement">
+        <span class="pos-highlight">35〜50代の、日常に癒しと居場所を求める女性</span>にとって、<br>
+        城間翔（SYO）は<span class="pos-highlight">「デジタル時代の実家」のようなTikTokライバー</span>であり、<br>
+        <span class="pos-highlight">毎日の配信を通じて「素直な温もり」と「見守る幸せ」</span>を提供する。<br><br>
+        なぜなら、城間翔は<span class="pos-highlight">元ホスト年間1億・ジム14店舗経営という圧倒的な実績をすべてリセットし、<br>
+        弟とともに世界一周の旅に出るという「挑戦 × 癒し × 感謝」の生き方</span>を体現しており、<br>
+        その<span class="pos-highlight">完璧じゃないスキと天然の温かさ</span>は、他のどのライバーにも模倣できないからである。
+      </div>
+    </div>
+
+    <!-- Brand Enemy -->
+    <div class="enemy-card">
+      <div class="enemy-title">ブランドの「敵」— 何に対するアンチテーゼか</div>
+      <div class="grid-2" style="margin-top:12px">
+        <div>
+          <div style="font-weight:600;margin-bottom:6px">敵 1:「誰にも見てもらえない孤独」</div>
+          <div style="font-size:.88em;color:var(--text-sub)">35〜50代女性の多くは、家庭でも職場でも「自分を見てくれる人」がいない。夫は無関心、子供は自立していく。城間翔は「あなたを見ている」「名前を覚えている」「来てくれて嬉しい」というメッセージで、この孤独に真正面から対抗する。</div>
+        </div>
+        <div>
+          <div style="font-weight:600;margin-bottom:6px">敵 2:「SNSの攻撃性・完璧主義」</div>
+          <div style="font-size:.88em;color:var(--text-sub)">キレキレのトーク、完璧なビジュアル、煽り合いのバトル — TikTok LIVE業界の主流カルチャー。城間翔はこの対極に立つ。攻撃しない、マウントを取らない、素直に失敗を話す。「温かさ」という武器で、冷たいSNS文化へのアンチテーゼを体現する。</div>
+        </div>
+        <div>
+          <div style="font-weight:600;margin-bottom:6px">敵 3:「変わらない日常の閉塞感」</div>
+          <div style="font-size:.88em;color:var(--text-sub)">同じルーティンの繰り返し。旅行に行く余裕もない。「このまま歳を取っていくのか」という漠然とした不安。城間翔の世界一周は「私の代わりに冒険してくれる存在」であり、視聴者に「世界はまだこんなに広い」と伝えてくれる窓になる。</div>
+        </div>
+        <div>
+          <div style="font-weight:600;margin-bottom:6px">敵 4:「推し活＝若い子のもの」という思い込み</div>
+          <div style="font-size:.88em;color:var(--text-sub)">「いい歳して推し活なんて」「投げ銭は無駄遣い」。城間翔のコミュニティは、この価値観を覆す。「応援することは自分を大切にすること」「年齢なんて関係ない」。ファン同士が肯定し合える場所を作ることで、この敵を倒す。</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ==================== -->
+<!-- 5. Marketing Concept -->
+<!-- ==================== -->
+<div class="section" id="sec-concept" data-accordion>
+  <div class="section-title"><span class="section-icon">✨</span> 5. マーケティングコンセプト <span class="section-tag tag-concept">CONCEPT</span></div>
+  <div class="section-body">
+
+    <!-- One Message -->
+    <div class="concept-hero">
+      <div style="font-size:.75em;color:var(--text-sub);letter-spacing:3px;margin-bottom:12px">ONE MESSAGE</div>
+      <div class="concept-message">ただいま、って言える場所。</div>
+      <div class="concept-desc">
+        城間翔の配信は「コンテンツ」ではなく「場所」である。
+        世界のどこにいても、毎日同じ温度で迎えてくれる。
+        名前を呼んで、「今日もありがとう」と言ってくれる。
+        完璧じゃない彼の笑顔と、素直な言葉が、
+        疲れた心にそっと灯をともす。
+        ここは、大人の女性が「ただいま」と言っていい場所。
+        城間翔は、デジタル時代の、いちばん温かい実家。
+      </div>
+    </div>
+
+    <!-- Taglines -->
+    <h3 style="font-size:1em;font-weight:700;margin-bottom:16px;color:var(--pink)">タグライン案（3パターン）</h3>
+    <div class="grid-3" style="margin-bottom:20px">
+      <div class="tagline-card">
+        <div class="tagline-num">TAGLINE A</div>
+        <div class="tagline-text" style="color:var(--accent)">ただいま、って言える場所。</div>
+        <div class="tagline-context">
+          <strong>推奨:</strong> メインタグライン<br>
+          配信のオープニング、プロフィール、すべての起点。<br>
+          「帰属感」と「安心」を6文字で表現。ターゲットの深層心理に直接響く。
+        </div>
+      </div>
+      <div class="tagline-card">
+        <div class="tagline-num">TAGLINE B</div>
+        <div class="tagline-text" style="color:var(--pink)">世界を旅して、あなたに届ける。</div>
+        <div class="tagline-context">
+          世界一周の旅と「ファンへの還元」を接続するライン。<br>
+          旅コンテンツのサムネ・IGキャプションに最適。<br>
+          「あなたのために旅をしている」という物語性。
+        </div>
+      </div>
+      <div class="tagline-card">
+        <div class="tagline-num">TAGLINE C</div>
+        <div class="tagline-text" style="color:var(--purple)">素直に、いこう。</div>
+        <div class="tagline-context">
+          城間翔自身のモットーであり、ファンへの呼びかけでもある二重構造。<br>
+          短く、覚えやすく、ブランドパーソナリティを一言で体現。<br>
+          バトル配信のスローガン・グッズ展開に適用可能。
+        </div>
+      </div>
+    </div>
+
+    <!-- World View -->
+    <div class="card">
+      <div style="font-size:.75em;color:var(--text-sub);letter-spacing:2px;font-weight:700;margin-bottom:8px">CONCEPT WORLD VIEW｜コンセプトの世界観</div>
+      <div style="font-size:.95em;line-height:2">
+        城間翔の世界は「実家の茶の間」のような場所である。世界一周という壮大な旅の途中にあっても、配信を開けばそこには変わらない温度がある。朝は「おはよう」で始まり、夜は「ありがとう、おやすみ」で終わる。攻撃的な言葉も、完璧を装う見栄もない。あるのは、素直な笑顔と、「あなたがいてくれて嬉しい」という本心だけ。ここでは誰もが年齢を忘れ、肩書きを脱ぎ、ただ「応援する幸せ」と「見守る温もり」に浸ることができる。城間翔は旅人であり、挑戦者であり、そして何より、みんなの「可愛い息子」である。
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ==================== -->
+<!-- Appendix: Action Priority -->
+<!-- ==================== -->
+<div class="section" id="sec-action" data-accordion>
+  <div class="section-title"><span class="section-icon">🎬</span> 付録: 戦略実行の優先順位 <span class="section-tag tag-how">ACTION</span></div>
+  <div class="section-body">
+    <div class="grid-2">
+      <div class="card" style="border-color:rgba(248,81,73,.3)">
+        <div style="font-weight:700;color:var(--red);margin-bottom:8px">今すぐやること（Week 1-2）</div>
+        <ul class="strat-list">
+          <li><span class="bullet">1</span>配信時間の固定化（朝7:00 / 夜21:30）を宣言し、3週間継続</li>
+          <li><span class="bullet">2</span>LINE公式アカウント開設（またはbitfanのLINE連携強化）</li>
+          <li><span class="bullet">3</span>TikTok短尺動画の毎日投稿開始（LIVE切り抜き + 旅ハイライト）</li>
+          <li><span class="bullet">4</span>プロフィール欄の統一（全SNSで「ただいま、って言える場所。」を明記）</li>
+          <li><span class="bullet">5</span>新規リスナー歓迎フローの確立（名前読み + 自己紹介テンプレ）</li>
+        </ul>
+      </div>
+      <div class="card" style="border-color:rgba(240,136,62,.3)">
+        <div style="font-weight:700;color:var(--accent);margin-bottom:8px">1ヶ月以内にやること（Week 3-4）</div>
+        <ul class="strat-list">
+          <li><span class="bullet">1</span>bitfanファンクラブのコンテンツ拡充（限定LIVE月2回 + 旅日記）</li>
+          <li><span class="bullet">2</span>Instagram運用の本格化（フィード週3 + ストーリーズ毎日）</li>
+          <li><span class="bullet">3</span>弟との掛け合いコンテンツの定期化（週2本以上の短尺動画）</li>
+          <li><span class="bullet">4</span>常連ファンの名前リスト作成 + エピソード記録（CRM基盤）</li>
+          <li><span class="bullet">5</span>バトル配信前のLINEリマインド運用開始</li>
+        </ul>
+      </div>
+      <div class="card" style="border-color:rgba(88,166,255,.3)">
+        <div style="font-weight:700;color:var(--blue);margin-bottom:8px">3ヶ月以内にやること（Month 2-3）</div>
+        <ul class="strat-list">
+          <li><span class="bullet">1</span>公式HP開設（プロフィール / 世界一周マップ / 旅ブログ / リンク集約）</li>
+          <li><span class="bullet">2</span>ファン感謝イベント（オンライン）の初回開催</li>
+          <li><span class="bullet">3</span>コラボ配信の戦略的実施（旅ライバー「そま」等との相互送客）</li>
+          <li><span class="bullet">4</span>グッズ第1弾の企画（タグライン入りアイテム）</li>
+          <li><span class="bullet">5</span>TikTokフォロワー5万人到達のためのコンテンツ最適化</li>
+        </ul>
+      </div>
+      <div class="card" style="border-color:rgba(188,140,255,.3)">
+        <div style="font-weight:700;color:var(--purple);margin-bottom:8px">6ヶ月後の目標状態</div>
+        <ul class="strat-list">
+          <li><span class="bullet">&#9654;</span>TikTokフォロワー: 10万人（現2.9万 → 3.4倍）</li>
+          <li><span class="bullet">&#9654;</span>Instagram: 2万人（現4,951 → 4倍）</li>
+          <li><span class="bullet">&#9654;</span>LINE公式: 5,000人</li>
+          <li><span class="bullet">&#9654;</span>bitfan有料会員: 500人</li>
+          <li><span class="bullet">&#9654;</span>月間投げ銭収益: 300万円以上</li>
+          <li><span class="bullet">&#9654;</span>推しランキング: TOP20入り</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /.container -->
+
+<!-- TOC Navigation (mobile) -->
+<nav class="toc-nav" id="tocNav">
+  <div class="toc-menu" id="tocMenu">
+    <div class="toc-expand-all">
+      <button onclick="toggleAllSections(true)">すべて展開</button>
+      <button onclick="toggleAllSections(false)">すべて折りたたむ</button>
+    </div>
+    <ul class="toc-list">
+      <li><a href="#sec-who" onclick="tocJump('sec-who')"><span class="toc-icon">🎯</span><span class="toc-label">1. Who｜誰に届けるか</span></a></li>
+      <li><a href="#sec-what" onclick="tocJump('sec-what')"><span class="toc-icon">💎</span><span class="toc-label">2. What｜何を届けるか</span></a></li>
+      <li><a href="#sec-how" onclick="tocJump('sec-how')"><span class="toc-icon">🚀</span><span class="toc-label">3. How｜どう届けるか</span></a></li>
+      <li><a href="#sec-equity" onclick="tocJump('sec-equity')"><span class="toc-icon">🏛️</span><span class="toc-label">4. ブランドエクイティ</span></a></li>
+      <li><a href="#sec-concept" onclick="tocJump('sec-concept')"><span class="toc-icon">✨</span><span class="toc-label">5. マーケティングコンセプト</span></a></li>
+      <li><a href="#sec-action" onclick="tocJump('sec-action')"><span class="toc-icon">🎬</span><span class="toc-label">戦略実行の優先順位</span></a></li>
+    </ul>
+  </div>
+</nav>
+<button class="toc-toggle" id="tocToggle" onclick="toggleToc()">☰</button>
+
+<script>
+// Accordion
+var touchStartY=0,touchStartX=0,touchStartTime=0;
+function toggleAccordion(sec){
+  if(!sec)return;
+  var isCollapsed=sec.classList.contains('collapsed');
+  if(isCollapsed){
+    sec.classList.remove('collapsed');sec.classList.add('collapsing');
+    var body=sec.querySelector('.section-body');
+    var onEnd=function(){sec.classList.remove('collapsing');body.removeEventListener('transitionend',onEnd)};
+    body.addEventListener('transitionend',onEnd);
+    setTimeout(function(){sec.classList.remove('collapsing')},400);
+  }else{
+    sec.classList.add('collapsing','collapsed');
+    var body2=sec.querySelector('.section-body');
+    var onEnd2=function(){sec.classList.remove('collapsing');body2.removeEventListener('transitionend',onEnd2)};
+    body2.addEventListener('transitionend',onEnd2);
+    setTimeout(function(){sec.classList.remove('collapsing')},400);
+  }
+}
+document.querySelectorAll('[data-accordion] .section-title').forEach(function(title){
+  title.addEventListener('touchstart',function(e){touchStartY=e.touches[0].clientY;touchStartX=e.touches[0].clientX;touchStartTime=Date.now()},{passive:true});
+  title.addEventListener('touchend',function(e){
+    var dy=Math.abs(e.changedTouches[0].clientY-touchStartY),dx=Math.abs(e.changedTouches[0].clientX-touchStartX),dt=Date.now()-touchStartTime;
+    if(dy<10&&dx<10&&dt<300){e.preventDefault();toggleAccordion(this.closest('[data-accordion]'))}
+  });
+  title.addEventListener('click',function(e){
+    if(e.sourceCapabilities&&e.sourceCapabilities.firesTouchEvents)return;
+    if(window.matchMedia('(pointer:fine)').matches){toggleAccordion(this.closest('[data-accordion]'))}
+  });
+});
+(function(){if(window.innerWidth<=768){document.querySelectorAll('[data-accordion]').forEach(function(sec){sec.classList.add('collapsed')})}})();
+
+// TOC
+function toggleToc(){var menu=document.getElementById('tocMenu'),btn=document.getElementById('tocToggle');menu.classList.toggle('open');btn.classList.toggle('open');btn.textContent=menu.classList.contains('open')?'✕ セクション':'☰'}
+function tocJump(id){var sec=document.getElementById(id);if(sec){sec.classList.remove('collapsed');toggleToc();setTimeout(function(){sec.scrollIntoView({behavior:'smooth',block:'start'})},100)}}
+function toggleAllSections(expand){document.querySelectorAll('[data-accordion]').forEach(function(sec){if(expand)sec.classList.remove('collapsed');else sec.classList.add('collapsed')})}
+</script>
+
+</body>
+</html>
